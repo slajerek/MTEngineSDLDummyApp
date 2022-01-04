@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{7FBDFE33-F186-4E73-8908-49E9AA007B5D}</ProjectGuid>
+    <RootNamespace>MTEngineSDLDummyApp</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>C:\develop\MTEngineSDL\platform\Windows\bin\$(Platform)\$(Configuration);C:\develop\MTEngineSDL\platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\develop\MTEngineSDL\platform\Windows\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>C:\develop\MTEngineSDL\platform\Windows\bin\$(Platform)\$(Configuration);C:\develop\MTEngineSDL\platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\develop\MTEngineSDL\platform\Windows\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>C:\develop\MTEngineSDL\platform\Windows\bin\$(Platform)\$(Configuration);C:\develop\MTEngineSDL\platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\develop\MTEngineSDL\platform\Windows\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <LibraryPath>C:\develop\MTEngineSDL\platform\Windows\bin\$(Platform)\$(Configuration);C:\develop\MTEngineSDL\platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\develop\MTEngineSDL\platform\Windows\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\develop\MTEngineSDLDummyApp\src\Views;C:\develop\MTEngineSDLDummyApp\src\;C:\develop\MTEngineSDL\src\Engine\Libs\stb;C:\develop\MTEngineSDL\src\Engine\Libs\zlib;C:\develop\MTEngineSDL\src\Engine\Libs\tremor\Ogg;C:\develop\MTEngineSDL\src\Engine\Libs\tremor;C:\develop\MTEngineSDL\src\Engine\Libs\mtrand;C:\develop\MTEngineSDL\src\Engine\Libs\lodepng;C:\develop\MTEngineSDL\src\Engine\Libs\libpng;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg\jpeg-9a;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg;C:\develop\MTEngineSDL\src\Engine\Libs\imguiext;C:\develop\MTEngineSDL\src\Engine\Libs\implot;C:\develop\MTEngineSDL\src\Engine\Libs\imgui;C:\develop\MTEngineSDL\src\Engine\Libs;C:\develop\MTEngineSDL\src\Engine\GUI\Layout;C:\develop\MTEngineSDL\src\Engine\GUI\Helpers;C:\develop\MTEngineSDL\src\Engine\GUI\Controls;C:\develop\MTEngineSDL\src\Engine\GUI;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\stb_image;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\resampler;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing;C:\develop\MTEngineSDL\src\Engine\Funct;C:\develop\MTEngineSDL\src\Engine\Core\Pool;C:\develop\MTEngineSDL\src\Engine\Core;C:\develop\MTEngineSDL\src\Engine\Audio\WAV;C:\develop\MTEngineSDL\src\Engine\Audio;C:\develop\MTEngineSDL\src\Engine;C:\develop\MTEngineSDL\src\Embedded;C:\develop\MTEngineSDL\src;C:\develop\MTEngineSDL\platform\Windows\src.Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\develop\MTEngineSDLDummyApp\src\Views;C:\develop\MTEngineSDLDummyApp\src\;C:\develop\MTEngineSDL\src\Engine\Libs\stb;C:\develop\MTEngineSDL\src\Engine\Libs\zlib;C:\develop\MTEngineSDL\src\Engine\Libs\tremor\Ogg;C:\develop\MTEngineSDL\src\Engine\Libs\tremor;C:\develop\MTEngineSDL\src\Engine\Libs\mtrand;C:\develop\MTEngineSDL\src\Engine\Libs\lodepng;C:\develop\MTEngineSDL\src\Engine\Libs\libpng;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg\jpeg-9a;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg;C:\develop\MTEngineSDL\src\Engine\Libs\imguiext;C:\develop\MTEngineSDL\src\Engine\Libs\implot;C:\develop\MTEngineSDL\src\Engine\Libs\imgui;C:\develop\MTEngineSDL\src\Engine\Libs;C:\develop\MTEngineSDL\src\Engine\GUI\Layout;C:\develop\MTEngineSDL\src\Engine\GUI\Helpers;C:\develop\MTEngineSDL\src\Engine\GUI\Controls;C:\develop\MTEngineSDL\src\Engine\GUI;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\stb_image;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\resampler;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing;C:\develop\MTEngineSDL\src\Engine\Funct;C:\develop\MTEngineSDL\src\Engine\Core\Pool;C:\develop\MTEngineSDL\src\Engine\Core;C:\develop\MTEngineSDL\src\Engine\Audio\WAV;C:\develop\MTEngineSDL\src\Engine\Audio;C:\develop\MTEngineSDL\src\Engine;C:\develop\MTEngineSDL\src\Embedded;C:\develop\MTEngineSDL\src;C:\develop\MTEngineSDL\platform\Windows\src.Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\develop\MTEngineSDLDummyApp\src\Views;C:\develop\MTEngineSDLDummyApp\src\;C:\develop\MTEngineSDL\src\Engine\Libs\stb;C:\develop\MTEngineSDL\src\Engine\Libs\zlib;C:\develop\MTEngineSDL\src\Engine\Libs\tremor\Ogg;C:\develop\MTEngineSDL\src\Engine\Libs\tremor;C:\develop\MTEngineSDL\src\Engine\Libs\mtrand;C:\develop\MTEngineSDL\src\Engine\Libs\lodepng;C:\develop\MTEngineSDL\src\Engine\Libs\libpng;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg\jpeg-9a;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg;C:\develop\MTEngineSDL\src\Engine\Libs\imguiext;C:\develop\MTEngineSDL\src\Engine\Libs\implot;C:\develop\MTEngineSDL\src\Engine\Libs\imgui;C:\develop\MTEngineSDL\src\Engine\Libs;C:\develop\MTEngineSDL\src\Engine\GUI\Layout;C:\develop\MTEngineSDL\src\Engine\GUI\Helpers;C:\develop\MTEngineSDL\src\Engine\GUI\Controls;C:\develop\MTEngineSDL\src\Engine\GUI;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\stb_image;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\resampler;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing;C:\develop\MTEngineSDL\src\Engine\Funct;C:\develop\MTEngineSDL\src\Engine\Core\Pool;C:\develop\MTEngineSDL\src\Engine\Core;C:\develop\MTEngineSDL\src\Engine\Audio\WAV;C:\develop\MTEngineSDL\src\Engine\Audio;C:\develop\MTEngineSDL\src\Engine;C:\develop\MTEngineSDL\src\Embedded;C:\develop\MTEngineSDL\src;C:\develop\MTEngineSDL\platform\Windows\src.Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>false</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\develop\MTEngineSDLDummyApp\src\Views;C:\develop\MTEngineSDLDummyApp\src\;C:\develop\MTEngineSDL\src\Engine\Libs\stb;C:\develop\MTEngineSDL\src\Engine\Libs\zlib;C:\develop\MTEngineSDL\src\Engine\Libs\tremor\Ogg;C:\develop\MTEngineSDL\src\Engine\Libs\tremor;C:\develop\MTEngineSDL\src\Engine\Libs\mtrand;C:\develop\MTEngineSDL\src\Engine\Libs\lodepng;C:\develop\MTEngineSDL\src\Engine\Libs\libpng;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg\jpeg-9a;C:\develop\MTEngineSDL\src\Engine\Libs\jpeg;C:\develop\MTEngineSDL\src\Engine\Libs\imguiext;C:\develop\MTEngineSDL\src\Engine\Libs\implot;C:\develop\MTEngineSDL\src\Engine\Libs\imgui;C:\develop\MTEngineSDL\src\Engine\Libs;C:\develop\MTEngineSDL\src\Engine\GUI\Layout;C:\develop\MTEngineSDL\src\Engine\GUI\Helpers;C:\develop\MTEngineSDL\src\Engine\GUI\Controls;C:\develop\MTEngineSDL\src\Engine\GUI;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\stb_image;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing\resampler;C:\develop\MTEngineSDL\src\Engine\Funct\ImageProcessing;C:\develop\MTEngineSDL\src\Engine\Funct;C:\develop\MTEngineSDL\src\Engine\Core\Pool;C:\develop\MTEngineSDL\src\Engine\Core;C:\develop\MTEngineSDL\src\Engine\Audio\WAV;C:\develop\MTEngineSDL\src\Engine\Audio;C:\develop\MTEngineSDL\src\Engine;C:\develop\MTEngineSDL\src\Embedded;C:\develop\MTEngineSDL\src;C:\develop\MTEngineSDL\platform\Windows\src.Windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\DummyInit.cpp" />
+    <ClCompile Include="..\..\..\src\Views\CMainMenuBar.cpp" />
+    <ClCompile Include="..\..\..\src\Views\CViewDummyAppMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\DummyInit.h" />
+    <ClInclude Include="..\..\..\src\Views\CMainMenuBar.h" />
+    <ClInclude Include="..\..\..\src\Views\CViewDummyAppMain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\MTEngineSDL\platform\Windows\MTEngineSDL\MTEngineSDL.vcxproj">
+      <Project>{e93d3b41-0438-4721-abfe-83f1f37490cf}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
