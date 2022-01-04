@@ -27,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		414BE00F2784F29F00166AE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41B5298823992DCB0084F0DB /* MTEngineSDL.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 410CAEF02397A470009DA199;
+			remoteInfo = MTEngineSDL;
+		};
 		41B5298F23992DCB0084F0DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 41B5298823992DCB0084F0DB /* MTEngineSDL.xcodeproj */;
@@ -178,6 +185,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				414BE0102784F29F00166AE2 /* PBXTargetDependency */,
 			);
 			name = MTEngineSDLDummyApp;
 			productName = MTEngineSDLDummyApp;
@@ -246,6 +254,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		414BE0102784F29F00166AE2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MTEngineSDL;
+			targetProxy = 414BE00F2784F29F00166AE2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4147CA8D23992D74006B25A7 /* Debug */ = {
@@ -347,9 +363,9 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
-					"/Users/mars/develop/MTEngineSDL/src/**",
-					"/Users/mars/develop/MTEngineSDL/platform/MacOS/src.MacOS/**",
-					/Users/mars/develop/MTEngineSDL/platform/MacOS/include,
+					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
 					/usr/local/include/freetype2,
 				);
 				LIBRARY_SEARCH_PATHS = (
@@ -366,9 +382,9 @@
 				DEVELOPMENT_TEAM = APV7Y7Q9JY;
 				GCC_PREPROCESSOR_DEFINITIONS = MACOS;
 				HEADER_SEARCH_PATHS = (
-					"/Users/mars/develop/MTEngineSDL/src/**",
-					"/Users/mars/develop/MTEngineSDL/platform/MacOS/src.MacOS/**",
-					/Users/mars/develop/MTEngineSDL/platform/MacOS/include,
+					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
 					/usr/local/include/freetype2,
 				);
 				LIBRARY_SEARCH_PATHS = (
