@@ -4,11 +4,28 @@
 #include "MT_API.h"
 #include "CViewDummyAppMain.h"
 
+const char *MT_GetMainWindowTitle()
+{
+	return "DummyApp";
+}
+
+const char *MT_GetSettingsFolderName()
+{
+	return "MTEngineSDLDummyApp";
+}
+
+void MT_GetDefaultWindowPositionAndSize(int *defaultWindowPosX, int *defaultWindowPosY, int *defaultWindowWidth, int *defaultWindowHeight, bool *maximized)
+{
+	*defaultWindowPosX = SDL_WINDOWPOS_CENTERED;
+	*defaultWindowPosY = SDL_WINDOWPOS_CENTERED;
+	*defaultWindowWidth = 640;
+	*defaultWindowHeight = 480;
+	*maximized = false;
+}
+
 void MT_PreInit()
 {
 }
-
-SDL_Renderer *renderer = NULL;
 
 void MT_PostInit()
 {
@@ -20,27 +37,9 @@ void MT_PostInit()
 	
 	// or use SDL renderer on main window:
 	//	SDL_Window *window = VID_GetMainSDLWindow();
-	//	renderer = SDL_CreateRenderer(window, -1, 0);
+	//  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
 	LOGM("DummyApp initialized");
-}
-
-const char *MT_GetMainWindowTitle()
-{
-	return "DummyApp";
-}
-
-void MT_GetDefaultWindowPositionAndSize(int *defaultWindowPosX, int *defaultWindowPosY, int *defaultWindowWidth, int *defaultWindowHeight)
-{
-	*defaultWindowPosX = SDL_WINDOWPOS_CENTERED;
-	*defaultWindowPosY = SDL_WINDOWPOS_CENTERED;
-	*defaultWindowWidth = 640;
-	*defaultWindowHeight = 480;
-}
-
-const char *MT_GetSettingsFolderName()
-{
-	return "MTEngineSDLDummyApp";
 }
 
 void MT_GuiPreInit()
@@ -54,6 +53,7 @@ void MT_Render()
 	// skip SDL renderer, use ImGui:
 	return;
 
+	/*
 	// or use SDL renderer on main window:
 	SDL_SetRenderDrawColor(renderer, 242, 242, 242, 255);
 	SDL_RenderClear(renderer);
@@ -100,6 +100,7 @@ void MT_Render()
 	SDL_RenderPresent(renderer);
 	
 	return;
+	 */
 }
 
 void MT_PostRenderEndFrame()

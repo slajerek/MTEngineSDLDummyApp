@@ -17,6 +17,7 @@ pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 include_directories(${GTK3_INCLUDE_DIRS})
 link_directories(${GTK3_LIBRARY_DIRS})
 add_definitions(${GTK3_CFLAGS_OTHER})
+find_package(ALSA REQUIRED)
 
 include_directories(
 #    "/usr/local/include"
@@ -31,21 +32,25 @@ include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Embedded"
 
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Audio"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Audio/MIDI"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Audio/WAV"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Core"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Core/Net"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Core/Pool"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Core/Render"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Funct"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Funct/DataTable"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Funct/ImageProcessing"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Funct/ImageProcessing/resampler"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Funct/ImageProcessing/stb_image"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI/AudioMixer"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI/Controls"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI/Helpers"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI/Helpers/LoadingScreen"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI/Helpers/ResourceManager"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI/Layout"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/GUI/Waveform"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/ENet"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/hjson"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/imgui"
@@ -65,6 +70,7 @@ include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/mtrand"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/nfd"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/pugixml"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/rtmidi"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/tremor"
     "${CMAKE_CURRENT_SOURCE_DIR}/../MTEngineSDL/src/Engine/Libs/tremor/Ogg"
@@ -99,9 +105,10 @@ target_link_libraries(MTEngineSDLDummyApp
     m
     pthread
     freetype
-    z
     X11
+    z
     ${GTK3_LIBRARIES}
     ${SDL2_LIBRARIES}
+    ${ALSA_LIBRARIES}
 )
 

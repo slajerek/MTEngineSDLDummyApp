@@ -20,10 +20,43 @@ void CViewDummyAppMain::RenderImGui()
 
 	PreRenderImGui();
 
+	
+	
 	ImGui::Text("Press ENTER to toggle full screen");
 
-	ImDrawList *drawList = ImGui::GetWindowDrawList();
+	static bool clicked = false;
+	if (ImGui::Button("CLICK ME"))
+	{
+		clicked = true;
+	}
+//
+	if (clicked)
+	{
+		ImGui::SameLine();
+		ImGui::Text("CLICKED");
+	}
+//
+	static int count = 0;
+
+	if (count > 100)
+	{
+		static int a = 0;
+		static int b = 0;
+		static int c = 0;
+
+		ImGui::InputInt("A", &a);
+		ImGui::InputInt("B", &b);
+		ImGui::InputInt("C", &c);
+
+		ImGui::Text("Wartosc a=%d", a);
+		ImGui::Text("Wartosc b=%d", b);
+		ImGui::Text("Wartosc c=%d", c);
+	}
+
+	count++;
 	
+	ImDrawList *drawList = ImGui::GetWindowDrawList();
+
 	ImVec2 p1(this->posX + this->sizeX/2.0f, this->posY + this->sizeY/2.0f);
 	ImVec2 p2(guiMain->mousePosX, guiMain->mousePosY);
 
@@ -50,12 +83,12 @@ bool CViewDummyAppMain::KeyDown(u32 keyCode, bool isShift, bool isAlt, bool isCo
 		if (guiMain->IsViewFullScreen() == false)
 		{
 			// go full screen
-			guiMain->SetViewFullScreen(this, 640, 480);
+			guiMain->SetViewFullScreen(ViewEnterFullScreen, this, 640, 480);
 		}
 		else
 		{
 			// leave full screen
-			guiMain->SetViewFullScreen(NULL);
+			guiMain->SetViewFullScreen(ViewLeaveFullScreen, NULL);
 		}
 		
 		return true;

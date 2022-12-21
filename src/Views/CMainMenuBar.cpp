@@ -94,7 +94,7 @@ void CMainMenuBar::RenderImGui()
 
 			if (ImGui::MenuItem("Delete Workspace"))
 			{
-				guiMain->layoutManager->RemoveLayout(guiMain->layoutManager->currentLayout);
+				guiMain->layoutManager->RemoveAndDeleteLayout(guiMain->layoutManager->currentLayout);
 				guiMain->layoutManager->StoreLayouts();
 			}
 

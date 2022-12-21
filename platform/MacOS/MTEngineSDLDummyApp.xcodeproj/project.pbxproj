@@ -10,6 +10,8 @@
 		41292204265245D300690579 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41292201265245AD00690579 /* libfreetype.a */; };
 		41344F502784633A00F608A2 /* CViewDummyAppMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41344F4C2784633A00F608A2 /* CViewDummyAppMain.cpp */; };
 		41344F512784633A00F608A2 /* CMainMenuBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41344F4E2784633A00F608A2 /* CMainMenuBar.cpp */; };
+		414C49F7293519680014DC9B /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F5293519680014DC9B /* CoreHaptics.framework */; };
+		414C49FA2935198A0014DC9B /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F92935198A0014DC9B /* GameController.framework */; };
 		41B5299423992DDB0084F0DB /* DummyInit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41B5299223992DDB0084F0DB /* DummyInit.cpp */; };
 		41B5299523992E070084F0DB /* libMTEngineSDL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B5299023992DCB0084F0DB /* libMTEngineSDL.a */; };
 		41B5299823992E0F0084F0DB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B5299723992E0F0084F0DB /* OpenGL.framework */; };
@@ -27,13 +29,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		414BE00F2784F29F00166AE2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 41B5298823992DCB0084F0DB /* MTEngineSDL.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 410CAEF02397A470009DA199;
-			remoteInfo = MTEngineSDL;
-		};
 		41B5298F23992DCB0084F0DB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 41B5298823992DCB0084F0DB /* MTEngineSDL.xcodeproj */;
@@ -62,6 +57,8 @@
 		41344F4E2784633A00F608A2 /* CMainMenuBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMainMenuBar.cpp; path = ../../src/Views/CMainMenuBar.cpp; sourceTree = "<group>"; };
 		41344F4F2784633A00F608A2 /* CViewDummyAppMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewDummyAppMain.h; path = ../../src/Views/CViewDummyAppMain.h; sourceTree = "<group>"; };
 		4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MTEngineSDLDummyApp; sourceTree = BUILT_PRODUCTS_DIR; };
+		414C49F5293519680014DC9B /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
+		414C49F92935198A0014DC9B /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		41B5298823992DCB0084F0DB /* MTEngineSDL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MTEngineSDL.xcodeproj; path = ../../../MTEngineSDL/platform/MacOS/MTEngineSDL.xcodeproj; sourceTree = "<group>"; };
 		41B5299223992DDB0084F0DB /* DummyInit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DummyInit.cpp; path = ../../src/DummyInit.cpp; sourceTree = "<group>"; };
 		41B5299323992DDB0084F0DB /* DummyInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DummyInit.h; path = ../../src/DummyInit.h; sourceTree = "<group>"; };
@@ -84,6 +81,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				414C49FA2935198A0014DC9B /* GameController.framework in Frameworks */,
+				414C49F7293519680014DC9B /* CoreHaptics.framework in Frameworks */,
 				41292204265245D300690579 /* libfreetype.a in Frameworks */,
 				41B529AE23992E4A0084F0DB /* AudioToolbox.framework in Frameworks */,
 				41B529AC23992E450084F0DB /* CoreAudio.framework in Frameworks */,
@@ -154,6 +153,8 @@
 		41B5299623992E0F0084F0DB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				414C49F92935198A0014DC9B /* GameController.framework */,
+				414C49F5293519680014DC9B /* CoreHaptics.framework */,
 				41292201265245AD00690579 /* libfreetype.a */,
 				41B529AD23992E4A0084F0DB /* AudioToolbox.framework */,
 				41B529AB23992E450084F0DB /* CoreAudio.framework */,
@@ -185,7 +186,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				414BE0102784F29F00166AE2 /* PBXTargetDependency */,
 			);
 			name = MTEngineSDLDummyApp;
 			productName = MTEngineSDLDummyApp;
@@ -254,14 +254,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		414BE0102784F29F00166AE2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MTEngineSDL;
-			targetProxy = 414BE00F2784F29F00166AE2 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4147CA8D23992D74006B25A7 /* Debug */ = {
@@ -363,9 +355,9 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
-					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
-					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
+					"/Users/mars/develop/MTEngineSDL/src/**",
+					"/Users/mars/develop/MTEngineSDL/platform/MacOS/src.MacOS/**",
+					/Users/mars/develop/MTEngineSDL/platform/MacOS/include,
 					/usr/local/include/freetype2,
 				);
 				LIBRARY_SEARCH_PATHS = (
@@ -382,9 +374,9 @@
 				DEVELOPMENT_TEAM = APV7Y7Q9JY;
 				GCC_PREPROCESSOR_DEFINITIONS = MACOS;
 				HEADER_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
-					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
-					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
+					"/Users/mars/develop/MTEngineSDL/src/**",
+					"/Users/mars/develop/MTEngineSDL/platform/MacOS/src.MacOS/**",
+					/Users/mars/develop/MTEngineSDL/platform/MacOS/include,
 					/usr/local/include/freetype2,
 				);
 				LIBRARY_SEARCH_PATHS = (
