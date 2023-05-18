@@ -9,6 +9,8 @@ CViewDummyAppMain::CViewDummyAppMain(float posX, float posY, float sizeX, float 
 	
 	imGuiNoWindowPadding = false;
 	imGuiNoScrollbar = false;
+	
+	midiIn = new CMidiInKeyboard(0, this);;
 }
 
 void CViewDummyAppMain::RenderImGui()
@@ -21,7 +23,6 @@ void CViewDummyAppMain::RenderImGui()
 	PreRenderImGui();
 
 	
-	
 	ImGui::Text("Press ENTER to toggle full screen");
 
 	static bool clicked = false;
@@ -29,13 +30,15 @@ void CViewDummyAppMain::RenderImGui()
 	{
 		clicked = true;
 	}
-//
+
+	//
 	if (clicked)
 	{
 		ImGui::SameLine();
 		ImGui::Text("CLICKED");
 	}
-//
+	
+	//
 	static int count = 0;
 
 	if (count > 100)
@@ -48,9 +51,9 @@ void CViewDummyAppMain::RenderImGui()
 		ImGui::InputInt("B", &b);
 		ImGui::InputInt("C", &c);
 
-		ImGui::Text("Wartosc a=%d", a);
-		ImGui::Text("Wartosc b=%d", b);
-		ImGui::Text("Wartosc c=%d", c);
+		ImGui::Text("Value of a is %d", a);
+		ImGui::Text("Value of b is %d", b);
+		ImGui::Text("Value of c is %d", c);
 	}
 
 	count++;
@@ -97,3 +100,22 @@ bool CViewDummyAppMain::KeyDown(u32 keyCode, bool isShift, bool isAlt, bool isCo
 	return false;
 }
 
+void CViewDummyAppMain::MidiInKeyboardCallbackNoteOn(int channel, int key, int pressure)
+{
+	LOGD("MidiInKeyboardCallbackNoteOn: channel=%d key=%d pressure=%d", channel, key, pressure);
+}
+
+void CViewDummyAppMain::MidiInKeyboardCallbackNoteOff(int channel, int key, int pressure)
+{
+	LOGD("MidiInKeyboardCallbackNoteOff: channel=%d key=%d pressure=%d", channel, key, pressure);
+}
+
+void CViewDummyAppMain::MidiInKeyboardCallbackControlChange(int knobNum, int value)
+{
+	LOGD("MidiInKeyboardCallbackControlChange: knobNum=%d value=%d", knobNum, value);
+}
+
+void CViewDummyAppMain::MidiInKeyboardCallbackPitchBend(int value)
+{
+	LOGD("MidiInKeyboardCallbackPitchBend: value=%d", value);
+}
