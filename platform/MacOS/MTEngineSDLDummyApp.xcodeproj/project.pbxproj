@@ -327,7 +327,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -369,7 +369,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
@@ -385,14 +385,14 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
-					"/Users/mars/develop/MTEngineSDL/src/**",
-					"/Users/mars/develop/MTEngineSDL/platform/MacOS/src.MacOS/**",
-					/Users/mars/develop/MTEngineSDL/platform/MacOS/include,
-					/usr/local/include/freetype2,
+					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/freetype-2.10.4/include",
 					"$(PROJECT_DIR)/../../src/Tests",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
+					"$(HOMEBREW_PREFIX)/lib",
 					"$(PROJECT_DIR)/lib",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -405,14 +405,14 @@
 				DEVELOPMENT_TEAM = APV7Y7Q9JY;
 				GCC_PREPROCESSOR_DEFINITIONS = MACOS;
 				HEADER_SEARCH_PATHS = (
-					"/Users/mars/develop/MTEngineSDL/src/**",
-					"/Users/mars/develop/MTEngineSDL/platform/MacOS/src.MacOS/**",
-					/Users/mars/develop/MTEngineSDL/platform/MacOS/include,
-					/usr/local/include/freetype2,
+					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/freetype-2.10.4/include",
 					"$(PROJECT_DIR)/../../src/Tests",
 				);
 				LIBRARY_SEARCH_PATHS = (
-					/usr/local/lib,
+					"$(HOMEBREW_PREFIX)/lib",
 					"$(PROJECT_DIR)/lib",
 				);
 				ONLY_ACTIVE_ARCH = YES;
