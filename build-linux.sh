@@ -27,6 +27,8 @@ if [[ ! -f "$MTENGINE_USOCKETS/Makefile" ]]; then
 fi
 
 # Step 2: Build MTEngineSDL and all its dependencies
+# Export CMAKE_EXTRA_ARGS so MTEngineSDL's build-linux.sh (set -u) doesn't fail on unbound variable.
+export CMAKE_EXTRA_ARGS="${CMAKE_EXTRA_ARGS:-}"
 echo -e "\n\e[94m=== Building MTEngineSDL ===\e[0m"
 bash "$MTENGINE_DIR/build-linux.sh"
 
