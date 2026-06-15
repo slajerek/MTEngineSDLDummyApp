@@ -16,6 +16,16 @@ else
     ( cd "$MTENGINE_DIR" && git submodule update --init --recursive )
 fi
 
+# Step 1b: MTEngineSDL ships a stub other/lib/uSockets/ (only Makefile.linux, no sources).
+# MTEngineSDL's build-usockets.sh skips cloning when the dir exists, then fails because
+# there is no plain Makefile. Replace the stub with the full upstream source before building.
+MTENGINE_USOCKETS="$MTENGINE_DIR/other/lib/uSockets"
+if [[ ! -f "$MTENGINE_USOCKETS/Makefile" ]]; then
+    echo -e "\n\e[94mPopulating \e[31mMTEngineSDL/other/lib/uSockets \e[94mwith upstream source\e[0m"
+    rm -rf "$MTENGINE_USOCKETS"
+    git clone https://github.com/uNetworking/uSockets.git "$MTENGINE_USOCKETS"
+fi
+
 # Step 2: Build MTEngineSDL and all its dependencies
 echo -e "\n\e[94m=== Building MTEngineSDL ===\e[0m"
 bash "$MTENGINE_DIR/build-linux.sh"
