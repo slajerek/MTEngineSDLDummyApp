@@ -80,7 +80,7 @@ if (-not $msbuild) {
 }
 Write-Host "Using MSBuild: $msbuild"
 
-$toolsetArgs = if ($Compiler -eq 'MSVC') { @('/p:PlatformToolset=v143') } else { @() }
+[string[]]$toolsetArgs = if ($Compiler -eq 'MSVC') { @('/p:PlatformToolset=v143') } else { @() }
 Write-Host "Compiler: $Compiler" -ForegroundColor Cyan
 
 # Add MSBuild to PATH so child processes can find it
