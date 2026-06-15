@@ -19,6 +19,9 @@
     <Filter Include="Source Files\src\Views">
       <UniqueIdentifier>{50c6ad41-3b34-4519-97ba-1ce143786c97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\Tests">
+      <UniqueIdentifier>{a1b2c3d4-e5f6-7890-abcd-ef1234567890}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\DummyInit.cpp">
@@ -30,6 +33,15 @@
     <ClCompile Include="..\..\..\src\Views\CViewDummyAppMain.cpp">
       <Filter>Source Files\src\Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CDummyAppTestSuite.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestAppStartup.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CImGuiDummyTests.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\DummyInit.h">
@@ -40,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\Views\CViewDummyAppMain.h">
       <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CDummyAppTestSuite.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestAppStartup.h">
+      <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

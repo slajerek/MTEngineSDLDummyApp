@@ -2,7 +2,26 @@
 #include "DBG_Log.h"
 #include "CGuiMain.h"
 #include "MT_API.h"
+#include "SYS_CommandLine.h"
 #include "CViewDummyAppMain.h"
+#include "CDummyAppTestSuite.h"
+#include "CTestRunner.h"
+
+#ifdef ENABLE_IMGUI_TEST_ENGINE
+#include "CImGuiTestEngine.h"
+#include "imgui_te_engine.h"
+extern void RegisterDummyAppTests(ImGuiTestEngine *engine);
+static bool sRunTests = false;
+static int sWarmupFrames = 0;
+static bool sTestsDone = false;
+#endif
+
+static bool sRunSuiteAll = false;
+static bool sRunSuiteTest = false;
+static bool sExitAfterTests = false;
+static const char *sSuiteTestName = NULL;
+static bool sSuiteTestScheduled = false;
+static int sSuiteWarmupFrames = 0;
 
 const char *MT_GetMainWindowTitle()
 {
@@ -27,82 +46,117 @@ void MT_PreInit()
 {
 }
 
-void MT_PostInit()
-{
-	LOGM("MT_Init successfull");
-	
-	// use ImGui window
-	CViewDummyAppMain *viewMain = new CViewDummyAppMain(50, 50, 640 + 50, 480 + 50);
-	guiMain->SetView(viewMain);
-	
-	// or use SDL renderer on main window:
-	//	SDL_Window *window = VID_GetMainSDLWindow();
-	//  SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
-
-	LOGM("DummyApp initialized");
-}
-
 void MT_GuiPreInit()
 {
 }
 
+void MT_PostInit()
+{
+	LOGM("MT_PostInit");
+
+	// Parse test CLI flags
+	for (int i = 0; i < (int)sysCommandLineArguments.size(); i++)
+	{
+		const char *arg = sysCommandLineArguments[i];
+		if (strcmp(arg, "--run-test") == 0 && i + 1 < (int)sysCommandLineArguments.size())
+		{
+			sRunSuiteTest = true;
+			sSuiteTestName = sysCommandLineArguments[++i];
+		}
+		else if (strcmp(arg, "--run-suite") == 0)
+		{
+			sRunSuiteAll = true;
+		}
+		else if (strcmp(arg, "--exit-after-tests") == 0)
+		{
+			sExitAfterTests = true;
+		}
+#ifdef ENABLE_IMGUI_TEST_ENGINE
+		else if (strcmp(arg, "--run-tests") == 0)
+		{
+			sRunTests = true;
+		}
+#endif
+	}
+
+	CViewDummyAppMain *viewMain = new CViewDummyAppMain(50, 50, 640 + 50, 480 + 50);
+	guiMain->SetView(viewMain);
+
+	if (sRunSuiteAll || sRunSuiteTest)
+	{
+		// Schedule after a few warmup frames so the view is ready
+		sSuiteWarmupFrames = 3;
+		sSuiteTestScheduled = true;
+	}
+
+#ifdef ENABLE_IMGUI_TEST_ENGINE
+	if (sRunTests)
+	{
+		CImGuiTestEngine::Init();
+		RegisterDummyAppTests(CImGuiTestEngine::GetEngine());
+		sWarmupFrames = 5;
+	}
+#endif
+
+	LOGM("DummyApp initialized");
+}
+
 void MT_Render()
 {
-//	LOGM("MT_Render");
-	
-	// skip SDL renderer, use ImGui:
-	return;
-
-	/*
-	// or use SDL renderer on main window:
-	SDL_SetRenderDrawColor(renderer, 242, 242, 242, 255);
-	SDL_RenderClear(renderer);
-	
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-	
-	static float x1 = 150;
-	static float stepX1 = 1;
-	static float y1 = 150;
-	static float stepY1 = 0.65;
-
-	static float x2 = 70;
-	static float stepX2 = 0.45;
-	static float y2 = 70;
-	static float stepY2 = 1.25;
-
-	x1 += stepX1;
-	if (x1 < 50 || x1 > 600)
+	// CTestSuite: run after warmup frames
+	if (sSuiteTestScheduled && sSuiteWarmupFrames > 0)
 	{
-		stepX1 = -stepX1;
-	}
-	
-	y1 += stepY1;
-	if (y1 < 50 || y1 > 400)
-	{
-		stepY1 = -stepY1;
+		sSuiteWarmupFrames--;
+		if (sSuiteWarmupFrames == 0)
+		{
+			sSuiteTestScheduled = false;
+			if (sRunSuiteAll)
+				CDummyAppTestSuite::RunFromCLI(NULL);
+			else if (sRunSuiteTest)
+				CDummyAppTestSuite::RunFromCLI(sSuiteTestName);
+
+			if (sExitAfterTests)
+				SYS_Shutdown();
+		}
 	}
 
-	x2 += stepX2;
-	if (x2 < 50 || x2 > 600)
+#ifdef ENABLE_IMGUI_TEST_ENGINE
+	if (sRunTests && sWarmupFrames > 0)
 	{
-		stepX2 = -stepX2;
+		sWarmupFrames--;
+		if (sWarmupFrames == 0)
+			CImGuiTestEngine::QueueAllTests();
 	}
-	
-	y2 += stepY2;
-	if (y2 < 50 || y2 > 400)
-	{
-		stepY2 = -stepY2;
-	}
-	
-	SDL_RenderDrawLine(renderer, (int)x1, (int)y1, (int)x2, (int)y2);
-	SDL_RenderDrawLine(renderer, (int)600-y1, (int)400-x1, (int)600-y2, (int)400-x2);
 
-	SDL_RenderPresent(renderer);
-	
-	return;
-	 */
+	if (sRunTests && sWarmupFrames == 0 && !sTestsDone)
+	{
+		if (CImGuiTestEngine::IsTestQueueEmpty())
+		{
+			sTestsDone = true;
+			int tested = 0, success = 0;
+			CImGuiTestEngine::GetResultSummary(&tested, &success);
+			LOGM("ImGui tests: %d/%d passed", success, tested);
+			if (sExitAfterTests)
+				SYS_Shutdown();
+		}
+	}
+#endif
 }
 
 void MT_PostRenderEndFrame()
 {
+#ifdef ENABLE_IMGUI_TEST_ENGINE
+	if (sRunTests)
+		CImGuiTestEngine::PostSwap();
+#endif
+}
+
+void MT_Shutdown()
+{
+	LOGD("MT_Shutdown");
+}
+
+ImU32 ImPlotColorsExtensionGetterCallback(int index)
+{
+	return 0;
 }

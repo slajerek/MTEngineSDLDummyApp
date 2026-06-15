@@ -2,6 +2,8 @@
 #include "CGuiMain.h"
 #include "CMainMenuBar.h"
 
+using namespace ImGui;
+
 CViewDummyAppMain::CViewDummyAppMain(float posX, float posY, float sizeX, float sizeY)
 : CGuiView("CViewDummyAppMain", posX, posY, -1, sizeX, sizeY)
 {
@@ -22,11 +24,17 @@ void CViewDummyAppMain::RenderImGui()
 
 	PreRenderImGui();
 
-	
-	ImGui::Text("Press ENTER to toggle full screen");
+	Text("Press ENTER to toggle full screen");
 
+	if (Button("Press me to quit"))
+	{
+//		SYS_Sleep(10000);
+		SYS_Shutdown();
+	}
+	
+	
 	static bool clicked = false;
-	if (ImGui::Button("CLICK ME"))
+	if (Button("CLICK ME"))
 	{
 		clicked = true;
 	}
@@ -34,14 +42,14 @@ void CViewDummyAppMain::RenderImGui()
 	//
 	if (clicked)
 	{
-		ImGui::SameLine();
-		ImGui::Text("CLICKED");
+		SameLine();
+		Text("CLICKED");
 	}
 	
 	//
 	static int count = 0;
 
-	if (count > 100)
+	if (count > 200)
 	{
 		static int a = 0;
 		static int b = 0;
@@ -51,9 +59,9 @@ void CViewDummyAppMain::RenderImGui()
 		ImGui::InputInt("B", &b);
 		ImGui::InputInt("C", &c);
 
-		ImGui::Text("Value of a is %d", a);
-		ImGui::Text("Value of b is %d", b);
-		ImGui::Text("Value of c is %d", c);
+		ImGui::Text("Value of A is %d", a);
+		ImGui::Text("Value of B is %d", b);
+		ImGui::Text("Value of C is %d", c);
 	}
 
 	count++;

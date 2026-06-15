@@ -1,0 +1,33 @@
+name: Windows build
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout MTEngineSDLDummyApp
+        uses: actions/checkout@v4
+
+      - name: Clone MTEngineSDL
+        shell: pwsh
+        run: |
+          $mtDir = Join-Path (Split-Path -Parent $env:GITHUB_WORKSPACE) 'MTEngineSDL'
+          git clone --recursive https://github.com/slajerek/MTEngineSDL.git $mtDir
+
+      - name: Build
+        shell: pwsh
+        run: .\build-windows.ps1
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: MTEngineSDLDummyApp-windows
+          path: platform\Windows\bin\x64\Release\MTEngineSDLDummyApp.exe
+          if-no-files-found: error

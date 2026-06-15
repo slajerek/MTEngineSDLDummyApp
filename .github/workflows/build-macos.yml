@@ -1,0 +1,43 @@
+name: macOS build
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout MTEngineSDLDummyApp
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: brew install sdl2
+
+      - name: Build
+        run: |
+          chmod +x ./build-macos.sh
+          ./build-macos.sh
+
+      - name: Stage binary
+        run: |
+          BINARY=$(find "$HOME/Library/Developer/Xcode/DerivedData" \
+            -name "MTEngineSDLDummyApp" -type f -perm -111 2>/dev/null \
+            | grep -v "\.dSYM" | grep "MTEngineSDLDummyApp-" | head -1 || true)
+          if [[ -z "$BINARY" ]]; then
+            echo "ERROR: could not find built binary in DerivedData" >&2
+            exit 1
+          fi
+          echo "Found: $BINARY"
+          cp "$BINARY" ./MTEngineSDLDummyApp-macos
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: MTEngineSDLDummyApp-macos
+          path: MTEngineSDLDummyApp-macos
+          if-no-files-found: error
