@@ -23,7 +23,7 @@ jobs:
 
       - name: Build
         shell: pwsh
-        run: .\build-windows.ps1
+        run: .\build-windows.ps1 -Compiler MSVC
 
       - name: Upload binary
         uses: actions/upload-artifact@v4
