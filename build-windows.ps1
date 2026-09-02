@@ -1,129 +1,57 @@
 <#
 .SYNOPSIS
-    Build MTEngineSDLDummyApp for Windows.
+    THE APP STUB -- canonical template: MTEngineSDL\tools\appbuild\stubs\.
 .DESCRIPTION
-    Builds MTEngineSDL then MTEngineSDLDummyApp via MSBuild.
-    Output: platform/Windows/bin/<Platform>/<Configuration>/
-.PARAMETER Platform
-    Target architecture: x64 or ARM64. Default: auto-detect from OS.
-.PARAMETER Configuration
-    Build configuration: Debug or Release. Default: Release.
-.PARAMETER Compiler
-    Compiler toolchain: Clang (ClangCL) or MSVC (v143). Default: Clang.
-    Clang requires "C++ Clang Compiler for Windows" VS component.
-.PARAMETER Clean
-    Clean all build artifacts and exit.
-.EXAMPLE
-    .\build-windows.ps1
-    .\build-windows.ps1 -Compiler MSVC
-    .\build-windows.ps1 -Clean
-    .\build-windows.ps1 -Platform ARM64 -Configuration Debug
+    An app owns two files: mtengine.caps and mtengine-app.conf. The build
+    flow -- and the MTENGINE_REF verification -- lives in the engine's
+    app-build driver; this stub keeps only the clone-when-absent job. The
+    driver warns when this file drifts from the template.
 #>
 param(
     [ValidateSet('x64','ARM64')]
     [string]$Platform,
-
     [ValidateSet('Debug','Release')]
     [string]$Configuration = 'Release',
-
     [ValidateSet('Clang','MSVC')]
     [string]$Compiler = 'Clang',
-
+    [switch]$SkipCuda,
+    [switch]$SkipDeps,
+    [switch]$NoProd,
     [switch]$Clean,
-    [switch]$Help
+    [string[]]$Set,
+    [switch]$Gc,
+    [switch]$Help,
+    [Parameter(ValueFromRemainingArguments)][string[]]$GcArgs
 )
-
-if ($Help) {
-    Write-Host @"
-MTEngineSDLDummyApp Windows Build Script
-
-Usage: .\build-windows.ps1 [options]
-
-  -Platform <x64|ARM64>            Target architecture (default: auto-detect)
-  -Configuration <Debug|Release>   Build configuration (default: Release)
-  -Compiler <Clang|MSVC>           Compiler toolchain (default: Clang)
-                                    Clang requires "C++ Clang Compiler for Windows" VS component
-  -Clean                           Clean all build artifacts and exit
-  -Help                            Show this help message
-
-Examples:
-  .\build-windows.ps1
-  .\build-windows.ps1 -Compiler MSVC
-  .\build-windows.ps1 -Clean
-  .\build-windows.ps1 -Platform ARM64 -Configuration Debug
-"@
-    exit 0
-}
-
 $ErrorActionPreference = 'Stop'
-
-if (-not $Platform) {
-    $Platform = if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') { 'ARM64' } else { 'x64' }
-    Write-Host "Auto-detected platform: $Platform"
+$mtDir = Join-Path (Split-Path -Parent $PSScriptRoot) 'MTEngineSDL'
+if (-not (Test-Path $mtDir)) {
+    $ref = (Get-Content (Join-Path $PSScriptRoot 'MTENGINE_REF') |
+            Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' } |
+            Select-Object -First 1).Trim()
+    Write-Host "Cloning MTEngineSDL at $ref" -ForegroundColor Cyan
+    git clone https://github.com/slajerek/MTEngineSDL.git $mtDir
+    if ($LASTEXITCODE -ne 0) { throw "git clone failed" }
+    git -C $mtDir checkout ($ref -replace '^origin/', '') 2>$null
+    if ($LASTEXITCODE -ne 0) { git -C $mtDir checkout --detach $ref }
 }
-
-$appDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$mtDir  = Join-Path (Split-Path -Parent $appDir) 'MTEngineSDL'
-
-foreach ($tool in @('cmake', 'git')) {
-    if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
-        Write-Error "$tool not found in PATH"; exit 1
-    }
+$driver = Join-Path $mtDir 'tools\appbuild\app-build-windows.ps1'
+if (-not (Test-Path $driver)) {
+    throw "$driver not found -- the engine checkout predates the app-build driver. Run: git -C `"$mtDir`" pull"
 }
-
-$msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
-    -latest -requires Microsoft.Component.MSBuild `
-    -find "MSBuild\**\Bin\MSBuild.exe" 2>$null | Select-Object -First 1
-if (-not $msbuild) {
-    Write-Error "MSBuild not found. Install Visual Studio 2022 with C++ workload."
-    exit 1
+if ($Help) { Get-Help $driver -Detailed; exit 0 }
+$driverArgs = @{
+    AppDir        = $PSScriptRoot
+    Configuration = $Configuration
+    Compiler      = $Compiler
+    SkipCuda      = $SkipCuda
+    SkipDeps      = $SkipDeps
+    NoProd        = $NoProd
+    Clean         = $Clean
+    Gc            = $Gc
 }
-Write-Host "Using MSBuild: $msbuild"
-
-[string[]]$toolsetArgs = if ($Compiler -eq 'MSVC') { @('/p:PlatformToolset=v143') } else { @() }
-Write-Host "Compiler: $Compiler" -ForegroundColor Cyan
-
-# Add MSBuild to PATH so child processes can find it
-$env:PATH = (Split-Path $msbuild) + ";$env:PATH"
-
-# Init MTEngineSDL submodules
-Write-Host "`n=== Initializing MTEngineSDL submodules ===" -ForegroundColor Cyan
-Push-Location $mtDir
-git submodule update --init --recursive
-Pop-Location
-
-if ($Clean) {
-    Write-Host "`n=== Cleaning ===" -ForegroundColor Yellow
-    & $msbuild "$mtDir\platform\Windows\MTEngineSDL.sln" `
-        /t:Clean /p:Configuration=$Configuration /p:Platform=$Platform `
-        @toolsetArgs /v:minimal /nologo 2>$null
-    & $msbuild "$appDir\platform\Windows\MTEngineSDLDummyApp.sln" `
-        /t:Clean /p:Configuration=$Configuration /p:Platform=$Platform `
-        @toolsetArgs /v:minimal /nologo 2>$null
-    Write-Host "Clean complete." -ForegroundColor Green
-    exit 0
-}
-
-Write-Host "`n=== Building MTEngineSDL ($Platform $Configuration $Compiler) ===" -ForegroundColor Cyan
-& $msbuild "$mtDir\platform\Windows\MTEngineSDL.sln" `
-    /t:MTEngineSDL `
-    /p:Configuration=$Configuration /p:Platform=$Platform `
-    @toolsetArgs /m /v:minimal /nologo
-if ($LASTEXITCODE -ne 0) { Write-Error "MTEngineSDL build failed"; exit 1 }
-
-Write-Host "`n=== Building MTEngineSDLDummyApp ($Platform $Configuration $Compiler) ===" -ForegroundColor Cyan
-& $msbuild "$appDir\platform\Windows\MTEngineSDLDummyApp.sln" `
-    /p:Configuration=$Configuration /p:Platform=$Platform `
-    @toolsetArgs /m /v:minimal /nologo
-if ($LASTEXITCODE -ne 0) { Write-Error "MTEngineSDLDummyApp build failed"; exit 1 }
-
-$outDir = "$appDir\platform\Windows\bin\$Platform\$Configuration"
-$exe    = Join-Path $outDir "MTEngineSDLDummyApp.exe"
-
-if (Test-Path $exe) {
-    Write-Host "`n=== Build successful ===" -ForegroundColor Green
-    Write-Host "Output: $outDir"
-} else {
-    Write-Error "Build completed but executable not found at $outDir"
-    exit 1
-}
+if ($Set) { $driverArgs.Set = $Set }
+if ($GcArgs) { $driverArgs.GcArgs = $GcArgs }
+if ($Platform) { $driverArgs.Platform = $Platform }
+& $driver @driverArgs
+exit $LASTEXITCODE

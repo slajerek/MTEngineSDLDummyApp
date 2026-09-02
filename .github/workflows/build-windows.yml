@@ -7,6 +7,14 @@ on:
     branches: [ master, main ]
   workflow_dispatch:
 
+env:
+  # MTENGINE_REF holds a BRANCH by default (`origin/master`), and a branch is
+  # tracked rather than pinned -- CI clones it fresh every run, so it always
+  # matches and this flag is inert. The flag stays because it stops being inert
+  # the moment MTENGINE_REF is set to a SHA to freeze an engine for a release:
+  # then a checkout that does not match the pin must fail the run, not warn.
+  MTENGINE_PIN_STRICT: '1'
+
 jobs:
   build-windows:
     runs-on: windows-latest
@@ -19,11 +27,38 @@ jobs:
         shell: pwsh
         run: |
           $mtDir = Join-Path (Split-Path -Parent $env:GITHUB_WORKSPACE) 'MTEngineSDL'
-          git clone --recursive https://github.com/slajerek/MTEngineSDL.git $mtDir
+          # NOT --recursive: the pin is what makes a CI result mean something, and
+          # a recursive clone pre-fetches the submodules Phase 4's clean-clone
+          # proof exists to show absent.
+          $mtRef = (Get-Content MTENGINE_REF | Where-Object { $_ -notmatch '^\s*#' -and $_.Trim() -ne '' } | Select-Object -First 1).Trim()
+          git clone https://github.com/slajerek/MTEngineSDL.git $mtDir
+          git -C $mtDir checkout --detach $mtRef
 
       - name: Build
         shell: pwsh
-        run: .\build-windows.ps1 -Compiler MSVC
+        run: .\build-windows.ps1
+
+      - name: mtcaps golden tests
+        shell: pwsh
+        run: |
+          # tools/mtcaps is the single point of failure for the whole capability
+          # system, so its own tests run before anything that depends on it.
+          #
+          # `py -3` where it exists, `python` otherwise: this runner's default
+          # shell is pwsh, and `python3` is not a reliable name on the Windows
+          # images. Same resolved-interpreter rule the build scripts follow --
+          # never a bare guess.
+          $mtDir = Join-Path (Split-Path -Parent $env:GITHUB_WORKSPACE) 'MTEngineSDL'
+          $t = Join-Path $mtDir 'tools\mtcaps\tests\test_mtcaps.py'
+          if (Get-Command py -ErrorAction SilentlyContinue) { py -3 $t } else { python $t }
+          if ($LASTEXITCODE -ne 0) { throw "mtcaps golden tests failed" }
+
+      - name: Run tests (both suites)
+        shell: pwsh
+        run: |
+          # Chunk 0.6. bash is present on windows-latest runners, and the runner
+          # script only needs to launch a binary and parse a text file.
+          bash ./tests/run_test.sh --binary .\platform\Windows\bin\x64\Release\MTEngineSDLDummyApp.exe
 
       - name: Upload binary
         uses: actions/upload-artifact@v4

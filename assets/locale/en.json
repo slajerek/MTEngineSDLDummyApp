@@ -1,0 +1,43 @@
+{
+    "meta": {
+        "locale": "en",
+        "version": 1
+    },
+    "strings": {
+        "menu.file": "File",
+        "menu.file.quit": "Quit",
+        "menu.workspace": "Workspace",
+        "menu.workspace.new": "New Workspace...",
+        "menu.workspace.delete": "Delete Workspace",
+        "menu.settings": "Settings",
+        "menu.settings.theme": "Theme",
+        "menu.settings.renderer": "Renderer",
+        "menu.settings.renderer.running": "Running now",
+        "menu.settings.renderer.restart": "Restart to apply",
+        "menu.settings.renderer.only_one": "The only backend this build has on this platform",
+        "menu.settings.gui_scale": "GUI Scale",
+        "menu.settings.renderer.restart_title": "Renderer",
+        "menu.settings.renderer.restart_message": "The renderer will change the next time you start the application.",
+        "menu.settings.renderer.cli_override": "--render-backend is winning this run",
+        "menu.examples": "Examples",
+        "menu.examples.music_player": "Music Player",
+        "menu.examples.ai": "AI",
+        "menu.examples.ai.unavailable": "Not available: this build was made with MT_CAP_LLM=0 in mtengine.caps",
+        "menu.examples.ai.llm_settings": "LLM Settings",
+        "menu.examples.ai.llm_chat": "LLM Chat",
+        "menu.examples.ai.llm_tasks": "LLM Tasks",
+        "menu.examples.image_loader": "Image Loader",
+        "menu.examples.camera": "Camera",
+        "menu.examples.hdr_test": "HDR Test",
+        "menu.examples.video_player": "Video Player",
+        "menu.examples.video_player.unavailable": "Not available: this build was made with MT_CAP_VIDEO_PLAYBACK=0 in mtengine.caps",
+        "menu.examples.i18n": "I18N",
+        "engine.heif.unavailable.system_codec_missing": "HEIC/HEIF photos cannot be opened on this PC: Windows is missing the HEVC video codec.",
+        "engine.heif.unavailable.not_built": "HEIC/HEIF photos are not supported in this build.",
+        "heif.install_link": "Get it from the Microsoft Store",
+        "menu.help": "Help",
+        "menu.help.about": "DummyApp about",
+        "menu.help.mtenginesdl_test": "MTEngineSDL test",
+        "menu.language": "Language"
+    }
+}

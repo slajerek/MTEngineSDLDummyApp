@@ -6,6 +6,7 @@
 #   -Platform <x64|ARM64>
 #   -Configuration <Release|Debug>
 #   -Compiler <Clang|MSVC>
+#   -SkipCuda
 #   -Clean
 #   --help, -h
 

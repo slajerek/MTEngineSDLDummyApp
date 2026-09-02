@@ -1,4 +1,6 @@
-build
+# ANCHORED to the repo root -- an unanchored `build` ignores a directory of
+# that name at ANY depth. See c64d's .gitignore for what that cost there.
+/build/
 *.mode1v3
 *.mode2v3
 *.pbxuser
@@ -17,6 +19,12 @@ Browse.VC.db
 *.a
 *.ncb
 platform/MacOS/MTEngineSDLDummyApp.xcodeproj/project.xcworkspace/xcuserdata/
+# Personal Xcode state, wherever it sits: breakpoints, navigator scopes, window
+# layout. The SHARED scheme under xcshareddata/ is tracked deliberately -- it is
+# what lets someone else open this project and build it with -scheme, which the
+# capability pre-action requires -- but everything under xcuserdata/ belongs to
+# one machine and two such files had been tracked here.
+xcuserdata/
 platform/MacOS/MTEngineSDLDummyApp.xcodeproj/project.xcworkspace/xcshareddata/
 platform/MacOS/MTEngineSDLDummyApp.xcodeproj/project.xcworkspace/xcshareddata/MTEngineSDL.xccheckout
 platform/MacOS/MTEngineSDLDummyApp.xcodeproj/.idea/
@@ -24,6 +32,7 @@ platform/MacOS/DerivedData/
 platform/MacOS/build/
 platform/Windows/.vs/
 platform/Windows/bin/
+platform/Windows/prod/
 platform/Windows/MTEngineSDLDummyApp/x64/
 platform/Windows/MTEngineSDLDummyApp/Win32/
 platform/Windows/MTEngineSDLDummyApp/ARM64/
@@ -39,3 +48,7 @@ tests/results/
 .superpowers/
 .claude/
 /build-macos/
+
+# Written by the Xcode capability pre-action. It normally lives BESIDE the
+# repos, not inside one -- this entry only matters if someone relocates it.
+.mtengine-ide/

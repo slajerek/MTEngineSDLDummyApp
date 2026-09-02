@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		41344F502784633A00F608A2 /* CViewDummyAppMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41344F4C2784633A00F608A2 /* CViewDummyAppMain.cpp */; };
 		41344F512784633A00F608A2 /* CMainMenuBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41344F4E2784633A00F608A2 /* CMainMenuBar.cpp */; };
+		AABBCCDD2799999900AD0001 /* CViewHdrTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0002 /* CViewHdrTest.cpp */; };
 		414C49F7293519680014DC9B /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F5293519680014DC9B /* CoreHaptics.framework */; };
 		414C49FA2935198A0014DC9B /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F92935198A0014DC9B /* GameController.framework */; };
 		419710E82975B54400A4C766 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419710E62975B54400A4C766 /* CoreMIDI.framework */; };
@@ -22,14 +23,23 @@
 		41B529A223992E2B0084F0DB /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B529A123992E2B0084F0DB /* IOKit.framework */; };
 		41B529A423992E300084F0DB /* ForceFeedback.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B529A323992E300084F0DB /* ForceFeedback.framework */; };
 		41B529A623992E350084F0DB /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B529A523992E350084F0DB /* CoreVideo.framework */; };
+		41A1F0012E0A000000000001 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A1F0012E0A000000000101 /* AVFoundation.framework */; };
+		41A1F0012E0A000000000002 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A1F0012E0A000000000102 /* CoreMedia.framework */; };
+		41A1F0012E0A000000000003 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A1F0012E0A000000000103 /* Accelerate.framework */; };
 		41B529A823992E3B0084F0DB /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B529A723992E3B0084F0DB /* Metal.framework */; };
 		41B529AA23992E400084F0DB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B529A923992E400084F0DB /* CoreGraphics.framework */; };
 		41B529AC23992E450084F0DB /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B529AB23992E450084F0DB /* CoreAudio.framework */; };
 		41B529AE23992E4A0084F0DB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B529AD23992E4A0084F0DB /* AudioToolbox.framework */; };
+		AABBCCDD31000000AB0001 /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABBCCDD31000000AB0002 /* UniformTypeIdentifiers.framework */; };
 		41DD5C682A0C6C01002E64A8 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 41DD5C672A0C6C01002E64A8 /* libiconv.tbd */; };
 		41CC00042799999900CC0004 /* CDummyAppTestSuite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41CC00032799999900CC0003 /* CDummyAppTestSuite.cpp */; };
 		41CC00072799999900CC0007 /* CTestAppStartup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41CC00062799999900CC0006 /* CTestAppStartup.cpp */; };
 		41CC00092799999900CC0009 /* CImGuiDummyTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41CC00082799999900CC0008 /* CImGuiDummyTests.cpp */; };
+		41DA00012799999900DA0001 /* CDummyAppI18n.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41DA00022799999900DA0002 /* CDummyAppI18n.cpp */; };
+		41DA00032799999900DA0003 /* CTestI18nDummyApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41DA00042799999900DA0004 /* CTestI18nDummyApp.cpp */; };
+		41F05F002799999900F00001 /* CTestFonts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41F05F002799999900F00002 /* CTestFonts.cpp */; };
+		AABBCCDD2799999900AD0011 /* CTestHdrTestView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0012 /* CTestHdrTestView.cpp */; };
+		41A55E002799999900A50002 /* assets in Copy assets */ = {isa = PBXBuildFile; fileRef = 41A55E002799999900A50001 /* assets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,15 +62,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		41A55E002799999900A50003 /* Copy assets */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				41A55E002799999900A50002 /* assets in Copy assets */,
+			);
+			name = "Copy assets";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AABBCCDD2699999900CB0001 /* MTEngineSDLDummyAppCaps.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = MTEngineSDLDummyAppCaps.xcconfig; path = MTEngineSDLDummyAppCaps.xcconfig; sourceTree = "<group>"; };
 		41292201265245AD00690579 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../../../../../usr/local/lib/libfreetype.a; sourceTree = "<group>"; };
 		41344F4C2784633A00F608A2 /* CViewDummyAppMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewDummyAppMain.cpp; path = ../../src/Views/CViewDummyAppMain.cpp; sourceTree = "<group>"; };
 		41344F4D2784633A00F608A2 /* CMainMenuBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CMainMenuBar.h; path = ../../src/Views/CMainMenuBar.h; sourceTree = "<group>"; };
 		41344F4E2784633A00F608A2 /* CMainMenuBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMainMenuBar.cpp; path = ../../src/Views/CMainMenuBar.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0002 /* CViewHdrTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewHdrTest.cpp; path = ../../src/Views/CViewHdrTest.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0003 /* CViewHdrTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewHdrTest.h; path = ../../src/Views/CViewHdrTest.h; sourceTree = "<group>"; };
 		41344F4F2784633A00F608A2 /* CViewDummyAppMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewDummyAppMain.h; path = ../../src/Views/CViewDummyAppMain.h; sourceTree = "<group>"; };
-		4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MTEngineSDLDummyApp; sourceTree = BUILT_PRODUCTS_DIR; };
+		4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTEngineSDLDummyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		414C49F5293519680014DC9B /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
 		414C49F92935198A0014DC9B /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		419710E62975B54400A4C766 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
@@ -68,6 +92,7 @@
 		41B5299223992DDB0084F0DB /* DummyInit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DummyInit.cpp; path = ../../src/DummyInit.cpp; sourceTree = "<group>"; };
 		41B5299323992DDB0084F0DB /* DummyInit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DummyInit.h; path = ../../src/DummyInit.h; sourceTree = "<group>"; };
 		41B5299723992E0F0084F0DB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		AABBCCDD31000000AB0002 /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		41B5299923992E140084F0DB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		41B5299B23992E1B0084F0DB /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		41B5299D23992E200084F0DB /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
@@ -75,6 +100,9 @@
 		41B529A123992E2B0084F0DB /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		41B529A323992E300084F0DB /* ForceFeedback.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForceFeedback.framework; path = System/Library/Frameworks/ForceFeedback.framework; sourceTree = SDKROOT; };
 		41B529A523992E350084F0DB /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		41A1F0012E0A000000000101 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		41A1F0012E0A000000000102 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		41A1F0012E0A000000000103 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		41B529A723992E3B0084F0DB /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
 		41B529A923992E400084F0DB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		41B529AB23992E450084F0DB /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -85,6 +113,15 @@
 		41CC00052799999900CC0005 /* CTestAppStartup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestAppStartup.h; path = ../../src/Tests/CTestAppStartup.h; sourceTree = "<group>"; };
 		41CC00062799999900CC0006 /* CTestAppStartup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestAppStartup.cpp; path = ../../src/Tests/CTestAppStartup.cpp; sourceTree = "<group>"; };
 		41CC00082799999900CC0008 /* CImGuiDummyTests.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CImGuiDummyTests.cpp; path = ../../src/Tests/CImGuiDummyTests.cpp; sourceTree = "<group>"; };
+		41DA00022799999900DA0002 /* CDummyAppI18n.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDummyAppI18n.cpp; path = ../../src/i18n/CDummyAppI18n.cpp; sourceTree = "<group>"; };
+		41DA00052799999900DA0005 /* CDummyAppI18n.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDummyAppI18n.h; path = ../../src/i18n/CDummyAppI18n.h; sourceTree = "<group>"; };
+		41A55E002799999900A50001 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../assets; sourceTree = "<group>"; };
+		41DA00042799999900DA0004 /* CTestI18nDummyApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestI18nDummyApp.cpp; path = ../../src/Tests/CTestI18nDummyApp.cpp; sourceTree = "<group>"; };
+		41F05F002799999900F00002 /* CTestFonts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestFonts.cpp; path = ../../src/Tests/CTestFonts.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0012 /* CTestHdrTestView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestHdrTestView.cpp; path = ../../src/Tests/CTestHdrTestView.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0013 /* CTestHdrTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestHdrTestView.h; path = ../../src/Tests/CTestHdrTestView.h; sourceTree = "<group>"; };
+		41F05F002799999900F00003 /* CTestFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestFonts.h; path = ../../src/Tests/CTestFonts.h; sourceTree = "<group>"; };
+		41DA00062799999900DA0006 /* CTestI18nDummyApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestI18nDummyApp.h; path = ../../src/Tests/CTestI18nDummyApp.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +129,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AABBCCDD31000000AB0001 /* UniformTypeIdentifiers.framework in Frameworks */,
 				41DD5C682A0C6C01002E64A8 /* libiconv.tbd in Frameworks */,
+				41A1F0012E0A000000000003 /* Accelerate.framework in Frameworks */,
 				419710E82975B54400A4C766 /* CoreMIDI.framework in Frameworks */,
 				414C49FA2935198A0014DC9B /* GameController.framework in Frameworks */,
 				414C49F7293519680014DC9B /* CoreHaptics.framework in Frameworks */,
@@ -101,6 +140,8 @@
 				41B529AA23992E400084F0DB /* CoreGraphics.framework in Frameworks */,
 				41B529A823992E3B0084F0DB /* Metal.framework in Frameworks */,
 				41B529A623992E350084F0DB /* CoreVideo.framework in Frameworks */,
+				41A1F0012E0A000000000001 /* AVFoundation.framework in Frameworks */,
+				41A1F0012E0A000000000002 /* CoreMedia.framework in Frameworks */,
 				41B529A423992E300084F0DB /* ForceFeedback.framework in Frameworks */,
 				41B529A223992E2B0084F0DB /* IOKit.framework in Frameworks */,
 				41B529A023992E260084F0DB /* CoreFoundation.framework in Frameworks */,
@@ -122,6 +163,8 @@
 				41344F4D2784633A00F608A2 /* CMainMenuBar.h */,
 				41344F4C2784633A00F608A2 /* CViewDummyAppMain.cpp */,
 				41344F4F2784633A00F608A2 /* CViewDummyAppMain.h */,
+				AABBCCDD2799999900AD0002 /* CViewHdrTest.cpp */,
+				AABBCCDD2799999900AD0003 /* CViewHdrTest.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -134,6 +177,12 @@
 				41CC00082799999900CC0008 /* CImGuiDummyTests.cpp */,
 				41CC00062799999900CC0006 /* CTestAppStartup.cpp */,
 				41CC00052799999900CC0005 /* CTestAppStartup.h */,
+				41DA00042799999900DA0004 /* CTestI18nDummyApp.cpp */,
+				41DA00062799999900DA0006 /* CTestI18nDummyApp.h */,
+				41F05F002799999900F00002 /* CTestFonts.cpp */,
+				41F05F002799999900F00003 /* CTestFonts.h */,
+				AABBCCDD2799999900AD0012 /* CTestHdrTestView.cpp */,
+				AABBCCDD2799999900AD0013 /* CTestHdrTestView.h */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -141,7 +190,9 @@
 		4147CA7F23992D73006B25A7 = {
 			isa = PBXGroup;
 			children = (
+				AABBCCDD2699999900CB0001 /* MTEngineSDLDummyAppCaps.xcconfig */,
 				41B5299123992DCF0084F0DB /* src */,
+				41A55E002799999900A50001 /* assets */,
 				41B5298823992DCB0084F0DB /* MTEngineSDL.xcodeproj */,
 				4147CA8923992D74006B25A7 /* Products */,
 				41B5299623992E0F0084F0DB /* Frameworks */,
@@ -169,6 +220,7 @@
 			children = (
 				41344F4A2784632E00F608A2 /* Views */,
 				41CC00012799999900CC0001 /* Tests */,
+				41DA00072799999900DA0007 /* i18n */,
 				41B5299223992DDB0084F0DB /* DummyInit.cpp */,
 				41B5299323992DDB0084F0DB /* DummyInit.h */,
 			);
@@ -179,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				41DD5C672A0C6C01002E64A8 /* libiconv.tbd */,
+				41A1F0012E0A000000000103 /* Accelerate.framework */,
 				419710E62975B54400A4C766 /* CoreMIDI.framework */,
 				414C49F92935198A0014DC9B /* GameController.framework */,
 				414C49F5293519680014DC9B /* CoreHaptics.framework */,
@@ -188,6 +241,8 @@
 				41B529A923992E400084F0DB /* CoreGraphics.framework */,
 				41B529A723992E3B0084F0DB /* Metal.framework */,
 				41B529A523992E350084F0DB /* CoreVideo.framework */,
+				41A1F0012E0A000000000101 /* AVFoundation.framework */,
+				41A1F0012E0A000000000102 /* CoreMedia.framework */,
 				41B529A323992E300084F0DB /* ForceFeedback.framework */,
 				41B529A123992E2B0084F0DB /* IOKit.framework */,
 				41B5299F23992E260084F0DB /* CoreFoundation.framework */,
@@ -195,8 +250,18 @@
 				41B5299B23992E1B0084F0DB /* Carbon.framework */,
 				41B5299923992E140084F0DB /* Cocoa.framework */,
 				41B5299723992E0F0084F0DB /* OpenGL.framework */,
+				AABBCCDD31000000AB0002 /* UniformTypeIdentifiers.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		41DA00072799999900DA0007 /* i18n */ = {
+			isa = PBXGroup;
+			children = (
+				41DA00022799999900DA0002 /* CDummyAppI18n.cpp */,
+				41DA00052799999900DA0005 /* CDummyAppI18n.h */,
+			);
+			name = i18n;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,9 +271,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4147CA8F23992D74006B25A7 /* Build configuration list for PBXNativeTarget "MTEngineSDLDummyApp" */;
 			buildPhases = (
+				AABBCCDD2699999900CC0001 /* Capability agreement check */,
 				4147CA8423992D74006B25A7 /* Sources */,
 				4147CA8523992D74006B25A7 /* Frameworks */,
 				4147CA8623992D74006B25A7 /* CopyFiles */,
+				41A55E002799999900A50003 /* Copy assets */,
+				AABBCCDD2699999900CC0002 /* Embed FFmpeg dylibs */,
 			);
 			buildRules = (
 			);
@@ -216,8 +284,8 @@
 			);
 			name = MTEngineSDLDummyApp;
 			productName = MTEngineSDLDummyApp;
-			productReference = 4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp */;
-			productType = "com.apple.product-type.tool";
+			productReference = 4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -269,6 +337,47 @@
 		};
 /* End PBXReferenceProxy section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		AABBCCDD2699999900CC0001 /* Capability agreement check */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Capability agreement check";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# MTCapsBackstop. On an APP target a missing capability set is an ERROR,\n# not a standalone build: the app would compile against the ENGINE's\n# defaults rather than its own mtengine.caps.\n#\n# alwaysOutOfDate=1 because a stale capability set is exactly the case where\n# nothing else changed -- a phase Xcode skips is a check that cannot fail.\nbash \"$PROJECT_DIR/../../../MTEngineSDL/tools/mtcaps/xcode-backstop.sh\" app\n";
+		};
+		AABBCCDD2699999900CC0002 /* Embed FFmpeg dylibs */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Embed FFmpeg dylibs";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "# FFmpeg is the one engine dependency that is NOT folded into a static\n# archive -- shipping it as a dylib is what discharges the LGPL obligation --\n# so a target that pulls in CVideoSourceFFmpeg has to carry the five dylibs\n# inside the bundle.\n#\n# A SCRIPT, not a Copy Files phase, and that is deliberate: a Copy Files phase\n# needs PBXFileReferences, and a file reference is a fixed path. These files\n# live under $MT_CAPS_LIBS_DIR, which is keyed by the resolved capability set\n# and therefore has no path this project can name. Same reason the archives\n# are reached with -l against a search path rather than by reference.\nset -euo pipefail\n\nif [ -z \"${MT_CAPS_LIBS_DIR:-}\" ]; then\n    echo \"error: MT_CAPS_LIBS_DIR is empty -- build through build-macos.sh or the scheme's pre-action\" >&2\n    exit 1\nfi\n\nDEST=\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH\"\nmkdir -p \"$DEST\"\n\n# -R keeps the SONAME symlink a symlink. The install names were normalised to\n# @rpath/<soname> when the dylibs were built, so that link is what a consumer\n# actually resolves; flattening it would double the shipped bytes.\nfor lib in libavutil libavcodec libavformat libswscale libswresample; do\n    found=0\n    for f in \"$MT_CAPS_LIBS_DIR/$lib\".*.dylib \"$MT_CAPS_LIBS_DIR/$lib.dylib\"; do\n        [ -e \"$f\" ] || continue\n        cp -R -f \"$f\" \"$DEST/\"\n        found=1\n    done\n    if [ \"$found\" -eq 0 ]; then\n        echo \"error: $lib not staged in $MT_CAPS_LIBS_DIR -- run build-video_codecs.sh\" >&2\n        exit 1\n    fi\ndone\n\n# Re-sign what we just copied in. The bundle was signed before this phase ran,\n# and an unsigned dylib inside a signed bundle fails at load. Ad-hoc matches\n# what build-macos.sh passes for CODE_SIGN_IDENTITY.\nif [ \"${CODE_SIGNING_ALLOWED:-YES}\" != \"NO\" ]; then\n    for f in \"$DEST\"/*.dylib; do\n        [ -f \"$f\" ] || continue\n        codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY:--}\" \"$f\" >/dev/null 2>&1 || true\n    done\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4147CA8423992D74006B25A7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -276,10 +385,15 @@
 			files = (
 				41344F502784633A00F608A2 /* CViewDummyAppMain.cpp in Sources */,
 				41344F512784633A00F608A2 /* CMainMenuBar.cpp in Sources */,
+				AABBCCDD2799999900AD0001 /* CViewHdrTest.cpp in Sources */,
 				41B5299423992DDB0084F0DB /* DummyInit.cpp in Sources */,
 				41CC00042799999900CC0004 /* CDummyAppTestSuite.cpp in Sources */,
 				41CC00072799999900CC0007 /* CTestAppStartup.cpp in Sources */,
 				41CC00092799999900CC0009 /* CImGuiDummyTests.cpp in Sources */,
+				41DA00012799999900DA0001 /* CDummyAppI18n.cpp in Sources */,
+				41DA00032799999900DA0003 /* CTestI18nDummyApp.cpp in Sources */,
+				41F05F002799999900F00001 /* CTestFonts.cpp in Sources */,
+				AABBCCDD2799999900AD0011 /* CTestHdrTestView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,45 +491,95 @@
 		};
 		4147CA9023992D74006B25A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AABBCCDD2699999900CB0001 /* MTEngineSDLDummyAppCaps.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = APV7Y7Q9JY;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					MACOS,
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
+					"$(MT_CAPS_INCLUDE_DIR)",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/freetype-2.10.4/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/llama.cpp/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/llama.cpp/ggml/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/library",
 					"$(PROJECT_DIR)/../../src/Tests",
+					"$(PROJECT_DIR)/../../src/i18n",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				LIBRARY_SEARCH_PATHS = (
+					"$(MT_CAPS_LIBS_DIR)",
 					"$(HOMEBREW_PREFIX)/lib",
-					"$(PROJECT_DIR)/lib",
 				);
+				OTHER_LDFLAGS = (
+					"-lmt_image_codecs",
+					"-lllama_cpp",
+					"-lmbedtls_bundle",
+					"$(MT_CAPS_LIBS_DIR)/libavutil.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libavcodec.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libavformat.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libswscale.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libswresample.dylib",
+					"-framework",
+					"VideoToolbox",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marcinskoczylas.MTEngineSDLDummyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		4147CA9123992D74006B25A7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AABBCCDD2699999900CB0001 /* MTEngineSDLDummyAppCaps.xcconfig */;
 			buildSettings = {
 				DEVELOPMENT_TEAM = APV7Y7Q9JY;
-				GCC_PREPROCESSOR_DEFINITIONS = MACOS;
 				HEADER_SEARCH_PATHS = (
+					"$(MT_CAPS_INCLUDE_DIR)",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/src/**",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/src.MacOS/**",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/platform/MacOS/include",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/freetype-2.10.4/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/llama.cpp/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/llama.cpp/ggml/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/include",
+					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/library",
 					"$(PROJECT_DIR)/../../src/Tests",
+					"$(PROJECT_DIR)/../../src/i18n",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				LIBRARY_SEARCH_PATHS = (
+					"$(MT_CAPS_LIBS_DIR)",
 					"$(HOMEBREW_PREFIX)/lib",
-					"$(PROJECT_DIR)/lib",
 				);
+				OTHER_LDFLAGS = (
+					"-lmt_image_codecs",
+					"-lllama_cpp",
+					"-lmbedtls_bundle",
+					"$(MT_CAPS_LIBS_DIR)/libavutil.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libavcodec.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libavformat.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libswscale.dylib",
+					"$(MT_CAPS_LIBS_DIR)/libswresample.dylib",
+					"-framework",
+					"VideoToolbox",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				INFOPLIST_FILE = Info.plist;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.marcinskoczylas.MTEngineSDLDummyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

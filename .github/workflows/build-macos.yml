@@ -7,6 +7,14 @@ on:
     branches: [ master, main ]
   workflow_dispatch:
 
+env:
+  # MTENGINE_REF holds a BRANCH by default (`origin/master`), and a branch is
+  # tracked rather than pinned -- CI clones it fresh every run, so it always
+  # matches and this flag is inert. The flag stays because it stops being inert
+  # the moment MTENGINE_REF is set to a SHA to freeze an engine for a release:
+  # then a checkout that does not match the pin must fail the run, not warn.
+  MTENGINE_PIN_STRICT: '1'
+
 jobs:
   build-macos:
     runs-on: macos-latest
@@ -14,9 +22,6 @@ jobs:
     steps:
       - name: Checkout MTEngineSDLDummyApp
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: brew install sdl2
 
       - name: Build
         run: |
@@ -34,6 +39,18 @@ jobs:
           fi
           echo "Found: $BINARY"
           cp "$BINARY" ./MTEngineSDLDummyApp-macos
+
+      - name: mtcaps golden tests
+        run: |
+          # tools/mtcaps is the single point of failure for the whole capability
+          # system, so its own tests run before anything that depends on it.
+          python3 ../MTEngineSDL/tools/mtcaps/tests/test_mtcaps.py
+
+      - name: Run tests (both suites)
+        run: |
+          # Chunk 0.6. See the Linux job -- these workflows ran no tests at all.
+          chmod +x ./tests/run_test.sh
+          ./tests/run_test.sh --skip-build
 
       - name: Upload binary
         uses: actions/upload-artifact@v4

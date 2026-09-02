@@ -1,0 +1,65 @@
+name: Capability matrix
+
+# NOT on push. Each variant is a full engine rebuild -- changing a capability
+# define invalidates every engine TU -- so the matrix is roughly a two-hour run.
+# On a schedule and on demand, which matches what it is for: it only regresses
+# when a capability's gating changes, and the per-push jobs already build and
+# test the default set.
+on:
+  schedule:
+    - cron: '0 3 * * 1'      # Mondays, 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      capabilities:
+        description: 'Space-separated MT_CAP_* to test (empty = all)'
+        required: false
+        default: ''
+      run_tests:
+        description: 'Run both suites per variant (slow)'
+        type: boolean
+        default: false
+
+env:
+  # MTENGINE_REF holds a BRANCH by default (`origin/master`), and a branch is
+  # tracked rather than pinned -- CI clones it fresh every run, so it always
+  # matches and this flag is inert. The flag stays because it stops being inert
+  # the moment MTENGINE_REF is set to a SHA to freeze an engine for a release:
+  # then a checkout that does not match the pin must fail the run, not warn.
+  MTENGINE_PIN_STRICT: '1'
+
+jobs:
+  matrix:
+    runs-on: macos-latest
+    timeout-minutes: 300
+
+    steps:
+      - name: Checkout MTEngineSDLDummyApp
+        uses: actions/checkout@v4
+
+      - name: Run the capability matrix
+        run: |
+          chmod +x ./tests/capability_matrix.sh
+          ARGS=""
+          if [ "${{ inputs.run_tests }}" != "true" ]; then ARGS="--no-tests"; fi
+          # shellcheck disable=SC2086
+          ./tests/capability_matrix.sh $ARGS ${{ inputs.capabilities }}
+
+      - name: The engine checkout must be unchanged
+        if: always()
+        run: |
+          # --ignored is NOT optional. Without it this reports 0 lines with every
+          # violation present, because the engine's .gitignore covers `build`,
+          # `*.a`, `platform/MacOS/build` and the dependency trees. It is a
+          # before/after instrument, never an absolute one -- so this step is a
+          # REPORT for now and becomes a hard failure when every mutable path in
+          # the dependency scripts has become a parameter.
+          git -C ../MTEngineSDL status --porcelain --untracked-files=all --ignored \
+            | head -50 || true
+
+      - name: Upload matrix results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capability-matrix
+          path: tests/results/capability_matrix.txt
+          if-no-files-found: warn

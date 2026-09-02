@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Auto-imported by MSBuild for every project under platform/Windows.
+
+     CAPABILITIES
+
+     $(MTCapsApp) is this app's identity, declared ONCE and explicitly.
+
+     NOT $(MSBuildProjectName): that is evaluated PER PROJECT, so inside
+     MTEngineSDL.vcxproj (the project whose defines this exists to set) it is
+     literally "MTEngineSDL" and every app would import the same fragment. It is
+     not the app's identity even in the app's own project, where it is whatever
+     the .vcxproj happens to be named.
+
+     $(MTOutRoot) is the generated fragment's directory, outside every checkout.
+     It cannot be computed here (its key contains a git revision and a capability
+     hash), so build-windows.ps1 supplies it as /p:MTOutRoot=..., and each
+     .vcxproj carries it across the ProjectReference with AdditionalProperties.
+     An IDE build supplies neither and stops at the engine's guard, naming the
+     script to run. -->
+<Project>
+
+  <PropertyGroup>
+    <MTCapsApp>MTEngineSDLDummyApp</MTCapsApp>
+
+    <!-- THE IDE PATH. Same defect as the engine's props solved in HANDOVER
+         item 13, which was never applied here: IntDir and OutDir are
+         EVALUATED before any target runs, so MTCapsResolveForIDE cannot feed
+         them. This project's .vcxproj sets
+
+           <IntDir Condition="'$(MTBuildRoot)' != ''">$(MTBuildRoot)obj\...
+
+         (L12), and with nothing giving MTBuildRoot a value on the IDE path,
+         that condition was simply never true, IntDir fell back to MSBuild's
+         project-relative $(Platform)\$(Configuration)\, and building this app
+         in Visual Studio wrote its objects INTO THE CHECKOUT
+         (platform\Windows\<App>\x64\Debug\ and ...\ARM64\...).
+
+         The command-line driver passes /p:MTBuildRoot=..., which is a GLOBAL
+         property, and a global property cannot be overridden by a
+         PropertyGroup, so these two lines are inert on that path and only
+         ever supply the IDE default. Must match the engine's props.
+
+         No caps-hash in the path on purpose: a caps-keyed path needs the
+         resolve, which only targets can run. The IDE is the convenience
+         path; the command-line driver stays canonical. -->
+    <MTCacheRoot>$(MTENGINE_BUILD_ROOT)</MTCacheRoot>
+    <MTCacheRoot Condition="'$(MTCacheRoot)' == ''">$(USERPROFILE)\.cache\mtengine</MTCacheRoot>
+    <!-- SOLUTION-KEYED (2026-09-02). The engine is compiled with the
+         CAPABILITIES OF THE APP whose solution is open, so a single
+         _ide\MTEngineSDL\ tree shared by four app solutions means every switch
+         between them recompiles the whole engine. Not a WRONG build, because
+         the CL command line changes and MSBuild notices, but a full one every
+         time. $(SolutionName) is a global property in every solution build,
+         and it is the same for the solution's own instance of a project and
+         for the instance an app's ProjectReference resolves, so keying on it
+         separates the four apps without splitting one build into two
+         instances. Empty when a .vcxproj is built with no solution around it,
+         which falls back to the project name alone. -->
+    <MTIdeKey>$(MSBuildProjectName)</MTIdeKey>
+    <MTIdeKey Condition="'$(SolutionName)' != ''">$(SolutionName)\$(MSBuildProjectName)</MTIdeKey>
+    <MTBuildRoot Condition="'$(MTBuildRoot)' == ''">$(MTCacheRoot)\_ide\$(MTIdeKey)\$(Platform)\$(Configuration)\</MTBuildRoot>
+  </PropertyGroup>
+
+  <Import Project="$(MTOutRoot)\MTEngineCaps.props"
+          Condition="'$(MTOutRoot)' != '' And Exists('$(MTOutRoot)\MTEngineCaps.props')" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions Condition="'$(MTExtraDefines)' != ''">$(MTExtraDefines);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <!-- /utf-8: source AND execution charset are UTF-8 on the MSVC (v143)
+           toolset, matching Clang, GCC and Apple clang, so raw UTF-8 string
+           literals mean the same bytes on every compiler. -->
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

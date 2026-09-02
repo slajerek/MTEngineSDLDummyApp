@@ -6,8 +6,9 @@
 #include "CViewDummyAppMain.h"
 #include "CDummyAppTestSuite.h"
 #include "CTestRunner.h"
+#include "CDummyAppI18n.h"
 
-#ifdef ENABLE_IMGUI_TEST_ENGINE
+#if MT_ENABLE_IMGUI_TEST_ENGINE
 #include "CImGuiTestEngine.h"
 #include "imgui_te_engine.h"
 extern void RegisterDummyAppTests(ImGuiTestEngine *engine);
@@ -71,7 +72,7 @@ void MT_PostInit()
 		{
 			sExitAfterTests = true;
 		}
-#ifdef ENABLE_IMGUI_TEST_ENGINE
+#if MT_ENABLE_IMGUI_TEST_ENGINE
 		else if (strcmp(arg, "--run-tests") == 0)
 		{
 			sRunTests = true;
@@ -79,7 +80,15 @@ void MT_PostInit()
 #endif
 	}
 
+	// Initialize i18n before creating views so _T() / _TID() are ready
+	CDummyAppI18n::Init();
+
 	CViewDummyAppMain *viewMain = new CViewDummyAppMain(50, 50, 640 + 50, 480 + 50);
+
+	// Install a Latin-Extended UI font (Polish etc.) + markdown fonts before the
+	// first frame builds the ImGui font atlas.
+	viewMain->LoadFonts();
+
 	guiMain->SetView(viewMain);
 
 	if (sRunSuiteAll || sRunSuiteTest)
@@ -89,7 +98,7 @@ void MT_PostInit()
 		sSuiteTestScheduled = true;
 	}
 
-#ifdef ENABLE_IMGUI_TEST_ENGINE
+#if MT_ENABLE_IMGUI_TEST_ENGINE
 	if (sRunTests)
 	{
 		CImGuiTestEngine::Init();
@@ -120,7 +129,7 @@ void MT_Render()
 		}
 	}
 
-#ifdef ENABLE_IMGUI_TEST_ENGINE
+#if MT_ENABLE_IMGUI_TEST_ENGINE
 	if (sRunTests && sWarmupFrames > 0)
 	{
 		sWarmupFrames--;
@@ -136,6 +145,10 @@ void MT_Render()
 			int tested = 0, success = 0;
 			CImGuiTestEngine::GetResultSummary(&tested, &success);
 			LOGM("ImGui tests: %d/%d passed", success, tested);
+			// Write the same results file the CTestSuite path writes, so
+			// tests/run_test.sh and CI parse one format for both suites instead
+			// of grepping log text for a number.
+			CImGuiTestEngine::WriteResults();
 			if (sExitAfterTests)
 				SYS_Shutdown();
 		}
@@ -145,7 +158,7 @@ void MT_Render()
 
 void MT_PostRenderEndFrame()
 {
-#ifdef ENABLE_IMGUI_TEST_ENGINE
+#if MT_ENABLE_IMGUI_TEST_ENGINE
 	if (sRunTests)
 		CImGuiTestEngine::PostSwap();
 #endif

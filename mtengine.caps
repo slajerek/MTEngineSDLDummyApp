@@ -1,0 +1,124 @@
+# MTEngineSDLDummyApp -- MTEngineSDL capability manifest
+#
+# This file is simultaneously this app's REAL manifest and the worked example a
+# new app copies. Turning a capability on or off here, then rebuilding via
+# ./build-macos.sh / ./build-linux.sh / build-windows.ps1, is the whole change.
+# No build-script edit, no .vcxproj / .pbxproj / CMakeLists.txt edit.
+#
+# FORMAT
+#   KEY=VALUE, one per line. Values are 0 or 1 -- never ON/OFF/true/false.
+#   Whole-line `#` comments are allowed. INLINE COMMENTS ARE NOT:
+#
+#       MT_CAP_LLM=0 # off        <- REJECTED
+#
+#   because PowerShell's ConvertFrom-StringData keeps everything after the value
+#   as part of the value, so a line that reads fine in bash silently means
+#   something else on Windows. This file is parsed by bash `source`, by
+#   ConvertFrom-StringData and by CMake's file(STRINGS) with no parser between
+#   them, and the format is the intersection of what all three accept.
+#
+#   Keys must be legal shell identifiers. bash is the strictest of the three:
+#   a key it cannot assign becomes a command, and every build-*.sh runs `set -e`,
+#   so a malformed key is a build abort rather than a warning.
+#
+# PER-OS VALUES
+#   A `__LINUX`, `__MACOS` or `__WINDOWS` suffix overrides the unsuffixed key on
+#   that platform only:
+#
+#       MT_CAP_PHOTO_CODECS=1
+#       MT_CAP_PHOTO_CODECS__LINUX=0
+#
+# WHAT IS *NOT* HERE
+#   MT_ENABLE_* library flags. Apps ask in capability terms; the engine owns the
+#   mapping to libraries. And core features -- audio, i18n, ICC parsing, EXIF,
+#   theming, HDR, ImPlot -- have no key, because a key that cannot change the
+#   build is configuration without capability.
+#
+# THE FULL LIST
+#   `mtcaps emit-docs` generates MTEngineSDL/docs/CAPABILITIES.md from the
+#   vocabulary. Read that, not a list someone typed here.
+#
+# WHY THIS FILE IS SHORT
+#   An unlisted key takes the engine default, and every default is currently 1.
+#   So a manifest is a DELIBERATE-CHOICES document, not an exhaustive one; the
+#   exhaustive statement is the canonical resolved form, which materialises all
+#   21 keys. What must be written down is anything this app deliberately turns
+#   OFF -- including a key that is off only because an implication made it so --
+#   so a reader can see from this file alone what the app does not want.
+#
+# ONE CONSEQUENCE OF EVERY DEFAULT BEING 1
+#   Turning off a leaf capability alone is a configure-time ERROR, not a silent
+#   resolution. MT_CAP_RAW=0 by itself conflicts with MT_CAP_DEVELOP, which is on
+#   by default and implies it. Write the whole chain:
+#
+#       MT_CAP_COLOR_MANAGEMENT=0
+#       MT_CAP_DEVELOP=0
+#       MT_CAP_RAW=0
+#
+#   The generator names both keys and refuses to choose, because only the
+#   manifest's author can say which half was meant.
+
+# ---------------------------------------------------------------------------
+# The DummyApp is the reference host and the capability-matrix host, so it runs
+# with everything ON: the matrix turns each capability off in turn, and it can
+# only demonstrate "off" for something that is otherwise on.
+#
+# Every key below is therefore at its engine default and could be omitted. They
+# are spelled out here because this file is also the example, and an example
+# that shows nothing teaches nothing.
+# ---------------------------------------------------------------------------
+
+MT_CAP_LLM=1
+MT_CAP_HTTP=1
+MT_CAP_HTTPS=1
+MT_CAP_NET_TRANSPORT=1
+MT_CAP_NET_GAME=1
+MT_CAP_WEBSOCKETS=1
+
+MT_CAP_VIDEO_PLAYBACK=1
+MT_CAP_PHOTO_CODECS=1
+MT_CAP_RAW=1
+MT_CAP_DEVELOP=1
+MT_CAP_COLOR_MANAGEMENT=1
+MT_CAP_KTX2=1
+
+MT_CAP_CAMERA=1
+MT_CAP_MIDI=1
+MT_CAP_GAMEPADS=1
+MT_CAP_MUSIC_PLAYER=1
+MT_CAP_TERMINAL=1
+MT_CAP_FTXUI=1
+MT_CAP_UNDO=1
+MT_CAP_CRASH_REPORTER=1
+MT_CAP_TEST_ENGINE=1
+
+# Licence mode. 0 is a NON-commercial build and may include what a commercial
+# one may not; 1 skips whatever a commercial licence forbids. There is no third
+# state. When it is 0 the preprocessor define is ABSENT rather than 0 -- every
+# guard on it in the tree is `#ifdef`-style, and `#ifdef X` is true when X is
+# defined as 0, so emitting =0 would send all 30 sites down the commercial
+# branch.
+MT_COMMERCIAL_BUILD=0
+
+# Distribution tier, and the SECOND half of a question the licence mode alone
+# cannot answer. 1 means "this artifact is never handed to anyone", which is
+# the only tier permitted to link a dependency whose distribution terms are
+# unsettled (today: libheif, whose HEVC PATENT position is open -- a different
+# question from its LGPL copyright licence, and a different question again
+# from this repository being open source).
+#
+# WHY 1 HERE, on a public open-source repo whose releases are built by GitHub
+# Actions. Being open source answers the COPYRIGHT question and says nothing
+# about the PATENT one, so it is not what earns this. What earns it is what
+# this app IS: the engine's reference host and the capability-matrix host,
+# built to demonstrate and exercise every capability the engine has (see the
+# header of this file). It is a demo, not a product anyone deploys.
+#
+# c64d is the contrast worth keeping in view -- also open source, also
+# released through GitHub Actions, but a real end-user tool, so it stays at
+# the default 0 and does NOT get the restricted libraries.
+#
+# Mutually exclusive with MT_COMMERCIAL_BUILD=1: an artifact is either sold or
+# never distributed, and setting both is a configure-time error naming both
+# keys.
+MT_PRIVATE_BUILD=1

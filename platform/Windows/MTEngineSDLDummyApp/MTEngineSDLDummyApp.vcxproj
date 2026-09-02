@@ -1,18 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="MTEngineSDL.props" />
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -26,10 +18,6 @@
       <Configuration>Debug</Configuration>
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|ARM64">
-      <Configuration>Release</Configuration>
-      <Platform>ARM64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -38,19 +26,6 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -82,12 +57,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -101,52 +70,56 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>$(MTEngineSDLDir)platform\Windows\bin\$(Platform)\$(Configuration);$(MTEngineSDLDir)platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>$(MTEngineSDLDir)platform\Windows\bin\$(Platform)\$(Configuration);$(MTEngineSDLDir)platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(IncludePath)</IncludePath>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>$(MTEngineSDLDir)platform\Windows\bin\$(Platform)\$(Configuration);$(MTEngineSDLDir)platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(IncludePath)</IncludePath>
+    <!-- L12: app objects follow the engine's out of the checkout. The extra
+         project-name segment keeps them apart from the engine's obj under the
+         same MTBuildRoot; the condition keeps an IDE build without a resolve
+         on its old project-relative default instead of writing to \obj. -->
+    <IntDir Condition="'$(MTBuildRoot)' != ''">$(MTBuildRoot)obj\$(MSBuildProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(MTCapsLibsDir);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(MTEngineSDLDir)other\lib\mbedtls\include;$(MTEngineSDLDir)other\lib\mbedtls\library;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>$(MTEngineSDLDir)platform\Windows\bin\$(Platform)\$(Configuration);$(MTEngineSDLDir)platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(IncludePath)</IncludePath>
+    <!-- L12: app objects follow the engine's out of the checkout. The extra
+         project-name segment keeps them apart from the engine's obj under the
+         same MTBuildRoot; the condition keeps an IDE build without a resolve
+         on its old project-relative default instead of writing to \obj. -->
+    <IntDir Condition="'$(MTBuildRoot)' != ''">$(MTBuildRoot)obj\$(MSBuildProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(MTCapsLibsDir);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(MTEngineSDLDir)other\lib\mbedtls\include;$(MTEngineSDLDir)other\lib\mbedtls\library;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>$(MTEngineSDLDir)platform\Windows\bin\$(Platform)\$(Configuration);$(MTEngineSDLDir)platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(IncludePath)</IncludePath>
+    <!-- L12: app objects follow the engine's out of the checkout. The extra
+         project-name segment keeps them apart from the engine's obj under the
+         same MTBuildRoot; the condition keeps an IDE build without a resolve
+         on its old project-relative default instead of writing to \obj. -->
+    <IntDir Condition="'$(MTBuildRoot)' != ''">$(MTBuildRoot)obj\$(MSBuildProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(MTCapsLibsDir);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(MTEngineSDLDir)other\lib\mbedtls\include;$(MTEngineSDLDir)other\lib\mbedtls\library;$(IncludePath)</IncludePath>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
-    <LibraryPath>$(MTEngineSDLDir)platform\Windows\bin\$(Platform)\$(Configuration);$(MTEngineSDLDir)platform\Windows\libs\$(Platform)\$(Configuration);$(LibraryPath)</LibraryPath>
-    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(IncludePath)</IncludePath>
+    <!-- L12: app objects follow the engine's out of the checkout. The extra
+         project-name segment keeps them apart from the engine's obj under the
+         same MTBuildRoot; the condition keeps an IDE build without a resolve
+         on its old project-relative default instead of writing to \obj. -->
+    <IntDir Condition="'$(MTBuildRoot)' != ''">$(MTBuildRoot)obj\$(MSBuildProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <LibraryPath>$(MTCapsLibsDir);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(MTEngineSDLDir)platform\Windows\include;$(MTEngineSDLDir)other\lib\mbedtls\include;$(MTEngineSDLDir)other\lib\mbedtls\library;$(IncludePath)</IncludePath>
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>false</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\src\Tests;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)platform\Windows\src.Windows;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;ws2_32.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
+  <!-- Embed Common Controls v6 manifest so COMCTL32.dll v6 is loaded at runtime.
+       Without this, Windows loads COMCTL32 v5.82 which lacks ordinal 345
+       (TaskDialogIndirect) used by SDL2, causing an ordinal-not-found error. -->
+  <ItemDefinitionGroup>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)..\src.Windows\MTEngineSDLDummyApp.exe.manifest %(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <EmbedManifest>true</EmbedManifest>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -154,33 +127,25 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\src\Tests;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)platform\Windows\src.Windows;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;NOMINMAX;_WINSOCKAPI_;_HAS_STD_BYTE=0</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\Tests;$(ProjectDir)..\..\..\src\i18n;$(ProjectDir)..\..\..\src\;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Color;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Crash;$(MTEngineSDLDir)src\Engine\Develop;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Fonts;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\Raw;$(MTEngineSDLDir)src\Engine\Sci\Llama;$(MTEngineSDLDir)src\Engine\System;$(MTEngineSDLDir)src\Engine\Theme;$(MTEngineSDLDir)src\Engine\Video;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\transcoder;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\zstd;$(MTEngineSDLDir)src\Engine\Libs\crow;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\exif;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\icc;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libopus;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\libtmt;$(MTEngineSDLDir)src\Engine\Libs\libvpx;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md4c;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nestegg;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)src\Engine\Tools\Undo;$(MTEngineSDLDir)platform\Windows\src.Windows;$(MTEngineSDLDir)platform\Windows\src.Windows\Llama;$(MTCapsLibsDir)\image-codecs\include;$(MTCapsLibsDir)\ffmpeg\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;ws2_32.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mbedtls_bundle.lib;bcrypt.lib;llama_cpp.lib;MTImageCodecs.lib;MTVideoCodecs.lib;mfplat.lib;mfuuid.lib;mf.lib;wmcodecdspuuid.lib;uuid.lib;SDL3.lib;freetype.lib;ws2_32.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- See the ARM64 blocks: FFmpeg is a shared build, import libs sit
+           beside the DLLs in install-win-<Platform>\bin. -->
+      <AdditionalLibraryDirectories>$(MTCapsLibsDir)\ffmpeg\lib;$(MTCapsLibsDir)\ffmpeg\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>false</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\src\Tests;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)platform\Windows\src.Windows;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;ws2_32.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
+    <PostBuildEvent>
+      <!-- FFmpeg is a SHARED build, so its DLLs must sit beside the exe or the
+           app links cleanly and dies at startup with STATUS_DLL_NOT_FOUND. This
+           step existed in Release|ARM64 alone; the other three configurations
+           produced an unrunnable binary. /D copies only what is newer. -->
+      <Command>if exist "$(MTCapsLibsDir)\ffmpeg\bin" xcopy /Y /D "$(MTCapsLibsDir)\ffmpeg\bin\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -190,16 +155,27 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\src\Tests;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)platform\Windows\src.Windows;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32;NOMINMAX;_WINSOCKAPI_;_HAS_STD_BYTE=0</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\Tests;$(ProjectDir)..\..\..\src\i18n;$(ProjectDir)..\..\..\src\;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Color;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Crash;$(MTEngineSDLDir)src\Engine\Develop;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Fonts;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\Raw;$(MTEngineSDLDir)src\Engine\Sci\Llama;$(MTEngineSDLDir)src\Engine\System;$(MTEngineSDLDir)src\Engine\Theme;$(MTEngineSDLDir)src\Engine\Video;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\transcoder;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\zstd;$(MTEngineSDLDir)src\Engine\Libs\crow;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\exif;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\icc;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libopus;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\libtmt;$(MTEngineSDLDir)src\Engine\Libs\libvpx;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md4c;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nestegg;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)src\Engine\Tools\Undo;$(MTEngineSDLDir)platform\Windows\src.Windows;$(MTEngineSDLDir)platform\Windows\src.Windows\Llama;$(MTCapsLibsDir)\image-codecs\include;$(MTCapsLibsDir)\ffmpeg\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;freetype.lib;ws2_32.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mbedtls_bundle.lib;bcrypt.lib;llama_cpp.lib;MTImageCodecs.lib;MTVideoCodecs.lib;mfplat.lib;mfuuid.lib;mf.lib;wmcodecdspuuid.lib;uuid.lib;SDL3.lib;freetype.lib;ws2_32.lib;version.lib;gdi32.lib;Comdlg32.lib;user32.lib;imm32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;winmm.lib;Advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- See the ARM64 blocks: FFmpeg is a shared build, import libs sit
+           beside the DLLs in install-win-<Platform>\bin. -->
+      <AdditionalLibraryDirectories>$(MTCapsLibsDir)\ffmpeg\lib;$(MTCapsLibsDir)\ffmpeg\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <!-- FFmpeg is a SHARED build, so its DLLs must sit beside the exe or the
+           app links cleanly and dies at startup with STATUS_DLL_NOT_FOUND. This
+           step existed in Release|ARM64 alone; the other three configurations
+           produced an unrunnable binary. /D copies only what is newer. -->
+      <Command>if exist "$(MTCapsLibsDir)\ffmpeg\bin" xcopy /Y /D "$(MTCapsLibsDir)\ffmpeg\bin\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
@@ -207,8 +183,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;LIBUS_NO_SSL;_ARM64_</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\src\Tests;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)platform\Windows\src.Windows;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;LIBUS_NO_SSL;_ARM64_;NOMINMAX;_WINSOCKAPI_;_HAS_STD_BYTE=0</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\Tests;$(ProjectDir)..\..\..\src\i18n;$(ProjectDir)..\..\..\src\;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Color;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Crash;$(MTEngineSDLDir)src\Engine\Develop;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Fonts;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\Raw;$(MTEngineSDLDir)src\Engine\Sci\Llama;$(MTEngineSDLDir)src\Engine\System;$(MTEngineSDLDir)src\Engine\Theme;$(MTEngineSDLDir)src\Engine\Video;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\transcoder;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\zstd;$(MTEngineSDLDir)src\Engine\Libs\crow;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\exif;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\icc;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libopus;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\libtmt;$(MTEngineSDLDir)src\Engine\Libs\libvpx;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md4c;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nestegg;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)src\Engine\Tools\Undo;$(MTEngineSDLDir)platform\Windows\src.Windows;$(MTEngineSDLDir)platform\Windows\src.Windows\Llama;$(MTCapsLibsDir)\image-codecs\include;$(MTCapsLibsDir)\ffmpeg\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ShowIncludes>false</ShowIncludes>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -216,8 +192,24 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;version.lib;imm32.lib;setupapi.lib;winmm.lib;wsock32.lib;ws2_32.lib;Iphlpapi.lib;userenv.lib;psapi.lib;uSockets.lib;libuv.lib;msvcrt.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mbedtls_bundle.lib;bcrypt.lib;llama_cpp.lib;MTImageCodecs.lib;MTVideoCodecs.lib;mfplat.lib;mfuuid.lib;mf.lib;wmcodecdspuuid.lib;uuid.lib;SDL3.lib;version.lib;imm32.lib;setupapi.lib;winmm.lib;wsock32.lib;ws2_32.lib;Iphlpapi.lib;userenv.lib;psapi.lib;uSockets.lib;libuv.lib;msvcrtd.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- FFmpeg is a SHARED build here: these are import libs living beside
+           the DLLs in install-win-<Platform>\bin, which is why that directory
+           is on the search path and why the PostBuildEvent copies the DLLs
+           next to the exe. Same layout and the same two directories the engine's other host apps
+           uses. Needed since the Examples menu gained the engine's video
+           player: before that nothing referenced CVideoSourceFFmpeg, so the
+           linker never pulled it in and the missing libs went unnoticed even
+           though mtengine.caps has said MT_CAP_VIDEO_PLAYBACK=1 all along. -->
+      <AdditionalLibraryDirectories>$(MTCapsLibsDir)\ffmpeg\lib;$(MTCapsLibsDir)\ffmpeg\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <!-- FFmpeg is a SHARED build, so its DLLs must sit beside the exe or the
+           app links cleanly and dies at startup with STATUS_DLL_NOT_FOUND. This
+           step existed in Release|ARM64 alone; the other three configurations
+           produced an unrunnable binary. /D copies only what is newer. -->
+      <Command>if exist "$(MTCapsLibsDir)\ffmpeg\bin" xcopy /Y /D "$(MTCapsLibsDir)\ffmpeg\bin\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
@@ -227,8 +219,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;LIBUS_NO_SSL;_ARM64_</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\;$(ProjectDir)..\..\..\src\Tests;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)platform\Windows\src.Windows;(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;WIN32;LIBUS_NO_SSL;_ARM64_;NOMINMAX;_WINSOCKAPI_;_HAS_STD_BYTE=0</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\src\Views;$(ProjectDir)..\..\..\src\Tests;$(ProjectDir)..\..\..\src\i18n;$(ProjectDir)..\..\..\src\;$(MTEngineSDLDir)src;$(MTEngineSDLDir)src\Embedded;$(MTEngineSDLDir)src\Engine;$(MTEngineSDLDir)src\Engine\Audio;$(MTEngineSDLDir)src\Engine\Audio\MIDI;$(MTEngineSDLDir)src\Engine\Audio\WAV;$(MTEngineSDLDir)src\Engine\Color;$(MTEngineSDLDir)src\Engine\Core;$(MTEngineSDLDir)src\Engine\Core\GamePads;$(MTEngineSDLDir)src\Engine\Core\Net;$(MTEngineSDLDir)src\Engine\Core\Pool;$(MTEngineSDLDir)src\Engine\Core\Render;$(MTEngineSDLDir)src\Engine\Crash;$(MTEngineSDLDir)src\Engine\Develop;$(MTEngineSDLDir)src\Engine\Funct;$(MTEngineSDLDir)src\Engine\Funct\ContinuousParam;$(MTEngineSDLDir)src\Engine\Funct\DataTable;$(MTEngineSDLDir)src\Engine\Funct\FFT;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\resampler;$(MTEngineSDLDir)src\Engine\Funct\ImageProcessing\stb_image;$(MTEngineSDLDir)src\Engine\GUI;$(MTEngineSDLDir)src\Engine\GUI\AudioMixer;$(MTEngineSDLDir)src\Engine\GUI\Controls;$(MTEngineSDLDir)src\Engine\GUI\Fonts;$(MTEngineSDLDir)src\Engine\GUI\Helpers;$(MTEngineSDLDir)src\Engine\GUI\Helpers\LoadingScreen;$(MTEngineSDLDir)src\Engine\GUI\Helpers\ResourceManager;$(MTEngineSDLDir)src\Engine\GUI\Layout;$(MTEngineSDLDir)src\Engine\GUI\Waveform;$(MTEngineSDLDir)src\Engine\Raw;$(MTEngineSDLDir)src\Engine\Sci\Llama;$(MTEngineSDLDir)src\Engine\System;$(MTEngineSDLDir)src\Engine\Theme;$(MTEngineSDLDir)src\Engine\Video;$(MTEngineSDLDir)src\Engine\Libs;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\transcoder;$(MTEngineSDLDir)src\Engine\Libs\basis_universal\zstd;$(MTEngineSDLDir)src\Engine\Libs\crow;$(MTEngineSDLDir)src\Engine\Libs\ENet;$(MTEngineSDLDir)src\Engine\Libs\exif;$(MTEngineSDLDir)src\Engine\Libs\hjson;$(MTEngineSDLDir)src\Engine\Libs\httplib;$(MTEngineSDLDir)src\Engine\Libs\icc;$(MTEngineSDLDir)src\Engine\Libs\imgui;$(MTEngineSDLDir)src\Engine\Libs\imgui-notify;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty;$(MTEngineSDLDir)src\Engine\Libs\imgui_test_engine\thirdparty\Str;$(MTEngineSDLDir)src\Engine\Libs\imguiext;$(MTEngineSDLDir)src\Engine\Libs\implot;$(MTEngineSDLDir)src\Engine\Libs\jpeg;$(MTEngineSDLDir)src\Engine\Libs\jpeg\jpeg-9a;$(MTEngineSDLDir)src\Engine\Libs\libjson;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\libbase64++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Dependencies\mempool++;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source;$(MTEngineSDLDir)src\Engine\Libs\libjson\_internal\Source\JSONDefs;$(MTEngineSDLDir)src\Engine\Libs\libopus;$(MTEngineSDLDir)src\Engine\Libs\libpng;$(MTEngineSDLDir)src\Engine\Libs\libtmt;$(MTEngineSDLDir)src\Engine\Libs\libvpx;$(MTEngineSDLDir)src\Engine\Libs\lodepng;$(MTEngineSDLDir)src\Engine\Libs\md4c;$(MTEngineSDLDir)src\Engine\Libs\md5;$(MTEngineSDLDir)src\Engine\Libs\minizip;$(MTEngineSDLDir)src\Engine\Libs\mtrand;$(MTEngineSDLDir)src\Engine\Libs\nestegg;$(MTEngineSDLDir)src\Engine\Libs\nfd;$(MTEngineSDLDir)src\Engine\Libs\nlohmann;$(MTEngineSDLDir)src\Engine\Libs\pugixml;$(MTEngineSDLDir)src\Engine\Libs\rtmidi;$(MTEngineSDLDir)src\Engine\Libs\sgSHA256;$(MTEngineSDLDir)src\Engine\Libs\stb;$(MTEngineSDLDir)src\Engine\Libs\tremor;$(MTEngineSDLDir)src\Engine\Libs\tremor\Ogg;$(MTEngineSDLDir)src\Engine\Libs\utf8;$(MTEngineSDLDir)src\Engine\Libs\uWebSockets;$(MTEngineSDLDir)src\Engine\Libs\zlib;$(MTEngineSDLDir)src\Engine\Tests;$(MTEngineSDLDir)src\Engine\Tools;$(MTEngineSDLDir)src\Engine\Tools\NetGame;$(MTEngineSDLDir)src\Engine\Tools\Undo;$(MTEngineSDLDir)platform\Windows\src.Windows;$(MTEngineSDLDir)platform\Windows\src.Windows\Llama;$(MTCapsLibsDir)\image-codecs\include;$(MTCapsLibsDir)\ffmpeg\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <ShowIncludes>false</ShowIncludes>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -238,27 +230,83 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>MTEngineSDL.lib;SDL2.lib;SDL2main.lib;version.lib;imm32.lib;setupapi.lib;winmm.lib;wsock32.lib;ws2_32.lib;Iphlpapi.lib;userenv.lib;psapi.lib;uSockets.lib;libuv.lib;msvcrt.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mbedtls_bundle.lib;bcrypt.lib;llama_cpp.lib;MTImageCodecs.lib;MTVideoCodecs.lib;mfplat.lib;mfuuid.lib;mf.lib;wmcodecdspuuid.lib;uuid.lib;SDL3.lib;version.lib;imm32.lib;setupapi.lib;winmm.lib;wsock32.lib;ws2_32.lib;Iphlpapi.lib;userenv.lib;psapi.lib;uSockets.lib;libuv.lib;msvcrt.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <!-- FFmpeg is a SHARED build here: these are import libs living beside
+           the DLLs in install-win-<Platform>\bin, which is why that directory
+           is on the search path and why the PostBuildEvent copies the DLLs
+           next to the exe. Same layout and the same two directories the engine's other host apps
+           uses. Needed since the Examples menu gained the engine's video
+           player: before that nothing referenced CVideoSourceFFmpeg, so the
+           linker never pulled it in and the missing libs went unnoticed even
+           though mtengine.caps has said MT_CAP_VIDEO_PLAYBACK=1 all along. -->
+      <AdditionalLibraryDirectories>$(MTCapsLibsDir)\ffmpeg\lib;$(MTCapsLibsDir)\ffmpeg\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
+    <!-- FFmpeg's DLLs must sit next to the exe or it will not start at all:
+         the import libs above resolve at LINK time, the DLLs at LOAD time.
+         /D copies only when newer, so repeat builds are cheap. Mirrors
+         an app's own post-build step. build-windows.ps1's prod deploy
+         then picks these up automatically; it already copies $outDir\*.dll. -->
+    <PostBuildEvent>
+      <!-- FFmpeg is a SHARED build, so its DLLs must sit beside the exe or the
+           app links cleanly and dies at startup with STATUS_DLL_NOT_FOUND. This
+           step existed in Release|ARM64 alone; the other three configurations
+           produced an unrunnable binary. /D copies only what is newer. -->
+      <Command>if exist "$(MTCapsLibsDir)\ffmpeg\bin" xcopy /Y /D "$(MTCapsLibsDir)\ffmpeg\bin\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\DummyInit.cpp" />
+    <ClCompile Include="..\..\..\src\i18n\CDummyAppI18n.cpp" />
     <ClCompile Include="..\..\..\src\Views\CMainMenuBar.cpp" />
     <ClCompile Include="..\..\..\src\Views\CViewDummyAppMain.cpp" />
+    <ClCompile Include="..\..\..\src\Views\CViewHdrTest.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CDummyAppTestSuite.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CTestAppStartup.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CImGuiDummyTests.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\CTestI18nDummyApp.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\CTestFonts.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\CTestHdrTestView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\DummyInit.h" />
+    <ClInclude Include="..\..\..\src\i18n\CDummyAppI18n.h" />
     <ClInclude Include="..\..\..\src\Views\CMainMenuBar.h" />
     <ClInclude Include="..\..\..\src\Views\CViewDummyAppMain.h" />
+    <ClInclude Include="..\..\..\src\Views\CViewHdrTest.h" />
     <ClInclude Include="..\..\..\src\Tests\CDummyAppTestSuite.h" />
     <ClInclude Include="..\..\..\src\Tests\CTestAppStartup.h" />
+    <ClInclude Include="..\..\..\src\Tests\CTestI18nDummyApp.h" />
+    <ClInclude Include="..\..\..\src\Tests\CTestFonts.h" />
+    <ClInclude Include="..\..\..\src\Tests\CTestHdrTestView.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\MTEngineSDL\platform\Windows\MTEngineSDL\MTEngineSDL.vcxproj">
+      <!-- NOTHING IS FORWARDED, and that is the fix and not an omission.
+           AdditionalProperties become GLOBAL properties in the referenced
+           project, and the global property set is exactly what MSBuild uses to
+           IDENTIFY a project instance. An app solution lists
+           MTEngineSDL.vcxproj as a solution project as well as referencing it
+           here, so forwarding anything made those two the same project with
+           two different global sets: two instances, two builds, one IntDir,
+           and the tlog race MSB6003 reports. Dropping Build.0 from the
+           solution (2026-09-01) stopped the race by never building the engine
+           at all, which only moved the failure to Link, where the app asked
+           for an MTEngineSDL.lib nothing had produced.
+
+           Forwarding is not needed on either channel:
+             command line: build-windows.ps1 passes MTCapsApp, MTOutRoot,
+               MTCapsLibsDir and MTBuildRoot with /p:, and a project reference
+               inherits its parent's global properties;
+             IDE: none of them is set, and the engine's Directory.Build.targets
+               reads the app's name from $(SolutionDir)..\..\mtengine-app.conf.
+           Both instances therefore carry the same globals, MSBuild builds the
+           engine ONCE, and it lands where this project's link looks for it.
+
+           Passing MTBuildRoot was doubly wrong after HANDOVER item 19 gave
+           each app a static _ide\$(MSBuildProjectName)\ fallback: the app's
+           own IDE build root travelled to the engine, whose output then moved
+           under _ide\<App>\ where the solution never builds it. -->
       <Project>{e93d3b41-0438-4721-abfe-83f1f37490cf}</Project>
     </ProjectReference>
   </ItemGroup>

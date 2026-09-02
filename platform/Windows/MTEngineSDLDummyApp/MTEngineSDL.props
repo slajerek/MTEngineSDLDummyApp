@@ -3,4 +3,11 @@
   <PropertyGroup>
     <MTEngineSDLDir>$(ProjectDir)..\..\..\..\MTEngineSDL\</MTEngineSDLDir>
   </PropertyGroup>
+  <!-- Embeds the engine's shared app manifest (activeCodePage=UTF-8) so the
+       narrow CRT/Win32 path APIs speak UTF-8 process-wide: without it, any file
+       whose path is outside the machine's ANSI code page (Polish and other
+       Latin-Extended names, CJK, emoji) can be listed but not opened. mt.exe
+       merges it with this project's own MTEngineSDLDummyApp.exe.manifest
+       (Common Controls v6), so nothing already declared is lost. -->
+  <Import Project="$(MTEngineSDLDir)platform\Windows\MTEngineSDLHost.props" />
 </Project>

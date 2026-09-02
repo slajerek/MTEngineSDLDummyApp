@@ -1,0 +1,43 @@
+{
+    "meta": {
+        "locale": "pl",
+        "version": 1
+    },
+    "strings": {
+        "menu.file": "Plik",
+        "menu.file.quit": "Zakończ",
+        "menu.workspace": "Przestrzeń robocza",
+        "menu.workspace.new": "Nowa przestrzeń...",
+        "menu.workspace.delete": "Usuń przestrzeń",
+        "menu.settings": "Ustawienia",
+        "menu.settings.theme": "Motyw",
+        "menu.settings.renderer": "Silnik renderowania",
+        "menu.settings.renderer.running": "Teraz działa",
+        "menu.settings.renderer.restart": "Zmiana po restarcie",
+        "menu.settings.renderer.only_one": "Jedyny backend dostępny w tej kompilacji na tej platformie",
+        "menu.settings.gui_scale": "Skala interfejsu",
+        "menu.settings.renderer.restart_title": "Renderer",
+        "menu.settings.renderer.restart_message": "Renderer zmieni się przy następnym uruchomieniu aplikacji.",
+        "menu.settings.renderer.cli_override": "--render-backend ma pierwszeństwo w tym uruchomieniu",
+        "menu.examples": "Przykłady",
+        "menu.examples.music_player": "Odtwarzacz muzyki",
+        "menu.examples.ai": "AI",
+        "menu.examples.ai.unavailable": "Niedostępne: ta wersja została zbudowana z MT_CAP_LLM=0 w mtengine.caps",
+        "menu.examples.ai.llm_settings": "Ustawienia LLM",
+        "menu.examples.ai.llm_chat": "Czat LLM",
+        "menu.examples.ai.llm_tasks": "Zadania LLM",
+        "menu.examples.image_loader": "Ładowarka obrazów",
+        "menu.examples.camera": "Kamera",
+        "menu.examples.hdr_test": "Test HDR",
+        "menu.examples.video_player": "Odtwarzacz wideo",
+        "menu.examples.video_player.unavailable": "Niedostępne: ta wersja została zbudowana z MT_CAP_VIDEO_PLAYBACK=0 w mtengine.caps",
+        "menu.examples.i18n": "I18N",
+        "engine.heif.unavailable.system_codec_missing": "Nie można otwierać zdjęć HEIC/HEIF na tym komputerze: w systemie Windows brakuje kodeka wideo HEVC.",
+        "engine.heif.unavailable.not_built": "Zdjęcia HEIC/HEIF nie są obsługiwane w tej wersji.",
+        "heif.install_link": "Pobierz ze Sklepu Microsoft",
+        "menu.help": "Pomoc",
+        "menu.help.about": "O aplikacji DummyApp",
+        "menu.help.mtenginesdl_test": "Test MTEngineSDL",
+        "menu.language": "Język"
+    }
+}

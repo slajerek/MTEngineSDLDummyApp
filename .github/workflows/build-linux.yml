@@ -7,6 +7,14 @@ on:
     branches: [ master, main ]
   workflow_dispatch:
 
+env:
+  # MTENGINE_REF holds a BRANCH by default (`origin/master`), and a branch is
+  # tracked rather than pinned -- CI clones it fresh every run, so it always
+  # matches and this flag is inert. The flag stays because it stops being inert
+  # the moment MTENGINE_REF is set to a SHA to freeze an engine for a release:
+  # then a checkout that does not match the pin must fail the run, not warn.
+  MTENGINE_PIN_STRICT: '1'
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
@@ -16,6 +24,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
+        # No SDL package: SDL3 is built from the vendored source tree by
+        # platform/Linux/build-sdl3.sh, which build-linux.sh runs. The list
+        # below is what SDL3 itself needs to COMPILE against X11/Wayland/ALSA,
+        # plus the toolchain. libsdl2-dev was here until 2026-09-02 and had
+        # been inert since SDL2 was dropped.
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -23,7 +36,6 @@ jobs:
             cmake \
             git \
             pkg-config \
-            libsdl2-dev \
             libglew-dev \
             libgtk-3-dev \
             libgl1-mesa-dev \
@@ -49,6 +61,21 @@ jobs:
         run: |
           chmod +x ./build-linux.sh
           ./build-linux.sh
+
+      - name: mtcaps golden tests
+        run: |
+          # tools/mtcaps is the single point of failure for the whole capability
+          # system, so its own tests run before anything that depends on it.
+          python3 ../MTEngineSDL/tools/mtcaps/tests/test_mtcaps.py
+
+      - name: Run tests (both suites)
+        run: |
+          # Chunk 0.6. Every workflow in these repos built and ran nothing, so
+          # "no app's suite regresses" was an unchecked claim on every platform.
+          # --binary is what makes this runnable off macOS: the platform's own
+          # build script produced the binary, and the runner only runs and parses.
+          chmod +x ./tests/run_test.sh
+          ./tests/run_test.sh --binary build/MTEngineSDLDummyApp
 
       - name: Upload binary
         uses: actions/upload-artifact@v4

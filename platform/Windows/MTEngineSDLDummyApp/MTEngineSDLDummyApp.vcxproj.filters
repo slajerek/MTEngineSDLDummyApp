@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
@@ -22,6 +22,9 @@
     <Filter Include="Source Files\src\Tests">
       <UniqueIdentifier>{a1b2c3d4-e5f6-7890-abcd-ef1234567890}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\src\i18n">
+      <UniqueIdentifier>{b2c3d4e5-f6a7-8901-bcde-f01234567891}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\DummyInit.cpp">
@@ -33,6 +36,9 @@
     <ClCompile Include="..\..\..\src\Views\CViewDummyAppMain.cpp">
       <Filter>Source Files\src\Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewHdrTest.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\CDummyAppTestSuite.cpp">
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
@@ -40,6 +46,18 @@
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\CImGuiDummyTests.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\i18n\CDummyAppI18n.cpp">
+      <Filter>Source Files\src\i18n</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestI18nDummyApp.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestFonts.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestHdrTestView.cpp">
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +71,25 @@
     <ClInclude Include="..\..\..\src\Views\CViewDummyAppMain.h">
       <Filter>Source Files\src\Views</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewHdrTest.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\Tests\CDummyAppTestSuite.h">
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Tests\CTestAppStartup.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\i18n\CDummyAppI18n.h">
+      <Filter>Source Files\src\i18n</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestI18nDummyApp.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestFonts.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestHdrTestView.h">
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,11 +7,12 @@
 
 class CByteBuffer;
 class CLayoutData;
+class CViewDummyAppMain;
 
 class CMainMenuBar : public CSlrKeyboardShortcutCallback
 {
 public:
-	CMainMenuBar();
+	CMainMenuBar(CViewDummyAppMain *viewMain);
 	void RenderImGui();
 
 	//
@@ -25,6 +26,19 @@ public:
 	bool waitingForNewLayoutKeyShortcut;
 	virtual bool KeyDown(u32 keyCode, bool isShift, bool isAlt, bool isControl, bool isSuper);
 
+private:
+	// Settings > Theme: lists registered themes + the engine's built-in styles.
+	void RenderThemeMenu();
+
+	// Settings > Renderer: the draw backend (OpenGL / Metal / Direct3D 11).
+	void RenderRendererMenu();
+
+	// Settings > GUI Scale. Its own knob rather than the theme's, because a
+	// host with no active theme still needs it -- see the implementation.
+	void RenderGuiScaleMenu();
+	void ApplyGuiScale(float scale);
+
+	CViewDummyAppMain *viewMain;
 };
 
 #endif
