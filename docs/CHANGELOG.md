@@ -24,6 +24,28 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.7 — development
+
+**The Linux CI job runs the suites under a virtual display.** They were run
+with `--headless`, which in this engine means "do not SHOW the window" — not
+"do not need a display". Normal mode still calls `SDL_Init(SDL_INIT_VIDEO)` and
+creates a real, hidden OpenGL window and context; only service mode skips that,
+and `--headless` does not select it. On a machine with no display server at all
+`SDL_CreateWindow` returns NULL, the engine logs "This is fatal!" to its log
+*file* and returns, and the assertion on the ImGui context that follows aborts
+the process — which is why the first run to get this far produced nothing but
+"Aborted (core dumped)" and no results file.
+
+Every previous run of these suites, on any platform, happened on a machine with
+a real desktop session, so the gap was never exercised. `xvfb-run` now wraps the
+test step, which is enough for Mesa's software GL to give SDL a real, if
+invisible, window.
+
+Follows engine 3.21.7, which makes the Windows app build follow the engine's own
+toolset instead of each project quietly picking its own.
+
+---
+
 ## 3.21.6 — development
 
 **The Linux job installs `libheif-dev`.** libheif is deliberately a system

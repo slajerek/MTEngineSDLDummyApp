@@ -40,6 +40,7 @@ jobs:
             build-essential \
             cmake \
             nasm \
+            xvfb \
             git \
             pkg-config \
             libglew-dev \
@@ -83,8 +84,22 @@ jobs:
           # --binary is what makes this runnable off macOS: the platform's own
           # build script produced the binary, and the runner only runs and parses.
           chmod +x ./tests/run_test.sh
-          ./tests/run_test.sh --binary build/MTEngineSDLDummyApp
-
+          # xvfb-run: --headless in this engine means "do not SHOW the window",
+          # not "do not need a display". SDL_Init(SDL_INIT_VIDEO) and a real
+          # (hidden) OpenGL window/context are created unconditionally in
+          # normal mode -- gServiceMode is the flag that skips all of that, and
+          # --headless does not set it. Every earlier "real" verification of
+          # this suite ran on a machine with an actual desktop session (a
+          # developer's Mac, a Linux box with a display), so this was never
+          # exercised: a GitHub Actions runner has no display server at all,
+          # SDL_CreateWindow returns NULL, and the app aborts near-silently --
+          # its own LOGError writes to a file, not stdout, so the CI log shows
+          # nothing but "Aborted (core dumped)". Measured 2026-09-03, run
+          # 33758832830. xvfb-run starts a virtual X server for the duration of
+          # the command and tears it down after, which is enough for
+          # Mesa's software GL (llvmpipe) to give SDL a real, if invisible,
+          # window and GL context.
+          xvfb-run -a ./tests/run_test.sh --binary build/MTEngineSDLDummyApp
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
