@@ -1,10 +1,15 @@
 name: Windows build
 
+# `devel` is not an afterthought here: under the odd/even convention it is where
+# work LANDS, and `master` only ever receives a merge that devel has already
+# proved. CI that runs on master and not on devel therefore runs after the
+# question has been answered rather than while it is open -- which is how a
+# devel branch can be published green and untested, as v3.21.1 was.
 on:
   push:
-    branches: [ master, main ]
+    branches: [ master, main, devel ]
   pull_request:
-    branches: [ master, main ]
+    branches: [ master, main, devel ]
   workflow_dispatch:
 
 env:
@@ -58,7 +63,11 @@ jobs:
         run: |
           # Chunk 0.6. bash is present on windows-latest runners, and the runner
           # script only needs to launch a binary and parse a text file.
-          bash ./tests/run_test.sh --binary .\platform\Windows\bin\x64\Release\MTEngineSDLDummyApp.exe
+          # Forward slashes, quoted: the argument is handed to BASH, which
+          # treats a backslash as an escape, and the runner now makes --binary
+          # absolute with dirname/basename -- neither survives `.\a\b`. Windows
+          # accepts forward slashes everywhere a path is taken.
+          bash ./tests/run_test.sh --binary 'platform/Windows/bin/x64/Release/MTEngineSDLDummyApp.exe'
 
       - name: Upload binary
         uses: actions/upload-artifact@v4

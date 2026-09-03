@@ -18,6 +18,25 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.2 — development
+
+Continuous integration only; no change to what is built.
+
+**The workflows run on `devel`.** They triggered on `master` and `main` alone,
+so under the odd/even convention — where `devel` is the branch work lands on and
+`master` only ever receives a merge that `devel` has already proved — CI ran
+after the question had been answered rather than while it was open. A `devel`
+branch could therefore be published green and untested, which is what happened
+with 3.21.1.
+
+**The Windows job's `--binary` path is written with forward slashes.** It is
+handed to bash, which reads a backslash as an escape, and the test runner now
+resolves that argument to an absolute path through `dirname` and `basename` —
+neither survives `.\a\b`. Windows accepts forward slashes wherever it accepts a
+path.
+
+---
+
 ## 3.21.1 — development
 
 Follows engine 3.21.1. Three changes, all in how this template is built and

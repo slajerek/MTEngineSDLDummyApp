@@ -1,10 +1,15 @@
 name: macOS build
 
+# `devel` is not an afterthought here: under the odd/even convention it is where
+# work LANDS, and `master` only ever receives a merge that devel has already
+# proved. CI that runs on master and not on devel therefore runs after the
+# question has been answered rather than while it is open -- which is how a
+# devel branch can be published green and untested, as v3.21.1 was.
 on:
   push:
-    branches: [ master, main ]
+    branches: [ master, main, devel ]
   pull_request:
-    branches: [ master, main ]
+    branches: [ master, main, devel ]
   workflow_dispatch:
 
 env:
