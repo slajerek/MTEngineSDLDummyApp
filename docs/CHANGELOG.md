@@ -24,6 +24,19 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.9 — development
+
+No change in this repository. The number moves with engine 3.21.9, which fixes
+the crash that stopped this template's own test suites from running on a machine
+with no MIDI sequencer: RtMidi's ALSA backend faults inside libasound rather
+than failing cleanly when `/dev/snd/seq` is absent, so the engine now asks
+before opening one.
+
+3.21.8 is absent here for the same pairing reason — it was an engine-only
+diagnostic build.
+
+---
+
 ## 3.21.7 — development
 
 **The Linux CI job runs the suites under a virtual display.** They were run
