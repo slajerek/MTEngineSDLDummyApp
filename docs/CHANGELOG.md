@@ -18,6 +18,17 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.3 — development
+
+**The Linux job installs `libxss-dev`.** SDL3's X11 backend checks for
+XScreenSaver and the workflow's package list never carried it, so the first
+continuous-integration run of `devel` stopped at SDL3's configure step. It had
+not surfaced before because the workflows only ever ran on `master` and `main`.
+
+Follows engine 3.21.2, which carries the two build fixes the same run found.
+
+---
+
 ## 3.21.2 — development
 
 Continuous integration only; no change to what is built.

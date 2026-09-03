@@ -55,6 +55,7 @@ jobs:
             libxinerama-dev \
             libwayland-dev \
             libxkbcommon-dev \
+            libxss-dev \
             libxcb1-dev \
             libsndio-dev \
             libfreetype-dev \
