@@ -24,6 +24,17 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.10 — development
+
+No change in this repository. The number moves with engine 3.21.10, which puts
+the Linux diagnostic logging back off now that it has found what it was turned
+on for, and teaches the capability test suite to check that the `bash` it
+measures with is a real one — on Windows, `bash` on PATH can be the WSL
+launcher, which exits 1 while writing its complaint to stdout and so reads as a
+failure of the thing being measured.
+
+---
+
 ## 3.21.9 — development
 
 No change in this repository. The number moves with engine 3.21.9, which fixes
