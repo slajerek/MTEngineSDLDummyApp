@@ -15,6 +15,9 @@
 #include "CMTThemeRegistry.h"
 // MT_kGuiScaleSteps / MT_ThemeClampGuiScale for the GUI Scale menu.
 #include "MT_Theme.h"
+// MT_SetUiScale / MT_GetUiScale -- the engine owns the scale (see
+// MTEngineSDL/docs/hidpi-ui-scaling.md).
+#include "MT_UiScale.h"
 #include "VID_Main.h"
 #include <cstring>
 #include <string>
@@ -528,7 +531,12 @@ void CMainMenuBar::RenderThemeMenu()
 // font-atlas growth.
 void CMainMenuBar::RenderGuiScaleMenu()
 {
-	const float current = MT_ThemeClampGuiScale(ImGui::GetStyle().FontScaleMain);
+	// MT_GetUiScale(), not style.FontScaleMain. The engine owns the scale now
+	// and writes FontScaleMain as one of its effects, so reading it back would
+	// be asking the output what the input was -- correct today, and wrong the
+	// first time anything else touches that field. Already on the ladder, but
+	// clamped anyway so the comparison below is symmetric.
+	const float current = MT_ThemeClampGuiScale(MT_GetUiScale());
 
 	for (int i = 0; i < MT_kGuiScaleStepCount; i++)
 	{
@@ -553,35 +561,34 @@ void CMainMenuBar::RenderGuiScaleMenu()
 
 void CMainMenuBar::ApplyGuiScale(float scale)
 {
-	float clamped = MT_ThemeClampGuiScale(scale);
-
+	// MT_SetUiScale, not a raw write to style.FontScaleMain, and it clamps to
+	// the ladder itself so this does not have to.
+	//
+	// The old code set FontScaleMain here and then re-applied the active theme
+	// to get geometry to follow -- with a comment conceding that with NO active
+	// theme (this app's default) "text scales and geometry does not, which is a
+	// real limitation rather than an oversight". That limitation is gone: the
+	// engine call scales the geometry table as well when no theme owns the
+	// style, and re-applies the theme at the new scale when one does.
+	//
+	// It is also IDEMPOTENT, which is the part a hand-rolled version gets
+	// wrong: ImGuiStyle::ScaleAllSizes() multiplies into the CURRENT sizes and
+	// ImTruncs every field, so applying it twice squares the scale and the UI
+	// grows every time you touch this menu. MT_UiScaleApplyToImGuiStyle keeps
+	// its own copy of the pre-scale geometry and restores it before scaling.
+	//
 	// Takes effect on the NEXT frame, with no restart and nothing to rebuild --
-	// unlike the renderer above, which is why that one gets a message box and
+	// unlike the renderer below, which is why that one gets a message box and
 	// this one does not.
-	ImGui::GetStyle().FontScaleMain = clamped;
+	MT_SetUiScale(scale);
 
-	// The same key the engine's other host apps persist, so a reader comparing
-	// two apps' config files does not have to work out that they mean the same
-	// thing.
+	// Persisted so the next launch honours the CHOICE rather than re-detecting
+	// the display: DummyAppResolveUiScale() reads this key and only falls back
+	// to MT_DetectDisplayUiScale() when it is absent. The same key the engine's
+	// other host apps persist, so a reader comparing two apps' config files
+	// does not have to work out that they mean the same thing.
+	float clamped = MT_GetUiScale();
 	gApplicationDefaultConfig->SetFloat("ui.guiScale", &clamped);
-
-	// FontScaleMain scales TEXT. Padding, widget heights and the rest live in
-	// the geometry table, which only a theme owns -- so when one is active it
-	// is re-applied at the new scale and the whole UI follows. With no active
-	// theme (this app's default, and the legacy-ImGui-style rows in the Theme
-	// menu) text scales and geometry does not, which is a real limitation
-	// rather than an oversight: rescaling a raw ImGuiStyle here would have to
-	// re-derive it from a default-constructed one first, because
-	// ScaleAllSizes() multiplies into the CURRENT sizes and ImTruncs every
-	// field -- apply it twice and the UI grows every time you touch this menu.
-	// MT_Theme.h names that failure mode explicitly and guards it with
-	// CTestThemeScale.
-	CMTThemeRegistry *registry = CMTThemeRegistry::Instance();
-	if (registry->HasActiveTheme())
-	{
-		registry->SetActiveTheme(registry->GetActiveThemeId(),
-								 registry->GetActiveMode(), clamped);
-	}
 }
 
 // ---------------------------------------------------------------------------

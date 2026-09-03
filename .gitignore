@@ -33,6 +33,11 @@ platform/MacOS/build/
 platform/Windows/.vs/
 platform/Windows/bin/
 platform/Windows/prod/
+# The release package the macOS and Linux drivers produce, same shape as the
+# Windows one above. Build output that happens to live in the checkout
+# because that is where a release is assembled; never tracked.
+platform/MacOS/prod/
+platform/Linux/prod/
 platform/Windows/MTEngineSDLDummyApp/x64/
 platform/Windows/MTEngineSDLDummyApp/Win32/
 platform/Windows/MTEngineSDLDummyApp/ARM64/

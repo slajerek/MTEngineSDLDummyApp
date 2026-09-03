@@ -18,6 +18,46 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.1 — development
+
+Follows engine 3.21.1. Three changes, all in how this template is built and
+tested rather than in what it demonstrates.
+
+**The UI scale is detected on first run.** The application started at scale 1.0
+whatever the display, which on a HiDPI screen meant it drew at a fraction of the
+size of every other window. SDL3 declares per-monitor DPI awareness, so on
+Windows and Linux an application is handed real physical pixels and nothing
+scales unless it asks; macOS is the opposite, and scaling again there would
+double. `MT_DetectDisplayUiScale()` in the engine knows that asymmetry, and the
+detected value is passed as the *default* of the config read — which is exactly
+"detect on first run, honour the user's choice ever after", with no second
+setting to keep in step. Headless runs are pinned to 1.0 before the config is
+read, so a scale left behind by an interactive session cannot change what the
+suites measure.
+
+**Tests run from the release package.** An engine application resolves its
+assets through the current working directory and never through the location of
+its executable, so running the suite from the repository root only ever worked
+for an application whose repository root happens to contain `assets/`. The
+runner now runs from `platform/<Platform>/prod/<arch>/`, the package the build
+produces, and makes the results path absolute — as a relative path it silently
+wrote nothing from inside the package, and the previous run's verdict was
+reported in its place. `MT_TEST_RUN_DIR` pins the directory, and with no package
+present the runner falls back to the repository root and says so.
+
+**Visual Studio builds no longer collide with the command-line build.** Both
+wrote the executable to the same path while using different intermediate
+directories, so each could see the other's output as newer than its own objects
+and skip linking — a command-line build could report success and package a
+binary it had not produced. The IDE build now has its own output directory.
+
+**`Directory.Build.props` became a stub.** The MSBuild properties an application
+needs are the engine's now (`MTEngineApp.props`); this file declares this
+application's identity and imports them, which is what the targets file next to
+it already did.
+
+---
+
 ## 3.21 — development
 
 The build became a set of parameters over an engine-owned flow.

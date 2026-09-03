@@ -137,7 +137,86 @@ if [ -z "$APP_BINARY" ] || [ ! -x "$APP_BINARY" ]; then
 fi
 
 echo "=== Using binary: $APP_BINARY ==="
-cd "$PROJECT_DIR"
+# ---------------------------------------------------------------------------
+# RUN FROM THE RELEASE PACKAGE, not from the repo root.
+#
+# An MTEngineSDL app finds its assets through the CURRENT WORKING DIRECTORY and
+# nothing else: RES_ResolveResourceDir has two candidate roots, the relative
+# path itself and gPathToResources, and both are CWD-derived -- the executable's
+# own location is never consulted. The release package is the directory laid out
+# to satisfy that, with assets/ and LICENSES.txt beside the binary.
+#
+# Running from the repo root only ever worked for the apps whose repo root
+# happens to contain assets/. An app that needs assets cannot start that way at
+# all, which is why apps are built to prod and tested from there (maintainer,
+# 2026-09-02).
+#
+# The BINARY is deliberately left alone. Each runner already has careful logic
+# for picking a non-stale one and for honouring an explicit override, and a
+# package can be older than the build that just happened; the working directory
+# is the whole of what has to change.
+#
+# The results file has to be made absolute for the same reason. It is a relative
+# path opened with fopen("w"), which does not create directories, so from inside
+# the package the app would write nothing, log a failure nobody reads, and leave
+# the runner parsing the PREVIOUS run's verdict. MT_TEST_RESULTS is the engine's
+# supported override (CLAUDE.md permits env/flags for test output paths).
+# ---------------------------------------------------------------------------
+RUN_DIR="$PROJECT_DIR"
+MTENGINE_DIR="${MTENGINE_DIR:-$PROJECT_DIR/../MTEngineSDL}"
+# MT_TEST_RUN_DIR pins the working directory and skips the package lookup
+# entirely. It exists for tests OF this runner, which fabricate binaries and
+# results files and need the repo-root behaviour they were written against
+# whether or not this machine happens to have a release package.
+if [ -n "${MT_TEST_RUN_DIR:-}" ]; then
+    RUN_DIR="$MT_TEST_RUN_DIR"
+    echo "=== Run directory pinned by MT_TEST_RUN_DIR: $RUN_DIR ==="
+elif [ -f "$MTENGINE_DIR/tools/appbuild/appbuild-lib.sh" ]; then
+    . "$MTENGINE_DIR/tools/appbuild/appbuild-lib.sh"
+    PROD_HIT="$(mt_appbuild_prod_binary "$PROJECT_DIR" "MTEngineSDLDummyApp" || true)"
+    if [ -n "$PROD_HIT" ]; then
+        RUN_DIR="${PROD_HIT%%|*}"
+        echo "=== Running from release package: $RUN_DIR ==="
+    else
+        echo "NOTE: no release package under platform/*/prod -- running from the repo root."
+        echo "      An app that needs assets/ beside its binary will fail; build without --no-prod."
+    fi
+fi
+# The binary must be ABSOLUTE before the cd, or a relative one (notably
+# --binary, which is documented as relative to where you stand) resolves
+# against the wrong directory the moment we move. Found by the first end-to-end
+# run of this change: "No such file or directory" for a binary that was plainly
+# there.
+case "$APP_BINARY" in
+    /* | [A-Za-z]:[\/]*) ;;
+    *) APP_BINARY="$(cd "$(dirname "$APP_BINARY")" && pwd)/$(basename "$APP_BINARY")" ;;
+esac
+
+# TEST FIXTURES have to reach the run directory too, for exactly the reason
+# the assets did: an app opens them by a relative path, which now resolves
+# against the package. An app whose suite loads a fixture from tests/testdata/
+# during init crashes without it.
+#
+# STAGED HERE rather than shipped by the deploy, because a RELEASE package must
+# not carry test data. That is safe: every real build wipes and recreates the
+# package before filling it, so nothing staged here can survive into something
+# shipped.
+# MT_TEST_STAGE_PATHS lists them, repo-relative, and each is copied preserving
+# its parent structure so the app finds it at the path it asks for. An app whose
+# tests reach outside tests/testdata sets this before the block; the default
+# covers the common case.
+if [ "$RUN_DIR" != "$PROJECT_DIR" ]; then
+    for _mt_stage in ${MT_TEST_STAGE_PATHS:-tests/testdata}; do
+        if [ -e "$PROJECT_DIR/$_mt_stage" ]; then
+            mkdir -p "$RUN_DIR/$(dirname "$_mt_stage")"
+            cp -R "$PROJECT_DIR/$_mt_stage" "$RUN_DIR/$(dirname "$_mt_stage")/" 2>/dev/null || true
+        fi
+    done
+fi
+
+export MT_TEST_RESULTS="$RESULTS_FILE"
+mkdir -p "$RESULTS_DIR"
+cd "$RUN_DIR"
 
 # ---------------------------------------------------------------------------
 # run_one <label> <flag...>

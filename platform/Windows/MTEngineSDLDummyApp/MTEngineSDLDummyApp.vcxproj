@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(MTIdeBuild)' == 'true'">$(MTBuildRoot)bin\$(Platform)\$(Configuration)\</OutDir>
     <!-- L12: app objects follow the engine's out of the checkout. The extra
          project-name segment keeps them apart from the engine's obj under the
          same MTBuildRoot; the condition keeps an IDE build without a resolve
@@ -82,6 +83,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(MTIdeBuild)' == 'true'">$(MTBuildRoot)bin\$(Platform)\$(Configuration)\</OutDir>
     <!-- L12: app objects follow the engine's out of the checkout. The extra
          project-name segment keeps them apart from the engine's obj under the
          same MTBuildRoot; the condition keeps an IDE build without a resolve
@@ -92,6 +94,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(MTIdeBuild)' == 'true'">$(MTBuildRoot)bin\$(Platform)\$(Configuration)\</OutDir>
     <!-- L12: app objects follow the engine's out of the checkout. The extra
          project-name segment keeps them apart from the engine's obj under the
          same MTBuildRoot; the condition keeps an IDE build without a resolve
@@ -103,6 +106,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(MTIdeBuild)' == 'true'">$(MTBuildRoot)bin\$(Platform)\$(Configuration)\</OutDir>
     <!-- L12: app objects follow the engine's out of the checkout. The extra
          project-name segment keeps them apart from the engine's obj under the
          same MTBuildRoot; the condition keeps an IDE build without a resolve

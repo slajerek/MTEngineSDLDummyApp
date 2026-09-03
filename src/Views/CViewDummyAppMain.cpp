@@ -126,32 +126,28 @@ void CViewDummyAppMain::LoadFonts()
 	std::string fontDir  = RES_ResolveResourceDir("assets/fonts/", "Roboto-Medium.ttf");
 	std::string fontPath = fontDir + "Roboto-Medium.ttf";
 
-	// The persisted GUI scale (Settings > GUI Scale). Applied here rather than
-	// in the menu's own init because it must be in effect for the FIRST frame,
-	// not after the user opens a menu.
+	// The GUI scale is NOT read here any more. It is resolved once in
+	// DummyInit.cpp's DummyAppResolveUiScale(), which runs BEFORE this view is
+	// constructed, and applied through MT_SetUiScale() rather than by writing
+	// style.FontScaleMain directly.
 	//
-	// It matters most on Windows: on a HiDPI display macOS scales the app for
-	// us through the backing scale factor, while a DPI-aware Windows process
-	// gets real pixels and must scale itself -- so without this the app renders
-	// about half the size of every other window on screen. There is no
-	// auto-detect here on purpose; this reads back what the user chose.
-	// Read only. No SetFloatSkipConfigSave() registration alongside it, which
-	// another host app does and which looked necessary here too -- it is not, and
-	// both reasons for adding it turned out to be false when tested:
+	// Two things changed with that move and both were the point:
 	//
-	//   * the key is NOT dropped without it. CConfigStorageHjson loads the
-	//     whole file into hjsonRoot and SaveConfig() marshals the whole tree,
-	//     so every key round-trips whether or not anything Set it.
-	//   * it does NOT normalise an off-ladder value in the file either: it
-	//     writes to the in-memory tree and deliberately skips the save, so with
-	//     nothing else saving afterwards a hand-edited 1.37 stays 1.37 on disk.
-	//     (Clamped in memory, so the UI and the menu tick are still correct.)
+	//   * FIRST RUN NOW AUTO-DETECTS. This read defaulted to 1.0 when
+	//     ui.guiScale was absent, which is exactly the first-run case on a
+	//     HiDPI display -- and 1.0 there is the "everything looks tiny" bug,
+	//     because a DPI-aware process is handed real physical pixels. The
+	//     default is now MT_DetectDisplayUiScale(); a value the user has
+	//     actually chosen still wins, because GetFloat() only falls back to the
+	//     default when the key is absent.
+	//   * GEOMETRY FOLLOWS THE TEXT. FontScaleMain scales text only, so padding
+	//     and widget heights stayed at 100% and the UI looked wrong in a way
+	//     that was hard to name. MT_SetUiScale() also scales the geometry
+	//     table, idempotently.
 	//
-	// The user's own choice persists through the menu, which calls SetFloat and
-	// does save.
-	float persistedGuiScale = 1.0f;
-	gApplicationDefaultConfig->GetFloat("ui.guiScale", &persistedGuiScale, 1.0f);
-	ImGui::GetStyle().FontScaleMain = MT_ThemeClampGuiScale(persistedGuiScale);
+	// The note that used to live here about SetFloatSkipConfigSave() being
+	// unnecessary is still true and is now recorded in the engine's
+	// docs/hidpi-ui-scaling.md, next to the mis-test that nearly made it fact.
 
 	ImFont *uiFont = io.Fonts->AddFontFromFileTTF(fontPath.c_str(), 18.0f, &config, latin_ranges);
 	if (uiFont != NULL)
