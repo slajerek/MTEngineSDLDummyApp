@@ -39,6 +39,47 @@ jobs:
           git clone https://github.com/slajerek/MTEngineSDL.git $mtDir
           git -C $mtDir checkout --detach $mtRef
 
+      - name: MSYS2 prerequisites for the codec builds
+        shell: pwsh
+        run: |
+          # FFmpeg is configured OUT OF TREE, and its configure then writes a
+          # one-line Makefile that includes the source Makefile by ABSOLUTE
+          # MSYS2 path (/c/Users/...). Only an MSYS2 make can read that: a
+          # native Windows make reads /c/Users as C:\c\Users and stops with
+          # "No rule to make target", naming FFmpeg's own Makefile -- which is
+          # how this runner failed on 2026-09-03 (run 33742482983), looking for
+          # all the world like a broken extraction. libvpx sails through the
+          # same shell because ITS generated Makefile says `include config.mk`,
+          # relative, which any make resolves.
+          #
+          # The engine's build-video_codecs.ps1 now names /usr/bin/make
+          # absolutely, so PATH order can no longer decide this. That leaves one
+          # requirement, and it is this step: MSYS2 must HAVE make. It is not
+          # part of a base MSYS2 install -- it is the documented
+          # `pacman -S --needed make` prerequisite -- and no runner image is
+          # contracted to carry it.
+          $msys2 = if ($env:MSYS2_ROOT) { $env:MSYS2_ROOT } else { 'C:\msys64' }
+          $bash  = Join-Path $msys2 'usr\bin\bash.exe'
+          $make  = Join-Path $msys2 'usr\bin\make.exe'
+          if (-not (Test-Path $bash)) { throw "MSYS2 not found at $msys2 (expected $bash). The codec builds need it." }
+          if (-not (Test-Path $make)) {
+            & (Join-Path $msys2 'usr\bin\pacman.exe') -Sy --needed --noconfirm make diffutils pkgconf
+          }
+          if (-not (Test-Path $make)) { throw "MSYS2's make is still missing at $make after pacman ran." }
+          # Printed, not assumed. These two lines say whether the make that
+          # PATH resolves to was the native one all along -- the question this
+          # run would otherwise leave open again. GNU make's SECOND line is the
+          # discriminator: "Built for x86_64-pc-msys" against "Built for
+          # Windows32". Reported from PowerShell rather than from an echo with
+          # embedded quotes, which Windows PowerShell mangles on its way to a
+          # native exe.
+          $msysMakeVer = (& $bash --noprofile --norc -c '/usr/bin/make --version') | Select-Object -First 2
+          $pathMake    = (& $bash --noprofile --norc -c 'command -v make || echo none') | Select-Object -First 1
+          $pathMakeVer = (& $bash --noprofile --norc -c 'make --version 2>/dev/null || true') | Select-Object -First 2
+          Write-Host "msys2 make : $($msysMakeVer -join ' / ')"
+          Write-Host "PATH  make : $pathMake -> $($pathMakeVer -join ' / ')"
+          $global:LASTEXITCODE = 0
+
       - name: Build
         shell: pwsh
         run: .\build-windows.ps1

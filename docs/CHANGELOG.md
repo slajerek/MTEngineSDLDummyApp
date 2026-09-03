@@ -18,6 +18,35 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.5 — development
+
+**The Linux job installs `nasm`.** libvpx needs an x86 assembler on an x86
+runner, and has no assembler-less fallback; without it the codec build stops at
+"Neither yasm nor nasm have been found". This is the native architecture there,
+not a universal-build extra.
+
+**The Windows job installs MSYS2's `make`.** FFmpeg is configured out of tree
+and its generated Makefile includes the source Makefile by absolute MSYS2 path
+(`/c/Users/...`); only an MSYS2 `make` can read that. A native Windows GNU make
+reads `/c/Users` as `C:\c\Users` and stops with `No rule to make target`, naming
+FFmpeg's own source Makefile — which is how run `33742482983` failed, looking
+exactly like a broken extraction. libvpx passed in the same shell because its
+generated Makefile includes `config.mk` relatively.
+
+Engine 3.21.4 makes the script call `/usr/bin/make` by absolute path, so PATH
+order can no longer decide this. What remains is the prerequisite itself: `make`
+is not part of a base MSYS2 install, no runner image is contracted to carry it,
+and when it is missing PATH search does not fail — it falls through to whatever
+other make the machine has. The new step installs it if absent (`pacman -S
+--needed`, a no-op otherwise) and prints both makes' versions, whose second line
+— `Built for x86_64-pc-msys` against `Built for Windows32` — is the
+discriminator. The same step is in all four app repositories, since all four run
+the same engine script.
+
+Follows engine 3.21.4.
+
+---
+
 ## 3.21.4 — development
 
 **The macOS job installs nasm.** macOS builds the video codecs universal —
