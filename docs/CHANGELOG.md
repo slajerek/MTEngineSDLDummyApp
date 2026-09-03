@@ -16,9 +16,16 @@ branch: `origin/devel` here on `devel`, `origin/master` on `master`.
 
 **This template and the engine carry the SAME number.** They are a matched pair
 and are read as one release, so a reader who has 3.21.6 of one should not have
-to work out which of the other goes with it. Where the two have drifted a patch
-apart, the one that is behind skips a number to come back level rather than
-staying out of step.
+to work out which of the other goes with it.
+
+**The engine mints the number; this template only carries it.** A change here
+alone gets no number of its own — it ships under whatever number the engine
+currently has, however many template releases have landed on that engine. A new
+number appears in the engine first, and this repository follows it, which is
+why entries below read "No change in this repository. The number moves with
+engine X". This template is the engine's, not the other way round, and the rule
+is its own: an application built on the engine versions itself however it
+likes.
 
 The convention starts at 3.21.
 
@@ -50,6 +57,12 @@ Between them they show the two shapes an example can take: wrapping an engine
 view that already exists (Terminal), and owning a small view over an engine
 mechanism that has none (the other three). None needed a new capability flag,
 and the UI tests cover the new menu entries.
+
+From the engine at this number: `MT_VERSION_STRING` had read 3.19 since that
+release, so the startup banner, the UI debug view and every crash report's
+version field were a release and a half out of date. It now reads 3.21 and
+carries the minor only — the compile date and time sit beside it in all three
+places and are what actually separate two builds.
 
 New: `docs/getting-started.md`, a checklist for turning a fork of this template
 into your own application — what to rename first, what is not worth renaming,
