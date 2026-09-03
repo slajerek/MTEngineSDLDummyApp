@@ -324,12 +324,17 @@ add_executable(MTEngineSDLDummyApp
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CMainMenuBar.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewDummyAppMain.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewHdrTest.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewUndoDemo.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewGamepadViewer.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewTerminalDemo.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewFileDownloaderDemo.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CDummyAppTestSuite.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestAppStartup.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CImGuiDummyTests.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestI18nDummyApp.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestFonts.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestHdrTestView.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestFileDownloaderDemo.cpp"
 )
 
 # Apply the resolved capability set to this app's own translation units. Without

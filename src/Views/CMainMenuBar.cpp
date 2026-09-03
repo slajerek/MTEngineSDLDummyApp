@@ -249,6 +249,49 @@ void CMainMenuBar::RenderImGui()
 				viewMain->OpenExampleI18n();
 			}
 
+			// ---------------------------------------------------------
+			// Undo & Redo -- CUndoManager + ImGuiUndo are unconditionally
+			// compiled in the engine (no MT_CAP_* guard wires to them yet),
+			// so this entry is ungated like HDR Test / I18N above.
+			// ---------------------------------------------------------
+			if (ImGui::MenuItem(_T("menu.examples.undo_redo")))
+			{
+				viewMain->OpenExampleUndoRedo();
+			}
+
+			// Gamepad Viewer -- GAM_GamePads is unconditionally compiled
+			// (SDL3-based), so this is ungated like the Undo/Redo entry above.
+			if (ImGui::MenuItem(_T("menu.examples.gamepad_viewer")))
+			{
+				viewMain->OpenExampleGamepadViewer();
+			}
+
+			// Terminal -- CGuiViewTerminal (libtmt) is also unconditionally
+			// compiled, ungated like the two entries above.
+			if (ImGui::MenuItem(_T("menu.examples.terminal")))
+			{
+				viewMain->OpenExampleTerminal();
+			}
+
+			// Crash Reporter -- spawns a real child process and shows a native
+			// OS dialog, so unlike the entries above this is deliberately
+			// excluded from the automated "open views" UI test (same reasoning
+			// as Camera's OS permission dialog and Image Loader's native file
+			// dialog: presence-only, never auto-clicked).
+			if (ImGui::MenuItem(_T("menu.examples.crash_reporter")))
+			{
+				viewMain->OpenExampleCrashReporter();
+			}
+
+			// File Downloader -- CFileDownloader is unconditionally compiled,
+			// ungated like the entries above. Opening the view starts nothing
+			// by itself; the local server and download only start when the
+			// view's own "Start Download" button is pressed.
+			if (ImGui::MenuItem(_T("menu.examples.file_downloader")))
+			{
+				viewMain->OpenExampleFileDownloader();
+			}
+
 			ImGui::EndMenu();
 		}
 
@@ -641,7 +684,7 @@ void CMainMenuBar::RenderRendererMenu()
 		// HDR rides on the backend choice: only Metal on macOS and D3D11 on
 		// Windows can drive an extended-range surface. Saying so at the point of
 		// choice is the difference between "HDR does not work on my Mac" and
-		// "I am on OpenGL". See claude/architecture/hdr-test.md.
+		// "I am on OpenGL".
 		//
 		// Passed as the SHORTCUT argument rather than drawn with SameLine():
 		// ImGui right-aligns it in the menu's shortcut column, and -- the part

@@ -6,7 +6,13 @@
 *.pbxuser
 *.perspectivev3
 *~.nib
+# .gitattributes sits in this list of editor and IDE droppings because a
+# VENDORED tree's own copy is noise here. THE REPOSITORY'S OWN is not: it is
+# deliberate Git configuration, and it is what pins LF endings for the
+# commit-msg hook so Git for Windows cannot rewrite its shebang. Same shape as
+# the `core` rule: ignore the pattern, exempt the one that is ours.
 .gitattributes
+!/.gitattributes
 .vs
 .DS_Store
 log/

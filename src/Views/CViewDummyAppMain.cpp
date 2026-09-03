@@ -25,6 +25,11 @@
 #if MT_CAP_VIDEO_PLAYBACK
 #include "CGuiViewVideoPlayer.h"
 #endif
+#include "CViewUndoDemo.h"
+#include "CViewGamepadViewer.h"
+#include "CViewTerminalDemo.h"
+#include "MT_CrashReporter.h"
+#include "CViewFileDownloaderDemo.h"
 #include <string>
 
 using namespace ImGui;
@@ -84,6 +89,22 @@ CViewDummyAppMain::CViewDummyAppMain(float posX, float posY, float sizeX, float 
 	viewVideoPlayer->visible = false;
 	guiMain->AddView(viewVideoPlayer);
 #endif
+
+	viewUndoDemo = new CViewUndoDemo("Undo & Redo", 200, 200, -1, 420, 260);
+	viewUndoDemo->visible = false;
+	guiMain->AddView(viewUndoDemo);
+
+	viewGamepadViewer = new CViewGamepadViewer("Gamepad Viewer", 220, 220, -1, 520, 360);
+	viewGamepadViewer->visible = false;
+	guiMain->AddView(viewGamepadViewer);
+
+	viewTerminalDemo = new CViewTerminalDemo("Terminal", 240, 240, -1, 640, 400);
+	viewTerminalDemo->visible = false;
+	guiMain->AddView(viewTerminalDemo);
+
+	viewFileDownloaderDemo = new CViewFileDownloaderDemo("File Downloader", 260, 260, -1, 460, 220);
+	viewFileDownloaderDemo->visible = false;
+	guiMain->AddView(viewFileDownloaderDemo);
 }
 
 CViewDummyAppMain::~CViewDummyAppMain()
@@ -414,6 +435,46 @@ void CViewDummyAppMain::OpenExampleI18n()
 	         i18n->GetActiveLocale().c_str(),
 	         i18n->Get("menu.language"));
 	guiMain->ShowNotification("I18N Example", buf);
+}
+
+void CViewDummyAppMain::OpenExampleUndoRedo()
+{
+	ShowAndFocus(viewUndoDemo);
+}
+
+void CViewDummyAppMain::OpenExampleGamepadViewer()
+{
+	ShowAndFocus(viewGamepadViewer);
+}
+
+void CViewDummyAppMain::OpenExampleTerminal()
+{
+	ShowAndFocus(viewTerminalDemo);
+}
+
+// Demonstrates the engine's crash-report pipeline without actually crashing
+// the running process: MT_CrashReporter_WriteTestReport() writes a synthetic
+// report (no real fault, signum = 0), and MT_CrashReporter_SpawnHelper()
+// launches a child process with --show-crash-report <path>, which shows the
+// native OS dialog and exits on its own -- this process keeps running.
+void CViewDummyAppMain::OpenExampleCrashReporter()
+{
+	char reportPath[512];
+	if (MT_CrashReporter_WriteTestReport(reportPath, sizeof(reportPath)))
+	{
+		MT_CrashReporter_SpawnHelper(reportPath);
+		guiMain->ShowNotification("Crash Reporter",
+			"Synthetic crash report written; a native dialog will open in a new window.");
+	}
+	else
+	{
+		guiMain->ShowNotification("Crash Reporter", "Failed to write the synthetic crash report.");
+	}
+}
+
+void CViewDummyAppMain::OpenExampleFileDownloader()
+{
+	ShowAndFocus(viewFileDownloaderDemo);
 }
 
 void CViewDummyAppMain::PrepareForQuit()

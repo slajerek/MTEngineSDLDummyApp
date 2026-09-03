@@ -10,6 +10,14 @@
 #include "CGuiViewLlamaChat.h"
 #endif
 #include "CViewCamera.h"
+#include "CViewUndoDemo.h"
+#include "CUndoFieldChange.h"
+#include "CViewGamepadViewer.h"
+#include "GAM_GamePads.h"
+#include "CViewTerminalDemo.h"
+#include "MT_CrashReporter.h"
+#include "CViewFileDownloaderDemo.h"
+#include <filesystem>
 
 #define ASSERT_TRUE(cond, msg)                                   \
     do {                                                          \
@@ -50,9 +58,64 @@ void CTestAppStartup::Run(ITestCallback *callback)
 #endif
     ASSERT_TRUE(viewMain->viewImageLoader != nullptr, "image loader example view is created");
     ASSERT_TRUE(viewMain->viewCamera != nullptr, "camera example view is created");
+    ASSERT_TRUE(viewMain->viewUndoDemo != nullptr, "undo/redo example view is created");
+    ASSERT_TRUE(viewMain->viewGamepadViewer != nullptr, "gamepad viewer example view is created");
+    ASSERT_TRUE(viewMain->viewTerminalDemo != nullptr, "terminal example view is created");
+    ASSERT_TRUE(viewMain->viewFileDownloaderDemo != nullptr, "file downloader example view is created");
 
     viewMain->OpenExampleMusicPlayer();
     ASSERT_TRUE(viewMain->viewMusicPlaylist->visible, "music playlist example opens the engine view");
+
+    viewMain->OpenExampleUndoRedo();
+    ASSERT_TRUE(viewMain->viewUndoDemo->visible, "undo/redo example opens the engine view");
+
+    // Exercise the real CUndoManager/CUndoFieldChange path directly -- no
+    // ImGui context is needed to drive it, unlike the ImGuiUndo widgets.
+    viewMain->viewUndoDemo->undoMgr.Push(
+        std::make_unique<CUndoFieldChange<int>>(&viewMain->viewUndoDemo->demoInt, 0, 42));
+    viewMain->viewUndoDemo->demoInt = 42;
+    ASSERT_TRUE(viewMain->viewUndoDemo->undoMgr.CanUndo(), "undo history has an entry after a push");
+    viewMain->viewUndoDemo->undoMgr.PerformUndo();
+    ASSERT_TRUE(viewMain->viewUndoDemo->demoInt == 0, "undo restores the previous value");
+    ASSERT_TRUE(viewMain->viewUndoDemo->undoMgr.CanRedo(), "redo is available after an undo");
+    viewMain->viewUndoDemo->undoMgr.PerformRedo();
+    ASSERT_TRUE(viewMain->viewUndoDemo->demoInt == 42, "redo re-applies the change");
+
+    viewMain->OpenExampleGamepadViewer();
+    ASSERT_TRUE(viewMain->viewGamepadViewer->visible, "gamepad viewer example opens the engine view");
+
+    // Hardware-independent sanity check: valid on a machine with zero pads.
+    int numGamepads = 0;
+    CGamePad **pads = GAM_EnumerateGamepads(&numGamepads);
+    ASSERT_TRUE(pads != nullptr, "gamepad enumeration returns a valid array");
+    ASSERT_TRUE(numGamepads == MAX_GAMEPADS, "gamepad enumeration returns the fixed slot count");
+
+    viewMain->OpenExampleTerminal();
+    ASSERT_TRUE(viewMain->viewTerminalDemo->visible, "terminal example opens the engine view");
+
+    // Round-trip smoke check: exercises the local-echo write callback without
+    // a real keypress. CGuiViewTerminal's internal VT100 buffer is protected,
+    // so this cannot assert on rendered content -- only that writing does not
+    // crash the wiring.
+    viewMain->viewTerminalDemo->SendData("hello\n");
+    ASSERT_TRUE(viewMain->viewTerminalDemo->visible, "terminal view still visible after a local-echo round trip");
+
+    // Exercise only the safe half of the crash-reporter demo: writing a
+    // synthetic report is real production code with no side effect on the
+    // running process. MT_CrashReporter_SpawnHelper() is never called here --
+    // it launches a subprocess and shows a native dialog, which headless CI
+    // must not trigger.
+    char crashReportPath[512];
+    bool crashReportOk = MT_CrashReporter_WriteTestReport(crashReportPath, sizeof(crashReportPath));
+    ASSERT_TRUE(crashReportOk, "crash reporter writes a synthetic test report");
+    ASSERT_TRUE(std::filesystem::exists(crashReportPath), "the synthetic crash report file exists on disk");
+
+    viewMain->OpenExampleFileDownloader();
+    ASSERT_TRUE(viewMain->viewFileDownloaderDemo->visible, "file downloader example opens the engine view");
+    // The actual download exercise (starting the local server, downloading,
+    // verifying the file) is a dedicated CTest -- CTestFileDownloaderDemo --
+    // since it runs real async I/O on its own timeline rather than the fast
+    // synchronous steps this test asserts.
 
     // BOTH BRANCHES ARE ASSERTED. The capability-aware test shape: compiled-in
     // must work, compiled-out must report unavailable. Never skip silently, and

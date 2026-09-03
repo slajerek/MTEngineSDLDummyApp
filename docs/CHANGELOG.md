@@ -24,6 +24,40 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.11 — development
+
+Five new examples, each a small self-contained view over one engine mechanism
+that had no worked reference in this template before:
+
+- **Undo & Redo** over `CUndoManager` — a text buffer with an undo stack, so
+  the two-list model and what a command has to store are visible in one file.
+- **Gamepad Viewer** over `GAM_EnumerateGamepads` — live axes, buttons, and
+  hot plug/unplug for every connected pad.
+- **Terminal** over `CGuiViewTerminal` — the engine's terminal widget with a
+  local echo, the minimum needed to see how input reaches it.
+- **Crash Reporter** — writes a synthetic report with
+  `MT_CrashReporter_WriteTestReport()`, then shows the native OS dialog through
+  `MT_CrashReporter_SpawnHelper()`. It has no view of its own, and that is the
+  example: the helper runs as a child process and the running application is
+  unaffected. The reporter is installed for every host by the engine's own
+  startup, so a host needs no call of its own to get it.
+- **File Downloader** over `CFileDownloader` — an HTTP fetch with progress,
+  covered by an integration test that downloads from a server started inside
+  the test rather than reaching the network, so the suite stays offline and
+  deterministic.
+
+Between them they show the two shapes an example can take: wrapping an engine
+view that already exists (Terminal), and owning a small view over an engine
+mechanism that has none (the other three). None needed a new capability flag,
+and the UI tests cover the new menu entries.
+
+New: `docs/getting-started.md`, a checklist for turning a fork of this template
+into your own application — what to rename first, what is not worth renaming,
+how to run each of the two test suites and why they run from the release
+package, and where the engine's own documentation takes over.
+
+---
+
 ## 3.21.10 — development
 
 No change in this repository. The number moves with engine 3.21.10, which puts

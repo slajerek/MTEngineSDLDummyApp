@@ -135,6 +135,13 @@ void RegisterDummyAppTests(ImGuiTestEngine *engine)
         IM_CHECK(MenuEntryExists(ctx, "Examples", "Camera", 0));
         IM_CHECK(MenuEntryExists(ctx, "Examples", "HDR Test", 0));
         IM_CHECK(MenuEntryExists(ctx, "Examples", "I18N", 0));
+        IM_CHECK(MenuEntryExists(ctx, "Examples", "Undo & Redo", 0));
+        IM_CHECK(MenuEntryExists(ctx, "Examples", "Gamepad Viewer", 0));
+        IM_CHECK(MenuEntryExists(ctx, "Examples", "Terminal", 0));
+        // Crash Reporter: presence only -- see examples_open_engine_views below
+        // for why it is never clicked in this suite.
+        IM_CHECK(MenuEntryExists(ctx, "Examples", "Crash Reporter", 0));
+        IM_CHECK(MenuEntryExists(ctx, "Examples", "File Downloader", 0));
 #if MT_CAP_LLM
         IM_CHECK(MenuEntryExists(ctx, "Examples/AI", "LLM Settings", 1));
         IM_CHECK(MenuEntryExists(ctx, "Examples/AI", "LLM Chat", 1));
@@ -158,8 +165,10 @@ void RegisterDummyAppTests(ImGuiTestEngine *engine)
     };
 
     // Test: safe example actions open the reusable MTEngineSDL helper windows.
-    // Camera can request OS permissions and Image Loader opens a native file
-    // dialog, so those are covered by menu presence above rather than clicked.
+    // Camera can request OS permissions, Image Loader opens a native file
+    // dialog, and Crash Reporter spawns a child process and a native OS
+    // dialog -- all three are covered by menu presence above rather than
+    // clicked.
     t = IM_REGISTER_TEST(engine, "ui", "examples_open_engine_views");
     t->TestFunc = [](ImGuiTestContext *ctx)
     {
@@ -169,6 +178,12 @@ void RegisterDummyAppTests(ImGuiTestEngine *engine)
         // window's ImGui name is "<label>###<stableId>", so it only enters the
         // window list a few frames after the menu click.
         IM_CHECK(OpenedViewWindowExists(ctx, "Examples/Music Player", "Music Playlist"));
+        IM_CHECK(OpenedViewWindowExists(ctx, "Examples/Undo & Redo", "Undo & Redo"));
+        IM_CHECK(OpenedViewWindowExists(ctx, "Examples/Gamepad Viewer", "Gamepad Viewer"));
+        IM_CHECK(OpenedViewWindowExists(ctx, "Examples/Terminal", "Terminal"));
+        // Opening this view starts nothing -- the local server/download only
+        // begin when "Start Download" is pressed, which this test never does.
+        IM_CHECK(OpenedViewWindowExists(ctx, "Examples/File Downloader", "File Downloader"));
 #if MT_CAP_LLM
         IM_CHECK(OpenedViewWindowExists(ctx, "Examples/AI/LLM Settings", "AI setup"));
         IM_CHECK(OpenedViewWindowExists(ctx, "Examples/AI/LLM Chat", "AI Chat"));

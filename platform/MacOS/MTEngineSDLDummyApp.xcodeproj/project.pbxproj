@@ -10,6 +10,11 @@
 		41344F502784633A00F608A2 /* CViewDummyAppMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41344F4C2784633A00F608A2 /* CViewDummyAppMain.cpp */; };
 		41344F512784633A00F608A2 /* CMainMenuBar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 41344F4E2784633A00F608A2 /* CMainMenuBar.cpp */; };
 		AABBCCDD2799999900AD0001 /* CViewHdrTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0002 /* CViewHdrTest.cpp */; };
+		AABBCCDD2799999900AD0014 /* CViewUndoDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0015 /* CViewUndoDemo.cpp */; };
+		AABBCCDD2799999900AD0017 /* CViewGamepadViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0018 /* CViewGamepadViewer.cpp */; };
+		AABBCCDD2799999900AD001A /* CViewTerminalDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD001B /* CViewTerminalDemo.cpp */; };
+		AABBCCDD2799999900AD001D /* CViewFileDownloaderDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD001E /* CViewFileDownloaderDemo.cpp */; };
+		AABBCCDD2799999900AD0021 /* CTestFileDownloaderDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0022 /* CTestFileDownloaderDemo.cpp */; };
 		414C49F7293519680014DC9B /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F5293519680014DC9B /* CoreHaptics.framework */; };
 		414C49FA2935198A0014DC9B /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F92935198A0014DC9B /* GameController.framework */; };
 		419710E82975B54400A4C766 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419710E62975B54400A4C766 /* CoreMIDI.framework */; };
@@ -83,6 +88,16 @@
 		41344F4E2784633A00F608A2 /* CMainMenuBar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CMainMenuBar.cpp; path = ../../src/Views/CMainMenuBar.cpp; sourceTree = "<group>"; };
 		AABBCCDD2799999900AD0002 /* CViewHdrTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewHdrTest.cpp; path = ../../src/Views/CViewHdrTest.cpp; sourceTree = "<group>"; };
 		AABBCCDD2799999900AD0003 /* CViewHdrTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewHdrTest.h; path = ../../src/Views/CViewHdrTest.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0015 /* CViewUndoDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewUndoDemo.cpp; path = ../../src/Views/CViewUndoDemo.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0016 /* CViewUndoDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewUndoDemo.h; path = ../../src/Views/CViewUndoDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0018 /* CViewGamepadViewer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewGamepadViewer.cpp; path = ../../src/Views/CViewGamepadViewer.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0019 /* CViewGamepadViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewGamepadViewer.h; path = ../../src/Views/CViewGamepadViewer.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD001B /* CViewTerminalDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewTerminalDemo.cpp; path = ../../src/Views/CViewTerminalDemo.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD001C /* CViewTerminalDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewTerminalDemo.h; path = ../../src/Views/CViewTerminalDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD001E /* CViewFileDownloaderDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewFileDownloaderDemo.cpp; path = ../../src/Views/CViewFileDownloaderDemo.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD001F /* CViewFileDownloaderDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewFileDownloaderDemo.h; path = ../../src/Views/CViewFileDownloaderDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0022 /* CTestFileDownloaderDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestFileDownloaderDemo.cpp; path = ../../src/Tests/CTestFileDownloaderDemo.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AD0023 /* CTestFileDownloaderDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestFileDownloaderDemo.h; path = ../../src/Tests/CTestFileDownloaderDemo.h; sourceTree = "<group>"; };
 		41344F4F2784633A00F608A2 /* CViewDummyAppMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewDummyAppMain.h; path = ../../src/Views/CViewDummyAppMain.h; sourceTree = "<group>"; };
 		4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTEngineSDLDummyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		414C49F5293519680014DC9B /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
@@ -165,6 +180,14 @@
 				41344F4F2784633A00F608A2 /* CViewDummyAppMain.h */,
 				AABBCCDD2799999900AD0002 /* CViewHdrTest.cpp */,
 				AABBCCDD2799999900AD0003 /* CViewHdrTest.h */,
+				AABBCCDD2799999900AD0015 /* CViewUndoDemo.cpp */,
+				AABBCCDD2799999900AD0016 /* CViewUndoDemo.h */,
+				AABBCCDD2799999900AD0018 /* CViewGamepadViewer.cpp */,
+				AABBCCDD2799999900AD0019 /* CViewGamepadViewer.h */,
+				AABBCCDD2799999900AD001B /* CViewTerminalDemo.cpp */,
+				AABBCCDD2799999900AD001C /* CViewTerminalDemo.h */,
+				AABBCCDD2799999900AD001E /* CViewFileDownloaderDemo.cpp */,
+				AABBCCDD2799999900AD001F /* CViewFileDownloaderDemo.h */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -183,6 +206,8 @@
 				41F05F002799999900F00003 /* CTestFonts.h */,
 				AABBCCDD2799999900AD0012 /* CTestHdrTestView.cpp */,
 				AABBCCDD2799999900AD0013 /* CTestHdrTestView.h */,
+				AABBCCDD2799999900AD0022 /* CTestFileDownloaderDemo.cpp */,
+				AABBCCDD2799999900AD0023 /* CTestFileDownloaderDemo.h */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -394,6 +419,11 @@
 				41DA00032799999900DA0003 /* CTestI18nDummyApp.cpp in Sources */,
 				41F05F002799999900F00001 /* CTestFonts.cpp in Sources */,
 				AABBCCDD2799999900AD0011 /* CTestHdrTestView.cpp in Sources */,
+				AABBCCDD2799999900AD0014 /* CViewUndoDemo.cpp in Sources */,
+				AABBCCDD2799999900AD0017 /* CViewGamepadViewer.cpp in Sources */,
+				AABBCCDD2799999900AD001A /* CViewTerminalDemo.cpp in Sources */,
+				AABBCCDD2799999900AD001D /* CViewFileDownloaderDemo.cpp in Sources */,
+				AABBCCDD2799999900AD0021 /* CTestFileDownloaderDemo.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

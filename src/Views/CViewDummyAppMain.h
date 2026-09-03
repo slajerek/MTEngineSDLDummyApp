@@ -38,6 +38,10 @@ class CViewHdrTest;
 #if MT_CAP_VIDEO_PLAYBACK
 class CGuiViewVideoPlayer;
 #endif
+class CViewUndoDemo;
+class CViewGamepadViewer;
+class CViewTerminalDemo;
+class CViewFileDownloaderDemo;
 
 class CViewDummyAppMain : public CGuiView, public CMidiInKeyboardCallback, public CSystemFileDialogCallback
 {
@@ -78,6 +82,11 @@ public:
 	void OpenExampleVideoPlayer();
 #endif
 	void OpenExampleI18n();
+	void OpenExampleUndoRedo();
+	void OpenExampleGamepadViewer();
+	void OpenExampleTerminal();
+	void OpenExampleCrashReporter();
+	void OpenExampleFileDownloader();
 
 	// A discreet, always-true-or-always-false status line about what this
 	// MACHINE can decode -- not an event, and deliberately not a popup. See the
@@ -107,6 +116,22 @@ public:
 	// off.
 	CGuiViewVideoPlayer *viewVideoPlayer = NULL;
 #endif
+
+	// Undo/Redo example -- an app-owned view, since no CGuiView wraps
+	// CUndoManager anywhere in the engine.
+	CViewUndoDemo *viewUndoDemo = NULL;
+
+	// Gamepad viewer example -- an app-owned view over the engine's
+	// GAM_EnumerateGamepads(), which has no CGuiView of its own either.
+	CViewGamepadViewer *viewGamepadViewer = NULL;
+
+	// Terminal example -- app-owned subclass of the engine's CGuiViewTerminal,
+	// wired for local echo instead of a real transport.
+	CViewTerminalDemo *viewTerminalDemo = NULL;
+
+	// File Downloader example -- app-owned view around CFileDownloader and a
+	// local httplib server started only on demand.
+	CViewFileDownloaderDemo *viewFileDownloaderDemo = NULL;
 
 	virtual void SystemDialogFileOpenSelected(CSlrString *path) override;
 	virtual void SystemDialogFileOpenCancelled() override;

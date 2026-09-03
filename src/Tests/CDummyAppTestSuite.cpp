@@ -3,6 +3,7 @@
 #include "CTestI18nDummyApp.h"
 #include "CTestFonts.h"
 #include "CTestHdrTestView.h"
+#include "CTestFileDownloaderDemo.h"
 
 CDummyAppTestSuite::CDummyAppTestSuite()
 {
@@ -20,6 +21,7 @@ void CDummyAppTestSuite::RegisterTests()
 	tests.push_back(std::make_unique<CTestI18nDummyApp>());
 	tests.push_back(std::make_unique<CTestFonts>());
 	tests.push_back(std::make_unique<CTestHdrTestView>());
+	tests.push_back(std::make_unique<CTestFileDownloaderDemo>());
 	// Add new tests here as the project grows
 }
 

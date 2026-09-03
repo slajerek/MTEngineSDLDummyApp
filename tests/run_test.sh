@@ -160,7 +160,8 @@ echo "=== Using binary: $APP_BINARY ==="
 # path opened with fopen("w"), which does not create directories, so from inside
 # the package the app would write nothing, log a failure nobody reads, and leave
 # the runner parsing the PREVIOUS run's verdict. MT_TEST_RESULTS is the engine's
-# supported override (CLAUDE.md permits env/flags for test output paths).
+# supported override: environment variables and flags are allowed for test
+# output paths, which is what this is, and not for skipping anything measured.
 # ---------------------------------------------------------------------------
 RUN_DIR="$PROJECT_DIR"
 MTENGINE_DIR="${MTENGINE_DIR:-$PROJECT_DIR/../MTEngineSDL}"

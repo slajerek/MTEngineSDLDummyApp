@@ -55,7 +55,7 @@ MT_CAPS_LIBS_DIR = $(HOME)/.cache/mtengine/_deps/standalone/libs
 // acceptable for this manifest).
 //
 // Measured: a pre-action's write takes effect in the SAME build, and an absolute
-// #include? resolves. See claude/spikes/xcconfig/README.md.
+// #include? resolves.
 //
 // A command-line setting still beats this, so the script path is unaffected:
 // the wrapper's values win and the two agree anyway.

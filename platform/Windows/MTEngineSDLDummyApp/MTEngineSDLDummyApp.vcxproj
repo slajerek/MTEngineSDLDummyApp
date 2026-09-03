@@ -265,12 +265,17 @@
     <ClCompile Include="..\..\..\src\Views\CMainMenuBar.cpp" />
     <ClCompile Include="..\..\..\src\Views\CViewDummyAppMain.cpp" />
     <ClCompile Include="..\..\..\src\Views\CViewHdrTest.cpp" />
+    <ClCompile Include="..\..\..\src\Views\CViewUndoDemo.cpp" />
+    <ClCompile Include="..\..\..\src\Views\CViewGamepadViewer.cpp" />
+    <ClCompile Include="..\..\..\src\Views\CViewTerminalDemo.cpp" />
+    <ClCompile Include="..\..\..\src\Views\CViewFileDownloaderDemo.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CDummyAppTestSuite.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CTestAppStartup.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CImGuiDummyTests.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CTestI18nDummyApp.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CTestFonts.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CTestHdrTestView.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\CTestFileDownloaderDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\DummyInit.h" />
@@ -278,11 +283,16 @@
     <ClInclude Include="..\..\..\src\Views\CMainMenuBar.h" />
     <ClInclude Include="..\..\..\src\Views\CViewDummyAppMain.h" />
     <ClInclude Include="..\..\..\src\Views\CViewHdrTest.h" />
+    <ClInclude Include="..\..\..\src\Views\CViewUndoDemo.h" />
+    <ClInclude Include="..\..\..\src\Views\CViewGamepadViewer.h" />
+    <ClInclude Include="..\..\..\src\Views\CViewTerminalDemo.h" />
+    <ClInclude Include="..\..\..\src\Views\CViewFileDownloaderDemo.h" />
     <ClInclude Include="..\..\..\src\Tests\CDummyAppTestSuite.h" />
     <ClInclude Include="..\..\..\src\Tests\CTestAppStartup.h" />
     <ClInclude Include="..\..\..\src\Tests\CTestI18nDummyApp.h" />
     <ClInclude Include="..\..\..\src\Tests\CTestFonts.h" />
     <ClInclude Include="..\..\..\src\Tests\CTestHdrTestView.h" />
+    <ClInclude Include="..\..\..\src\Tests\CTestFileDownloaderDemo.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\MTEngineSDL\platform\Windows\MTEngineSDL\MTEngineSDL.vcxproj">

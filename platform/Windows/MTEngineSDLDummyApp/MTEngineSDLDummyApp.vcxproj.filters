@@ -39,6 +39,18 @@
     <ClCompile Include="..\..\..\src\Views\CViewHdrTest.cpp">
       <Filter>Source Files\src\Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewUndoDemo.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewGamepadViewer.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewTerminalDemo.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewFileDownloaderDemo.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\CDummyAppTestSuite.cpp">
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
@@ -60,6 +72,9 @@
     <ClCompile Include="..\..\..\src\Tests\CTestHdrTestView.cpp">
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestFileDownloaderDemo.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\DummyInit.h">
@@ -72,6 +87,18 @@
       <Filter>Source Files\src\Views</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Views\CViewHdrTest.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewUndoDemo.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewGamepadViewer.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewTerminalDemo.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewFileDownloaderDemo.h">
       <Filter>Source Files\src\Views</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Tests\CDummyAppTestSuite.h">
@@ -90,6 +117,9 @@
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Tests\CTestHdrTestView.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestFileDownloaderDemo.h">
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
   </ItemGroup>
