@@ -14,7 +14,26 @@ stable.**
 `MTENGINE_REF` names the engine revision to build against and moves with the
 branch: `origin/devel` here on `devel`, `origin/master` on `master`.
 
+**This template and the engine carry the SAME number.** They are a matched pair
+and are read as one release, so a reader who has 3.21.6 of one should not have
+to work out which of the other goes with it. Where the two have drifted a patch
+apart, the one that is behind skips a number to come back level rather than
+staying out of step.
+
 The convention starts at 3.21.
+
+---
+
+## 3.21.6 — development
+
+**The Linux job installs `libheif-dev`.** libheif is deliberately a system
+dependency there — unlike TIFF, WebP, AVIF and LibRaw it is not one of the
+archives the engine builds from source — so the package list is the only place
+it can come from, and it was never there.
+
+Linux is the only platform that needs it. macOS and Windows decode HEIF through
+ImageIO and WIC, and engine 3.21.5 makes the capability system say so, rather
+than compiling a translation unit those platforms never reach.
 
 ---
 

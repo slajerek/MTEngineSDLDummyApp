@@ -60,6 +60,7 @@ jobs:
             libxcb1-dev \
             libsndio-dev \
             libfreetype-dev \
+            libheif-dev \
             libdbus-1-dev \
             libglib2.0-dev \
             zlib1g-dev
