@@ -28,6 +28,14 @@ jobs:
       - name: Checkout MTEngineSDLDummyApp
         uses: actions/checkout@v4
 
+      - name: Install dependencies
+        # nasm, for the x86_64 half of the universal video-codec build. libvpx
+        # has no assembler-less fallback the way FFmpeg's --disable-x86asm is,
+        # so without this its configure stops at "Neither yasm nor nasm have
+        # been found" -- inside an Xcode script phase, where the message is
+        # nearly unfindable. GitHub's arm64 macOS image does not ship one.
+        run: brew list nasm >/dev/null 2>&1 || brew install nasm
+
       - name: Build
         run: |
           chmod +x ./build-macos.sh

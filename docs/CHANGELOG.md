@@ -18,6 +18,23 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.4 — development
+
+**The macOS job installs nasm.** macOS builds the video codecs universal —
+arm64 and x86_64 — and the x86_64 half needs an x86 assembler. libvpx has no
+assembler-less fallback the way FFmpeg's `--disable-x86asm` is, so on a runner
+without one its configure stops at "Neither yasm nor nasm have been found",
+inside an Xcode script phase where the message is nearly unfindable. A developer
+machine that has nasm from Homebrew or MacPorts never sees this.
+
+ARM is unaffected and always was: aarch64 NEON reaches the compiler as
+intrinsics in libvpx and as `.S` files assembled by clang in FFmpeg. nasm is an
+x86-only requirement.
+
+Follows engine 3.21.3.
+
+---
+
 ## 3.21.3 — development
 
 **The Linux job installs `libxss-dev`.** SDL3's X11 backend checks for
