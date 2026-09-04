@@ -266,6 +266,7 @@ include_directories(
     "${MTENGINE_DIR}/src/Engine/Libs/icc"
     "${MTENGINE_DIR}/src/Engine/Libs/imgui"
     "${MTENGINE_DIR}/src/Engine/Libs/imguiext"
+    "${MTENGINE_DIR}/src/Engine/Libs/imgui_textedit"
     "${MTENGINE_DIR}/src/Engine/Libs/implot"
     "${MTENGINE_DIR}/src/Engine/Libs/imgui-notify"
     "${MTENGINE_DIR}/src/Engine/Libs/imgui_test_engine"
@@ -316,6 +317,8 @@ include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}/src/i18n"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Views"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Shaders"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Fonts"
 )
 
 add_executable(MTEngineSDLDummyApp
@@ -328,6 +331,11 @@ add_executable(MTEngineSDLDummyApp
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewGamepadViewer.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewTerminalDemo.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewFileDownloaderDemo.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewShaderToyDemo.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewShaderToyOutput.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewShaderToyChannels.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Views/CViewCodeEditorDemo.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Fonts/DummyAppFonts.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CDummyAppTestSuite.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestAppStartup.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CImGuiDummyTests.cpp"
@@ -335,6 +343,8 @@ add_executable(MTEngineSDLDummyApp
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestFonts.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestHdrTestView.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestFileDownloaderDemo.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestShaderToyDemo.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestCodeEditorView.cpp"
 )
 
 # Apply the resolved capability set to this app's own translation units. Without

@@ -4,6 +4,8 @@
 #include "CTestFonts.h"
 #include "CTestHdrTestView.h"
 #include "CTestFileDownloaderDemo.h"
+#include "CTestShaderToyDemo.h"
+#include "CTestCodeEditorView.h"
 
 CDummyAppTestSuite::CDummyAppTestSuite()
 {
@@ -22,6 +24,8 @@ void CDummyAppTestSuite::RegisterTests()
 	tests.push_back(std::make_unique<CTestFonts>());
 	tests.push_back(std::make_unique<CTestHdrTestView>());
 	tests.push_back(std::make_unique<CTestFileDownloaderDemo>());
+	tests.push_back(std::make_unique<CTestShaderToyDemo>());
+	tests.push_back(std::make_unique<CTestCodeEditorView>());
 	// Add new tests here as the project grows
 }
 

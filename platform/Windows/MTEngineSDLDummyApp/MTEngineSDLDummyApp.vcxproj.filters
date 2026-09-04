@@ -51,6 +51,21 @@
     <ClCompile Include="..\..\..\src\Views\CViewFileDownloaderDemo.cpp">
       <Filter>Source Files\src\Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewShaderToyDemo.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewShaderToyOutput.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewShaderToyChannels.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Views\CViewCodeEditorDemo.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Fonts\DummyAppFonts.cpp">
+      <Filter>Source Files\src\Views</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\CDummyAppTestSuite.cpp">
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
@@ -73,6 +88,12 @@
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\Tests\CTestFileDownloaderDemo.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestShaderToyDemo.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestCodeEditorView.cpp">
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,6 +122,24 @@
     <ClInclude Include="..\..\..\src\Views\CViewFileDownloaderDemo.h">
       <Filter>Source Files\src\Views</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewShaderToyDemo.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewShaderToyOutput.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewShaderToyChannels.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Views\CViewCodeEditorDemo.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Shaders\ShaderToyPresets.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Fonts\DummyAppFonts.h">
+      <Filter>Source Files\src\Views</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\src\Tests\CDummyAppTestSuite.h">
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
@@ -120,6 +159,12 @@
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Tests\CTestFileDownloaderDemo.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestShaderToyDemo.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestCodeEditorView.h">
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
   </ItemGroup>

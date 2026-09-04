@@ -14,7 +14,14 @@
 		AABBCCDD2799999900AD0017 /* CViewGamepadViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0018 /* CViewGamepadViewer.cpp */; };
 		AABBCCDD2799999900AD001A /* CViewTerminalDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD001B /* CViewTerminalDemo.cpp */; };
 		AABBCCDD2799999900AD001D /* CViewFileDownloaderDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD001E /* CViewFileDownloaderDemo.cpp */; };
+		AABBCCDD2799999900AE0001 /* CViewShaderToyDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0002 /* CViewShaderToyDemo.cpp */; };
+		AABBCCDD2799999900AE0041 /* CViewShaderToyOutput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0042 /* CViewShaderToyOutput.cpp */; };
+		AABBCCDD2799999900AE0051 /* CViewShaderToyChannels.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0052 /* CViewShaderToyChannels.cpp */; };
+		AABBCCDD2799999900AE0031 /* CViewCodeEditorDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0032 /* CViewCodeEditorDemo.cpp */; };
+		AABBCCDD2799999900AE0021 /* DummyAppFonts.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0022 /* DummyAppFonts.cpp */; };
 		AABBCCDD2799999900AD0021 /* CTestFileDownloaderDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0022 /* CTestFileDownloaderDemo.cpp */; };
+		AABBCCDD2799999900AE0011 /* CTestShaderToyDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0012 /* CTestShaderToyDemo.cpp */; };
+		AABBCCDD2799999900AE0034 /* CTestCodeEditorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0035 /* CTestCodeEditorView.cpp */; };
 		414C49F7293519680014DC9B /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F5293519680014DC9B /* CoreHaptics.framework */; };
 		414C49FA2935198A0014DC9B /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F92935198A0014DC9B /* GameController.framework */; };
 		419710E82975B54400A4C766 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419710E62975B54400A4C766 /* CoreMIDI.framework */; };
@@ -96,8 +103,24 @@
 		AABBCCDD2799999900AD001C /* CViewTerminalDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewTerminalDemo.h; path = ../../src/Views/CViewTerminalDemo.h; sourceTree = "<group>"; };
 		AABBCCDD2799999900AD001E /* CViewFileDownloaderDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewFileDownloaderDemo.cpp; path = ../../src/Views/CViewFileDownloaderDemo.cpp; sourceTree = "<group>"; };
 		AABBCCDD2799999900AD001F /* CViewFileDownloaderDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewFileDownloaderDemo.h; path = ../../src/Views/CViewFileDownloaderDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0002 /* CViewShaderToyDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewShaderToyDemo.cpp; path = ../../src/Views/CViewShaderToyDemo.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0003 /* CViewShaderToyDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewShaderToyDemo.h; path = ../../src/Views/CViewShaderToyDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0042 /* CViewShaderToyOutput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewShaderToyOutput.cpp; path = ../../src/Views/CViewShaderToyOutput.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0043 /* CViewShaderToyOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewShaderToyOutput.h; path = ../../src/Views/CViewShaderToyOutput.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0052 /* CViewShaderToyChannels.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewShaderToyChannels.cpp; path = ../../src/Views/CViewShaderToyChannels.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0053 /* CViewShaderToyChannels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewShaderToyChannels.h; path = ../../src/Views/CViewShaderToyChannels.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0032 /* CViewCodeEditorDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CViewCodeEditorDemo.cpp; path = ../../src/Views/CViewCodeEditorDemo.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0033 /* CViewCodeEditorDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewCodeEditorDemo.h; path = ../../src/Views/CViewCodeEditorDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0004 /* ShaderToyPresets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShaderToyPresets.h; path = ../../src/Shaders/ShaderToyPresets.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0022 /* DummyAppFonts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DummyAppFonts.cpp; path = ../../src/Fonts/DummyAppFonts.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0023 /* DummyAppFonts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DummyAppFonts.h; path = ../../src/Fonts/DummyAppFonts.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0024 /* font_courier_prime_code.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = font_courier_prime_code.cpp; path = ../../src/Fonts/font_courier_prime_code.cpp; sourceTree = "<group>"; };
 		AABBCCDD2799999900AD0022 /* CTestFileDownloaderDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestFileDownloaderDemo.cpp; path = ../../src/Tests/CTestFileDownloaderDemo.cpp; sourceTree = "<group>"; };
 		AABBCCDD2799999900AD0023 /* CTestFileDownloaderDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestFileDownloaderDemo.h; path = ../../src/Tests/CTestFileDownloaderDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0012 /* CTestShaderToyDemo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestShaderToyDemo.cpp; path = ../../src/Tests/CTestShaderToyDemo.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0013 /* CTestShaderToyDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestShaderToyDemo.h; path = ../../src/Tests/CTestShaderToyDemo.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0035 /* CTestCodeEditorView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestCodeEditorView.cpp; path = ../../src/Tests/CTestCodeEditorView.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0036 /* CTestCodeEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestCodeEditorView.h; path = ../../src/Tests/CTestCodeEditorView.h; sourceTree = "<group>"; };
 		41344F4F2784633A00F608A2 /* CViewDummyAppMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewDummyAppMain.h; path = ../../src/Views/CViewDummyAppMain.h; sourceTree = "<group>"; };
 		4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTEngineSDLDummyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		414C49F5293519680014DC9B /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
@@ -188,6 +211,18 @@
 				AABBCCDD2799999900AD001C /* CViewTerminalDemo.h */,
 				AABBCCDD2799999900AD001E /* CViewFileDownloaderDemo.cpp */,
 				AABBCCDD2799999900AD001F /* CViewFileDownloaderDemo.h */,
+				AABBCCDD2799999900AE0002 /* CViewShaderToyDemo.cpp */,
+				AABBCCDD2799999900AE0003 /* CViewShaderToyDemo.h */,
+				AABBCCDD2799999900AE0042 /* CViewShaderToyOutput.cpp */,
+				AABBCCDD2799999900AE0043 /* CViewShaderToyOutput.h */,
+				AABBCCDD2799999900AE0052 /* CViewShaderToyChannels.cpp */,
+				AABBCCDD2799999900AE0053 /* CViewShaderToyChannels.h */,
+				AABBCCDD2799999900AE0032 /* CViewCodeEditorDemo.cpp */,
+				AABBCCDD2799999900AE0033 /* CViewCodeEditorDemo.h */,
+				AABBCCDD2799999900AE0004 /* ShaderToyPresets.h */,
+				AABBCCDD2799999900AE0022 /* DummyAppFonts.cpp */,
+				AABBCCDD2799999900AE0023 /* DummyAppFonts.h */,
+				AABBCCDD2799999900AE0024 /* font_courier_prime_code.cpp */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -208,6 +243,10 @@
 				AABBCCDD2799999900AD0013 /* CTestHdrTestView.h */,
 				AABBCCDD2799999900AD0022 /* CTestFileDownloaderDemo.cpp */,
 				AABBCCDD2799999900AD0023 /* CTestFileDownloaderDemo.h */,
+				AABBCCDD2799999900AE0012 /* CTestShaderToyDemo.cpp */,
+				AABBCCDD2799999900AE0013 /* CTestShaderToyDemo.h */,
+				AABBCCDD2799999900AE0035 /* CTestCodeEditorView.cpp */,
+				AABBCCDD2799999900AE0036 /* CTestCodeEditorView.h */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -423,7 +462,14 @@
 				AABBCCDD2799999900AD0017 /* CViewGamepadViewer.cpp in Sources */,
 				AABBCCDD2799999900AD001A /* CViewTerminalDemo.cpp in Sources */,
 				AABBCCDD2799999900AD001D /* CViewFileDownloaderDemo.cpp in Sources */,
+				AABBCCDD2799999900AE0001 /* CViewShaderToyDemo.cpp in Sources */,
+				AABBCCDD2799999900AE0041 /* CViewShaderToyOutput.cpp in Sources */,
+				AABBCCDD2799999900AE0051 /* CViewShaderToyChannels.cpp in Sources */,
+				AABBCCDD2799999900AE0031 /* CViewCodeEditorDemo.cpp in Sources */,
+				AABBCCDD2799999900AE0021 /* DummyAppFonts.cpp in Sources */,
 				AABBCCDD2799999900AD0021 /* CTestFileDownloaderDemo.cpp in Sources */,
+				AABBCCDD2799999900AE0011 /* CTestShaderToyDemo.cpp in Sources */,
+				AABBCCDD2799999900AE0034 /* CTestCodeEditorView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,6 +585,8 @@
 					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/include",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/library",
 					"$(PROJECT_DIR)/../../src/Tests",
+					"$(PROJECT_DIR)/../../src/Shaders",
+					"$(PROJECT_DIR)/../../src/Fonts",
 					"$(PROJECT_DIR)/../../src/i18n",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
@@ -584,6 +632,8 @@
 					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/include",
 					"$(PROJECT_DIR)/../../../MTEngineSDL/other/lib/mbedtls/library",
 					"$(PROJECT_DIR)/../../src/Tests",
+					"$(PROJECT_DIR)/../../src/Shaders",
+					"$(PROJECT_DIR)/../../src/Fonts",
 					"$(PROJECT_DIR)/../../src/i18n",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;

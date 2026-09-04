@@ -1,6 +1,10 @@
 #if MT_ENABLE_IMGUI_TEST_ENGINE
 
 #include "imgui.h"
+// For ImGuiContext::ErrorCallback -- the fullscreen test below counts ImGui's
+// own recoverable-error reports, which is how it sees a style stack imbalance
+// in a build where the assert is compiled out.
+#include "imgui_internal.h"
 
 // The generated capability header. These UI tests assert BOTH branches of
 // MT_CAP_LLM: with it on the AI submenu works, with it off the submenu is still
@@ -11,6 +15,13 @@
 #include "imgui_te_context.h"
 
 #include "VID_Main.h"
+#include "CRenderShaderCustomFragment.h"
+#include "CGuiMain.h"
+#include "CViewDummyAppMain.h"
+#include "CViewShaderToyDemo.h"
+#include "CViewShaderToyChannels.h"
+#include "CViewShaderToyOutput.h"
+#include "CViewCodeEditorDemo.h"
 // For _T(): the renderer test references the message box by its TRANSLATED
 // title, so it survives whatever locale an earlier test left active.
 #include "CI18nManager.h"
@@ -89,6 +100,36 @@ static bool OpenedViewWindowExists(ImGuiTestContext *ctx, const char *menuPath, 
 	return false;
 }
 
+// Right-click a point that is inside BOTH the window and the viewport. A
+// window may legitimately extend past the viewport -- this app lays its
+// windows out for a desktop-sized main window -- and the test engine clamps a
+// mouse position to the viewport, so aiming at a window's true centre can put
+// the click outside the window entirely.
+static void RightClickInside(ImGuiTestContext *ctx, ImGuiWindow *window, ImGuiViewport *viewport)
+{
+	ImVec2 target;
+	target.x = window->Pos.x + ImMin(window->Size.x * 0.5f, viewport->Size.x * 0.4f);
+	target.y = window->Pos.y + ImMin(window->Size.y * 0.5f, viewport->Size.y * 0.4f);
+	ctx->MouseMoveToPos(target);
+	ctx->MouseClick(ImGuiMouseButton_Right);
+	ctx->Yield();
+	ctx->Yield();
+}
+
+// ImGui reports recoverable programmer errors -- a mismatched
+// PushStyleVar/PopStyleVar among them -- through IM_ASSERT_USER_ERROR, which
+// calls ErrorLog(): that fires the context's ErrorCallback and then asserts
+// only if io.ConfigErrorRecoveryEnableAssert is set. Counting the callback is
+// therefore the one way to see such an error in a Release run, where the
+// assert is compiled out and the mispop is silently clamped instead.
+static int gImGuiRecoverableErrorCount = 0;
+
+static void CountImGuiRecoverableError(ImGuiContext *, void *, const char *msg)
+{
+	gImGuiRecoverableErrorCount++;
+	LOGError("imgui recoverable error: %s", msg);
+}
+
 // Close every open menu popup so the next check starts from a clean menu bar.
 static void CloseOpenMenus(ImGuiTestContext *ctx)
 {
@@ -142,6 +183,8 @@ void RegisterDummyAppTests(ImGuiTestEngine *engine)
         // for why it is never clicked in this suite.
         IM_CHECK(MenuEntryExists(ctx, "Examples", "Crash Reporter", 0));
         IM_CHECK(MenuEntryExists(ctx, "Examples", "File Downloader", 0));
+        IM_CHECK(MenuEntryExists(ctx, "Examples", "Shader Toy", 0));
+        IM_CHECK(MenuEntryExists(ctx, "Examples", "Code Editor", 0));
 #if MT_CAP_LLM
         IM_CHECK(MenuEntryExists(ctx, "Examples/AI", "LLM Settings", 1));
         IM_CHECK(MenuEntryExists(ctx, "Examples/AI", "LLM Chat", 1));
@@ -184,6 +227,12 @@ void RegisterDummyAppTests(ImGuiTestEngine *engine)
         // Opening this view starts nothing -- the local server/download only
         // begin when "Start Download" is pressed, which this test never does.
         IM_CHECK(OpenedViewWindowExists(ctx, "Examples/File Downloader", "File Downloader"));
+        // Opening this one compiles the stock preset on whatever backend is
+        // running; shader_toy_compiles_via_ui below checks that it succeeded.
+        IM_CHECK(OpenedViewWindowExists(ctx, "Examples/Shader Toy", "Shader Toy"));
+        // Opening the example opens BOTH windows: the editor and the shader.
+        IM_CHECK(ImGui::FindWindowByName("Shader Toy Output") != NULL);
+        IM_CHECK(OpenedViewWindowExists(ctx, "Examples/Code Editor", "Code Editor"));
 #if MT_CAP_LLM
         IM_CHECK(OpenedViewWindowExists(ctx, "Examples/AI/LLM Settings", "AI setup"));
         IM_CHECK(OpenedViewWindowExists(ctx, "Examples/AI/LLM Chat", "AI Chat"));
@@ -449,6 +498,260 @@ void RegisterDummyAppTests(ImGuiTestEngine *engine)
         IM_CHECK(MenuEntryExists(ctx, "Language", "Polski", 0));
         IM_CHECK(MenuEntryExists(ctx, "Language", "Italiano", 0));
         CloseOpenMenus(ctx);
+    };
+
+    // Test: the custom-fragment seam exists on EVERY backend.
+    //
+    // No early return on any of them. imgui_test_engine has NO Skipped status
+    // -- ImGuiTestStatus is Unknown/Success/Queued/Running/Error/Suspended --
+    // so a test that bails out on one backend is counted as PASSED there,
+    // which is a permanent false green in the headline number.
+    //
+    // CREATE AND DELETE ONLY. This runs on the test engine's own coroutine
+    // thread; SetFragmentSource() would be a GL call from the wrong thread and
+    // that does not fail, it crashes. Deleting an object that never compiled
+    // must touch no GL object either -- every implementation's destructor
+    // guards its handles, and this test is what proves it.
+    t = IM_REGISTER_TEST(engine, "ui", "render_backend_custom_fragment_seam");
+    t->TestFunc = [](ImGuiTestContext *ctx)
+    {
+        CRenderBackend *backend = VID_GetRenderBackend();
+        IM_CHECK(backend != NULL);
+        CRenderShaderCustomFragment *shader = backend->CreateCustomFragmentShader("SeamProbe");
+        IM_CHECK_SILENT(shader != NULL);
+        IM_CHECK(!shader->IsUsable());
+        delete shader;
+    };
+
+    // Test: the Shader Toy example compiles its preset through the UI.
+    //
+    // REQUEST AND YIELD, NEVER CompileNow(). TestFunc runs on the test engine's
+    // own coroutine thread; the GL context belongs to the render thread, and a
+    // GL call from here does not fail, it crashes. The view exposes two entry
+    // points precisely so each suite can use the right one -- CTestShaderToyDemo
+    // takes the synchronous one because IT runs on the render thread.
+    t = IM_REGISTER_TEST(engine, "ui", "shader_toy_compiles_via_ui");
+    t->TestFunc = [](ImGuiTestContext *ctx)
+    {
+        CViewDummyAppMain *viewMain = dynamic_cast<CViewDummyAppMain *>(guiMain->currentView);
+        IM_CHECK(viewMain != NULL);
+        CViewShaderToyDemo *view = viewMain->viewShaderToyDemo;
+        IM_CHECK(view != NULL);
+
+        ctx->SetRef("##MainMenuBar");
+        ctx->MenuClick("Examples/Shader Toy");
+        ctx->SetRef("Shader Toy");
+        ctx->ItemClick("Compile");
+
+        // Serviced by RenderImGui() on the render thread, so yield until the
+        // request clears rather than spinning.
+        for (int i = 0; i < 120 && view->IsCompilePending(); i++)
+            ctx->Yield();
+
+        IM_CHECK(!view->IsCompilePending());
+        IM_CHECK(view->IsShaderUsable());
+        IM_CHECK_STR_EQ(view->GetLastCompileError(), "");
+    };
+
+    // Test: the engine's code editor view opens and its widget draws.
+    t = IM_REGISTER_TEST(engine, "ui", "code_editor_view_renders");
+    t->TestFunc = [](ImGuiTestContext *ctx)
+    {
+        CViewDummyAppMain *viewMain = dynamic_cast<CViewDummyAppMain *>(guiMain->currentView);
+        IM_CHECK(viewMain != NULL && viewMain->viewCodeEditor != NULL);
+        ctx->SetRef("##MainMenuBar");
+        ctx->MenuClick("Examples/Code Editor");
+        ctx->Yield(); ctx->Yield();
+        IM_CHECK(viewMain->viewCodeEditor->GetLanguage() != NULL);
+        IM_CHECK(viewMain->viewCodeEditor->GetText().size() > 0);
+        // The toolbar hook drew the combo; the wrapper alone would not have.
+        ctx->SetRef("Code Editor");
+        IM_CHECK(ctx->ItemInfo("Font", ImGuiTestOpFlags_NoError).ID != 0);
+    };
+
+    // Test: the Shader Toy editor has a language and actually draws.
+    //
+    // Separate from shader_toy_compiles_via_ui because they fail for different
+    // reasons: that one breaks when the shader pipeline breaks, this one when
+    // the editor widget fails to draw or loses its language.
+    t = IM_REGISTER_TEST(engine, "ui", "shader_toy_editor_renders");
+    t->TestFunc = [](ImGuiTestContext *ctx)
+    {
+        CViewDummyAppMain *viewMain = dynamic_cast<CViewDummyAppMain *>(guiMain->currentView);
+        IM_CHECK(viewMain != NULL && viewMain->viewShaderToyDemo != NULL);
+        ctx->SetRef("##MainMenuBar");
+        ctx->MenuClick("Examples/Shader Toy");
+        ctx->Yield(); ctx->Yield();
+        IM_CHECK(viewMain->viewShaderToyDemo->GetEditorLanguage() != NULL);
+        // The editor is a CHILD window, and the lookup MUST be the absolute
+        // "//Parent/child" form. A single-part path takes WindowInfo's "root"
+        // branch and hashes "##src" as a top-level window, which does not
+        // exist; only the multi-part form computes the child's mangled id.
+        // OpenedViewWindowExists above documents the same rule.
+        IM_CHECK(ctx->WindowInfo("//Shader Toy/##src", ImGuiTestOpFlags_NoError).Window != NULL);
+    };
+
+    // Test: the shader quad carries INTERPOLATING uv, so the effect can vary
+    // per pixel.
+    //
+    // This is the regression test for a real bug: the first version drew the
+    // quad with AddRectFilled, which writes the font atlas' white-pixel uv
+    // into all four vertices. Every fragment then computed the same
+    // coordinate, and a tunnel shader rendered as one flat colour that merely
+    // pulsed with iTime. Nothing else here would notice -- the shader
+    // compiles, the window draws, the language is set, and the picture is
+    // simply wrong.
+    t = IM_REGISTER_TEST(engine, "ui", "shader_toy_quad_has_varying_uv");
+    t->TestFunc = [](ImGuiTestContext *ctx)
+    {
+        CViewDummyAppMain *viewMain = dynamic_cast<CViewDummyAppMain *>(guiMain->currentView);
+        IM_CHECK(viewMain != NULL && viewMain->viewShaderToyDemo != NULL);
+        ctx->SetRef("##MainMenuBar");
+        ctx->MenuClick("Examples/Shader Toy");
+        // The output window has to actually draw a frame before there is
+        // anything to measure.
+        for (int i = 0; i < 8; i++)
+            ctx->Yield();
+        IM_CHECK(viewMain->viewShaderToyDemo->HasDrawableShader());
+        // Half a unit apart at least: the quad spans uv 0..1, so anything near
+        // zero means the vertices collapsed onto one texel again.
+        IM_CHECK_GT(viewMain->viewShaderToyDemo->GetLastDrawUvSpan(), 0.5f);
+    };
+
+    // Test: a view can go fullscreen without unbalancing the ImGui style stack.
+    //
+    // REGRESSION TEST for an engine bug this example was the first host to
+    // hit. CGuiView::PreRenderImGui pushed two style vars when
+    // `guiMain->viewFullScreen == this`, while PostRenderImGui popped two when
+    // `guiMain->viewFullScreen != NULL` -- a different question. Going
+    // fullscreen hides the other views, so nobody was left to mispop except
+    // guiMain->currentView, which CGuiMain::RenderImGui draws
+    // unconditionally: CViewDummyAppMain uses the base Pre/Post pair, so from
+    // the first fullscreen frame it popped two style vars it had never pushed
+    // and ImGui reported "Calling PopStyleVar() too many times!" every frame.
+    // Under a debugger that stops the process, which reads as a freeze.
+    //
+    // c64d has the same menu item and never saw it, because CViewC64 does not
+    // call the base pair at all. Nothing in either app's own code was wrong.
+    //
+    // It drives the context menu the way a user does, which is also the only
+    // safe way from a test thread -- see the comment on the mutex below.
+    t = IM_REGISTER_TEST(engine, "ui", "view_fullscreen_keeps_style_stack_balanced");
+    t->TestFunc = [](ImGuiTestContext *ctx)
+    {
+        CViewDummyAppMain *viewMain = dynamic_cast<CViewDummyAppMain *>(guiMain->currentView);
+        IM_CHECK(viewMain != NULL && viewMain->viewShaderToyOutput != NULL);
+        ctx->SetRef("##MainMenuBar");
+        ctx->MenuClick("Examples/Shader Toy");
+        ctx->Yield(); ctx->Yield();
+
+        ImGuiContext *g = ImGui::GetCurrentContext();
+        ImGuiErrorCallback savedCallback = g->ErrorCallback;
+        void *savedUserData = g->ErrorCallbackUserData;
+        bool savedAssert = g->IO.ConfigErrorRecoveryEnableAssert;
+
+        gImGuiRecoverableErrorCount = 0;
+        g->ErrorCallback = CountImGuiRecoverableError;
+        g->ErrorCallbackUserData = NULL;
+        // The assert is what a developer sees; this test wants the COUNT, and
+        // an assert here would take the whole suite down instead of failing
+        // one case.
+        g->IO.ConfigErrorRecoveryEnableAssert = false;
+
+        // THROUGH THE MENU, NOT guiMain->SetViewFullScreen -- and that is a
+        // rule, not a preference. SetViewFullScreen calls guiMain->LockMutex();
+        // this TestFunc runs on the test engine's own coroutine WHILE the
+        // render thread is inside the frame holding that mutex, so calling it
+        // from here deadlocks the two threads against each other. Measured:
+        // the first version of this test hung the suite for its full 120s
+        // timeout, one log line after "SetViewFullScreen: ViewEnterFullScreen".
+        // The menu item runs on the render thread, which is where the engine's
+        // API expects to be called from -- and it is also what the user does.
+        // FOCUS IT FIRST. The example opens three windows and the editor takes
+        // focus last, so on a small viewport it covers the output window and a
+        // click at the output's centre lands in the editor instead -- which is
+        // what the first version of this test did, silently.
+        // FOCUS IT AND MOVE IT INTO THE VIEWPORT FIRST, both of which the first
+        // version of this test skipped and neither of which is optional here.
+        // The example lays its three windows out for a desktop-sized window
+        // and the editor takes focus last: on the headless viewport the output
+        // window sits at x=975, entirely off-screen, so a click at its centre
+        // is clamped away and lands nowhere -- the popup simply never opened
+        // and the failure said "unable to locate item", which points at the
+        // menu rather than at the mouse.
+        ImGuiViewport *viewport = ImGui::GetMainViewport();
+        ctx->WindowFocus("//Shader Toy Output");
+        ctx->WindowMove("//Shader Toy Output", viewport->Pos + ImVec2(10.0f, 10.0f));
+        ctx->Yield();
+        ImGuiWindow *outputWindow = ctx->WindowInfo("//Shader Toy Output").Window;
+        IM_CHECK(outputWindow != NULL);
+        RightClickInside(ctx, outputWindow, viewport);
+        ctx->ItemClick("//$FOCUSED/Full screen");
+        for (int i = 0; i < 20; i++)
+            ctx->Yield();
+        bool wentFullScreen = guiMain->IsViewFullScreen();
+
+        // Back out the same way. The window fills the viewport now, so its
+        // centre is still the right place to right-click.
+        outputWindow = ctx->WindowInfo("//Shader Toy Output").Window;
+        if (outputWindow != NULL)
+        {
+            RightClickInside(ctx, outputWindow, viewport);
+            ctx->ItemClick("//$FOCUSED/Leave full screen");
+        }
+        for (int i = 0; i < 20; i++)
+            ctx->Yield();
+        bool leftFullScreen = !guiMain->IsViewFullScreen();
+
+        // RESTORED BEFORE THE CHECKS. A failing IM_CHECK returns from the
+        // TestFunc, and leaving ImGui's error hooks pointing at this test's
+        // static would outlive it.
+        int errors = gImGuiRecoverableErrorCount;
+        g->ErrorCallback = savedCallback;
+        g->ErrorCallbackUserData = savedUserData;
+        g->IO.ConfigErrorRecoveryEnableAssert = savedAssert;
+
+        IM_CHECK(wentFullScreen);
+        IM_CHECK(leftFullScreen);
+        IM_CHECK_EQ(errors, 0);
+    };
+
+    // Test: the Channels button opens the channel panel, and the panel's four
+    // slots reach the shader.
+    //
+    // The UI half of what CTestShaderToyDemo checks in data: that the button
+    // exists, that the window it opens is real, and that channel 0 arrives
+    // bound -- which is what makes the Texture preset show something on a
+    // first run rather than a black rectangle.
+    t = IM_REGISTER_TEST(engine, "ui", "shader_toy_channels_panel");
+    t->TestFunc = [](ImGuiTestContext *ctx)
+    {
+        CViewDummyAppMain *viewMain = dynamic_cast<CViewDummyAppMain *>(guiMain->currentView);
+        IM_CHECK(viewMain != NULL && viewMain->viewShaderToyDemo != NULL);
+        ctx->SetRef("##MainMenuBar");
+        ctx->MenuClick("Examples/Shader Toy");
+        ctx->Yield(); ctx->Yield();
+
+        ctx->SetRef("Shader Toy");
+        ctx->ItemClick("Channels");
+        ctx->Yield(); ctx->Yield();
+
+        // "//" makes the lookup absolute -- without it the name resolves
+        // against the current ref, which is the editor window and never
+        // matches. Yield in a loop for the same reason OpenedViewWindowExists
+        // does: a view made visible this frame gets its ImGui window on a
+        // later one.
+        bool opened = false;
+        for (int i = 0; i < 30 && !opened; i++)
+        {
+            ctx->Yield();
+            opened = ctx->WindowInfo("//Shader Toy Channels", ImGuiTestOpFlags_NoError).ID != 0;
+        }
+        IM_CHECK(opened);
+
+        CViewShaderToyChannels *channels = viewMain->viewShaderToyDemo->GetChannelsView();
+        IM_CHECK(channels != NULL);
+        IM_CHECK(channels->GetChannelBinding(0).texture != NULL);
     };
 }
 

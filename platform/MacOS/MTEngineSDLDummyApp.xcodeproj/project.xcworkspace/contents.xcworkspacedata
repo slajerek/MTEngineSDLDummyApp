@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/mars/develop/MTEngineSDLDummyApp/platform/MacOS/MTEngineSDLDummyApp.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

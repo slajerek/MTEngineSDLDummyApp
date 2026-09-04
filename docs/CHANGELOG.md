@@ -31,6 +31,151 @@ The convention starts at 3.21.
 
 ---
 
+## 3.21.14 — development
+
+**Full screen on the shader output window no longer stops the app.** Not a
+shader bug and nothing in this repository was wrong: `CGuiView` pushed the
+fullscreen style vars for the fullscreen view and popped them for *every*
+view still rendering, and this app's main view — which uses the engine's
+`PreRenderImGui`/`PostRenderImGui` pair, as a template app should — is the one
+view that keeps rendering while another is fullscreen. It popped two style
+vars it had never pushed, every frame, and ImGui's "Calling PopStyleVar() too
+many times!" stops the process under a debugger. Fixed in the engine; the
+regression test is here, since this is the app that exposes it.
+
+Two things the test itself had to learn, both recorded in its comments.
+`guiMain->SetViewFullScreen` **cannot be called from an imgui_test_engine
+TestFunc**: it takes `guiMain`'s mutex while the render thread is inside the
+frame holding it, and the suite hung for its full 120-second timeout. And a
+window that is laid out for a desktop-sized main window can sit entirely
+outside the headless viewport, where a click at its centre is clamped away —
+so the test moves it into view first.
+
+**Shader Toy has four texture channels**, `iChannel0..3`, as a strip of four
+thumbnails under the editor. **The thumbnail is the button**: click it and the
+platform's file dialog opens for that slot; right-click for "font atlas" and
+"clear". Each slot keeps its own filter (linear/nearest) and wrap
+(repeat/clamp), and all three are remembered between runs. Channel 0 starts on
+ImGui's font atlas — the one texture that exists on every backend with nothing
+to load — so the Texture preset shows something on a first run rather than a
+black rectangle.
+
+**Loaded images are no longer upside down**, and the cause was not how the
+engine loads them. `CSlrImage` stores images top-down, the way ImGui wants
+them — which is why the thumbnails in the panel are upright. ShaderToy's
+`fragCoord` counts from the **bottom**, so `uv = fragCoord / iResolution.xy`
+hands `v = 0` to the bottom of the screen while `v = 0` is the top row of the
+texture. shadertoy.com has the same problem and the same answer: a per-channel
+**vflip**, defaulted on, which is now a **Flip Y** checkbox on each slot.
+
+The dialog offers **everything the engine decodes**, read off `CImageData`'s
+own extension dispatch rather than guessed: KTX2, TIFF, WebP, HEIC/HEIF, AVIF,
+PNG, nine RAW formats through their embedded preview, and the stb_image chain
+(JPEG, BMP, TGA, PSD, GIF, HDR, PIC, PNM).
+
+Sample them with `texChannel0(uv)` .. `texChannel3(uv)`, which spell out the
+same call on all three backends and apply the wrap mode. **Wrapping is done in
+the shader, not by the sampler**: the engine pads every texture up to a power
+of two, so hardware repeat would tile the padding instead of the image.
+
+**Every preset now opens with `MAIN_IMAGE`.** With four channels MSL's
+`mainImage` takes eleven parameters while GLSL's and HLSL's take two, so each
+backend defines the macro as its own signature and a preset writes one word.
+The three language variants of a preset now differ only in the arithmetic
+spellings, which was always the point of writing them out three times.
+
+**Texture** is aspect-corrected through `iChannelResolution[0]` and has lost
+its `fract()`, so the wrap combo actually does something. **Two Channels** is
+new: `iChannel1` displaces `iChannel0`, which is the one thing a single-channel
+example cannot show.
+
+**The uniform block is complete.** `iFrameRate`, `iDate`, `iSampleRate` and
+`iChannelTime` were shipping as zero, which in a shader does not read as
+missing — it reads as a plausible lie.
+
+**Compile errors moved under the editor**, where a compiler's output belongs —
+above it, every new error pushed the code down the screen. The failing lines
+are now banded in red in the editor itself, with the driver's own message as
+the tooltip.
+
+**The error text can be selected and copied**, and each diagnostic is its own
+block with a rule between them instead of one wall of red. A `Copy` button
+takes the whole log in one click.
+
+**Shader Toy now has two windows**, and the shader in it is no longer flat.
+
+The editor and the running shader are separate windows. One window meant the
+shader was permanently a strip beneath a text box, could not be enlarged
+without shrinking the editor, and could not go fullscreen. Right-clicking the
+output window offers **Full screen**, which is the engine's own view-fullscreen
+— other views hidden, aspect ratio kept.
+
+**The Tunnel preset drew one flat pulsing colour instead of a tunnel**, and the
+shader was not at fault. The quad was drawn with `AddRectFilled`, which gives
+all four vertices the font atlas' white-pixel UV, so every fragment computed
+the same coordinate and only `iTime` still varied. It is drawn with `AddImage`
+now, whose UVs interpolate. A regression test measures the UV span of the quad
+ImGui is actually handed, and fails if it ever collapses again.
+
+## 3.21.13 — development
+
+**A real code editor.** `Examples > Shader Toy` no longer edits in a plain
+text box: it uses the engine's newly vendored ImGuiColorTextEdit, with syntax
+highlighting in the language of the running backend — GLSL, HLSL, or the C++
+definition under Metal, since MSL is C++14. Selection works, undo works,
+Ctrl+F finds. Compile moved from Ctrl+Enter to **Alt+Enter**, which is what
+shadertoy.com uses, with F5 as an alias; the editor binds Ctrl+Enter itself.
+
+**`Examples > Code Editor`** — the engine's `CGuiViewCodeEditor` in a window,
+with the same widget and a toolbar the app draws through the wrapper's one
+extension point.
+
+**A font of your own.** Both editors offer a font combo — the default UI font,
+the engine's JetBrains Mono, or **Courier Prime Code, embedded by this app** —
+and the choice is one shared setting. `src/Fonts/` is the worked example of
+shipping a font inside a single executable: compressed data, loader, and the
+licence declaration in `mtengine-app-licenses.json`, which is new and is how
+an application now gets its own dependencies into the `LICENSES.txt` it ships.
+
+## 3.21.12 — development
+
+**`Examples > Shader Toy` — a live fragment-shader editor.** Type
+`mainImage()`, press Ctrl+Enter, and watch it run. It is the worked reference
+for the engine's new `CreateCustomFragmentShader` seam, and it is the answer to
+a question this template could not previously answer: how do I ship my own
+shader?
+
+The editor speaks **the language of whatever backend is running** — GLSL under
+OpenGL, MSL under Metal, HLSL under D3D11 — and each preset is written out in
+all three, which makes the differences between them the example's subject
+rather than a footnote. The whole list of differences turns out to be short:
+`vecN` becomes `floatN`, `mod` becomes `fmod`, `atan(y,x)` becomes `atan2`,
+`mix` becomes `lerp`, and MSL carries the uniform block as a third parameter
+because it has no bound program-scope globals. A transpiler would have hidden
+all of that at the price of two large engine dependencies.
+
+Two presets ship: a kaleidoscopically folded **Tunnel** with a cosine palette,
+and a ten-line **Hello UV** whose only job is that the three languages fit on
+one screen together.
+
+Details that matter when you use it:
+
+- **A broken shader does not blank the preview.** The build happens on a fresh
+  program and swaps in only on success, so the last shader that worked stays on
+  screen while you fix the typo.
+- **Error line numbers point at your line.** Each backend prepends a preamble
+  the editor does not show, so the reported number is rebased before display.
+  Four compiler formats are handled, including Mesa's — the one CI runs and no
+  developer's desktop shows.
+- **Your text survives a restart**, stored per language beside `settings.hjson`
+  so a GLSL draft is never handed to the Metal compiler after a backend switch.
+
+`CTestShaderToyDemo` drives the whole cycle on whatever backend is running: the
+preset compiles, a deliberately broken source is reported as broken *with the
+driver's own words*, the previous shader survives it, and valid source
+recovers. Plus a UI test that opens it from the menu and compiles through the
+button.
+
 ## 3.21.11 — development
 
 Five new examples, each a small self-contained view over one engine mechanism

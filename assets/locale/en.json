@@ -37,6 +37,8 @@
         "menu.examples.terminal": "Terminal",
         "menu.examples.crash_reporter": "Crash Reporter",
         "menu.examples.file_downloader": "File Downloader",
+        "menu.examples.shader_toy": "Shader Toy",
+        "menu.examples.code_editor": "Code Editor",
         "engine.heif.unavailable.system_codec_missing": "HEIC/HEIF photos cannot be opened on this PC: Windows is missing the HEVC video codec.",
         "engine.heif.unavailable.not_built": "HEIC/HEIF photos are not supported in this build.",
         "heif.install_link": "Get it from the Microsoft Store",

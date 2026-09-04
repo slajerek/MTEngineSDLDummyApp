@@ -292,6 +292,20 @@ void CMainMenuBar::RenderImGui()
 				viewMain->OpenExampleFileDownloader();
 			}
 
+			// Shader Toy -- a live fragment-shader editor. Ungated like the
+			// entries above: every backend implements the seam it draws
+			// through, so there is no capability to gate it on.
+			if (ImGui::MenuItem(_T("menu.examples.shader_toy")))
+			{
+				viewMain->OpenExampleShaderToy();
+			}
+
+			// Code Editor -- the engine's own editor view, ungated.
+			if (ImGui::MenuItem(_T("menu.examples.code_editor")))
+			{
+				viewMain->OpenExampleCodeEditor();
+			}
+
 			ImGui::EndMenu();
 		}
 

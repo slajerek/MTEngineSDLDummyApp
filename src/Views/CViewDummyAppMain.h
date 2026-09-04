@@ -42,6 +42,10 @@ class CViewUndoDemo;
 class CViewGamepadViewer;
 class CViewTerminalDemo;
 class CViewFileDownloaderDemo;
+class CViewShaderToyDemo;
+class CViewShaderToyOutput;
+class CViewShaderToyChannels;
+class CViewCodeEditorDemo;
 
 class CViewDummyAppMain : public CGuiView, public CMidiInKeyboardCallback, public CSystemFileDialogCallback
 {
@@ -87,6 +91,8 @@ public:
 	void OpenExampleTerminal();
 	void OpenExampleCrashReporter();
 	void OpenExampleFileDownloader();
+	void OpenExampleShaderToy();
+	void OpenExampleCodeEditor();
 
 	// A discreet, always-true-or-always-false status line about what this
 	// MACHINE can decode -- not an event, and deliberately not a popup. See the
@@ -132,6 +138,20 @@ public:
 	// File Downloader example -- app-owned view around CFileDownloader and a
 	// local httplib server started only on demand.
 	CViewFileDownloaderDemo *viewFileDownloaderDemo = NULL;
+
+	// Shader Toy example -- a live fragment-shader editor over the engine's
+	// CreateCustomFragmentShader seam, which every backend implements.
+	CViewShaderToyDemo *viewShaderToyDemo = NULL;
+
+	// The shader's OWN window. Separate from the editor so it can be resized
+	// and taken fullscreen without shrinking the text.
+	CViewShaderToyOutput *viewShaderToyOutput = NULL;
+	CViewShaderToyChannels *viewShaderToyChannels = NULL;
+
+	// Code Editor example -- the engine's CGuiViewCodeEditor with the app's
+	// font picker in its toolbar. The wrapper's first caller, and the first
+	// use of its one extension point.
+	CViewCodeEditorDemo *viewCodeEditor = NULL;
 
 	virtual void SystemDialogFileOpenSelected(CSlrString *path) override;
 	virtual void SystemDialogFileOpenCancelled() override;

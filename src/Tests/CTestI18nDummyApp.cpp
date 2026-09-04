@@ -213,6 +213,8 @@ void CTestI18nDummyApp::Run(ITestCallback *callback)
 			"menu.examples.video_player",
 			"menu.examples.video_player.unavailable",
 			"menu.examples.i18n",
+			"menu.examples.shader_toy",
+			"menu.examples.code_editor",
 			"menu.help",
 			"menu.language",
 			// Keys the ENGINE hands back (CImageData::GetHeifAvailabilityI18nKey)

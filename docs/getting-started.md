@@ -94,11 +94,23 @@ start a fresh history) once you're ready to stop tracking this template.
   reproducible; the file explains the branch-vs-SHA behavior.
 - **Examples menu** — each wired-in example (Music Player, AI/LLM, Camera,
   Video Player, HDR Test, Undo/Redo, Gamepad Viewer, Terminal, Crash Reporter,
-  File Downloader, …) is a self-contained view under `src/Views/` plus a menu
+  File Downloader, Shader Toy, Code Editor, …) is a self-contained view under `src/Views/` plus a menu
   entry, so each is a readable wiring reference for one engine subsystem. Keep
   whichever ones you're actually going to use; delete the rest — removing one
   means pulling its lines from `CViewDummyAppMain.h/.cpp`, `CMainMenuBar.cpp`,
   and — if it added its own source files — all **three** build systems (step 5).
+- **Your own font** — `src/Fonts/` is the worked example of embedding one:
+  the TTF compressed to a C array, loaded into the atlas before the first
+  frame from `LoadFonts()`, and declared in `mtengine-app-licenses.json` so it
+  appears in the `LICENSES.txt` every release package ships. Those three
+  pieces are the whole pattern; the Code Editor and Shader Toy examples let
+  you switch to it live.
+- **Your own shader** — Shader Toy is the worked example of the other
+  direction: `CRenderBackend::CreateCustomFragmentShader()` compiles a
+  fragment shader you supply at runtime, in the running backend's language,
+  with four texture channels (`iChannel0..3`) and ShaderToy's uniform set. The
+  Channels window in that example shows how a host binds its own images to
+  them.
 
 ## 4. Optional, later: rename the project identity itself
 

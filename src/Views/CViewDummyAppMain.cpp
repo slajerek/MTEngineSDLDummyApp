@@ -30,6 +30,11 @@
 #include "CViewTerminalDemo.h"
 #include "MT_CrashReporter.h"
 #include "CViewFileDownloaderDemo.h"
+#include "CViewShaderToyDemo.h"
+#include "CViewShaderToyOutput.h"
+#include "CViewShaderToyChannels.h"
+#include "CViewCodeEditorDemo.h"
+#include "DummyAppFonts.h"
 #include <string>
 
 using namespace ImGui;
@@ -105,6 +110,34 @@ CViewDummyAppMain::CViewDummyAppMain(float posX, float posY, float sizeX, float 
 	viewFileDownloaderDemo = new CViewFileDownloaderDemo("File Downloader", 260, 260, -1, 460, 220);
 	viewFileDownloaderDemo->visible = false;
 	guiMain->AddView(viewFileDownloaderDemo);
+
+	viewShaderToyDemo = new CViewShaderToyDemo("Shader Toy", 300, 300, -1, 660, 460);
+	viewShaderToyDemo->visible = false;
+	guiMain->AddView(viewShaderToyDemo);
+
+	viewShaderToyOutput = new CViewShaderToyOutput("Shader Toy Output", 975, 300, -1, 520, 460,
+												   viewShaderToyDemo);
+	viewShaderToyOutput->visible = false;
+	guiMain->AddView(viewShaderToyOutput);
+
+	// THE CHANNELS VIEW IS BUILT AFTER THE DEMO AND HANDED TO IT IMMEDIATELY.
+	// The dependency runs demo -> channels (the demo reads bindings; the
+	// channels view knows nothing of the demo), so either order works as long
+	// as SetChannelsView happens before the first frame. This one keeps the
+	// three Shader Toy views in the order they appear on screen.
+	// DIRECTLY UNDER THE EDITOR, and the same width as it: the editor above is
+	// at (300, 300) sized 660x460, so this starts where that one ends. The
+	// four slots are what the shader samples, and reading them as a strip
+	// under the code is the whole reason this is its own window rather than a
+	// section inside the editor.
+	viewShaderToyChannels = new CViewShaderToyChannels("Shader Toy Channels", 300, 768, -1, 660, 200);
+	viewShaderToyChannels->visible = false;
+	guiMain->AddView(viewShaderToyChannels);
+	viewShaderToyDemo->SetChannelsView(viewShaderToyChannels);
+
+	viewCodeEditor = new CViewCodeEditorDemo("Code Editor", 320, 320, -1, 620, 480);
+	viewCodeEditor->visible = false;
+	guiMain->AddView(viewCodeEditor);
 }
 
 CViewDummyAppMain::~CViewDummyAppMain()
@@ -184,6 +217,13 @@ void CViewDummyAppMain::LoadFonts()
 	// Markdown fonts (Inter + JetBrains Mono) for the AI-chat renderer. The
 	// engine now bakes Latin Extended ranges so these also render Polish.
 	gGuiFontManager.LoadMarkdownFonts(18.0f);
+
+	// The app's OWN embedded font, loaded the way the engine loads its own.
+	// This is the worked example of shipping a font inside a single
+	// executable: src/Fonts/ holds the compressed data, DummyAppFonts loads
+	// it, mtengine-app-licenses.json declares it. Same size as the engine's
+	// mono so switching between them in an editor keeps the line height.
+	gDummyAppFonts.LoadEmbeddedFonts(18.0f);
 }
 
 void CViewDummyAppMain::RenderImGui()
@@ -475,6 +515,24 @@ void CViewDummyAppMain::OpenExampleCrashReporter()
 void CViewDummyAppMain::OpenExampleFileDownloader()
 {
 	ShowAndFocus(viewFileDownloaderDemo);
+}
+
+void CViewDummyAppMain::OpenExampleShaderToy()
+{
+	// Both windows: the shader's output is the point, and an editor with no
+	// visible result is not the example anyone asked for. Output first so the
+	// editor takes focus.
+	ShowAndFocus(viewShaderToyOutput);
+	// The channels strip opens with the example rather than on demand: with
+	// four slots the shader can sample and no way to see them, the Texture and
+	// Two Channels presets look broken rather than unconfigured.
+	ShowAndFocus(viewShaderToyChannels);
+	ShowAndFocus(viewShaderToyDemo);
+}
+
+void CViewDummyAppMain::OpenExampleCodeEditor()
+{
+	ShowAndFocus(viewCodeEditor);
 }
 
 void CViewDummyAppMain::PrepareForQuit()

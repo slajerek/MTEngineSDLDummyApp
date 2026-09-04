@@ -1,0 +1,18 @@
+{
+  "dependencies": [
+    {
+      "name": "Courier Prime Code (font)",
+      "licence": "OFL-1.1",
+      "version": "quoteunquoteapps/CourierPrimeCode, ttf/Courier Prime Code.ttf",
+      "provenance": "EMBEDDED in src/Fonts/font_courier_prime_code.cpp, compiled into the binary via DummyAppFonts; Reserved Font Name 'Courier Prime Source'",
+      "commercial_safe": true
+    },
+    {
+      "name": "Roboto Medium (font)",
+      "licence": "Apache-2.0",
+      "version": "assets/fonts/Roboto-Medium.ttf",
+      "provenance": "SHIPPED ASSET, staged into every release package; the UI font CViewDummyAppMain::LoadFonts loads. Licence read from the font's own name table (nameID 13)",
+      "commercial_safe": true
+    }
+  ]
+}
