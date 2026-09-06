@@ -332,7 +332,12 @@ std::string CViewShaderToyDemo::RebaseLineNumbers(const char *driverLog, int pre
 	//   Apple GL     ERROR: 0:41: ...
 	//   Mesa         0:41(12): error: ...
 	//   Metal        program_source:41:12: error: ...
-	//   fxc          (41,12): error X3000: ...
+	//   fxc          Shader@0x000001C6A9F6E0A0(41,12-20): error X3000: ...
+	//
+	// fxc puts the SOURCE NAME before the parenthesis: the one D3DCompile was
+	// given, or -- as here, where the engine passes none -- that placeholder
+	// with a heap address in it. Older d3dcompiler builds print the bare
+	// "(41,12)". All three are one format.
 	//
 	// Rather than four regexes, walk the text and rewrite the first integer
 	// that follows one of the four markers on each line. Anything unrecognised
@@ -354,12 +359,33 @@ std::string CViewShaderToyDemo::RebaseLineNumbers(const char *driverLog, int pre
 		for (int m = 0; m < 4 && !rewritten; m++)
 		{
 			size_t at = line.find(kMarkers[m]);
-			// The bare "0:" and "(" markers are only meaningful at the start of
-			// a line; anywhere else they are ordinary text.
 			if (at == std::string::npos)
 				continue;
-			if ((m == 2 || m == 3) && at != 0)
+			// The bare "0:" marker is only meaningful at the start of a line;
+			// anywhere else it is ordinary text.
+			if (m == 2 && at != 0)
 				continue;
+			if (m == 3)
+			{
+				// "(" follows fxc's source name -- and Windows showed that
+				// name to be the CURRENT DIRECTORY plus the placeholder:
+				// "C:\develop\App\Shader@0x...(34,1-4): error X3000: ...".
+				// A directory can contain spaces, so the prefix proves
+				// nothing. What does: "(line,col" and then, after the ")",
+				// ": error" or ": warning" -- fxc prints nothing else there,
+				// and prose with a parenthesis does not continue that way.
+				size_t q = at + 1;
+				while (q < line.size() && line[q] >= '0' && line[q] <= '9')
+					q++;
+				if (q == at + 1 || q >= line.size() || line[q] != ',')
+					continue;
+				size_t close = line.find(')', q);
+				if (close == std::string::npos)
+					continue;
+				if (line.compare(close, 8, "): error") != 0
+					&& line.compare(close, 10, "): warning") != 0)
+					continue;
+			}
 
 			size_t numStart = at + strlen(kMarkers[m]);
 			size_t numEnd = numStart;

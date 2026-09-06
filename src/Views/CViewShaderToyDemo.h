@@ -114,6 +114,21 @@ public:
 	// nothing" looks.
 	const void *GetEditorLanguage();
 
+	// Rewrite the driver's line numbers into the editor's coordinates by
+	// subtracting the preamble the backend prepended. Four formats, because
+	// each driver spells it differently and the one CI runs (Mesa llvmpipe
+	// under xvfb) is not the one any desktop here shows.
+	// Also collects, per diagnostic it recognised, the REBASED line number and
+	// the driver's line of text -- which is what paints the red backgrounds in
+	// the editor and fills their tooltips.
+	//
+	// PUBLIC so CTestShaderToyDemo can feed it all four formats on every
+	// platform. A machine only ever sees its own driver's, and the fxc one
+	// went unrecognised for a week because of exactly that. Replaces
+	// errorBlocks as a side effect, like the real compile path.
+	std::string RebaseLineNumbers(const char *driverLog, int preambleLines,
+								  std::vector<std::pair<int, std::string> > *outLines);
+
 private:
 	void ServicePendingCompile();
 
@@ -124,16 +139,6 @@ private:
 	// drawing.
 	void ConfigureEditorIfNeeded();
 	const char *PresetForCurrentBackend(int presetIndex);
-
-	// Rewrite the driver's line numbers into the editor's coordinates by
-	// subtracting the preamble the backend prepended. Four formats, because
-	// each driver spells it differently and the one CI runs (Mesa llvmpipe
-	// under xvfb) is not the one any desktop here shows.
-	// Also collects, per diagnostic it recognised, the REBASED line number and
-	// the driver's line of text -- which is what paints the red backgrounds in
-	// the editor and fills their tooltips.
-	std::string RebaseLineNumbers(const char *driverLog, int preambleLines,
-								  std::vector<std::pair<int, std::string> > *outLines);
 
 	// Paint the editor's error lines, or clear them. Data only, no ImGui call,
 	// so CompileNow() can do it.

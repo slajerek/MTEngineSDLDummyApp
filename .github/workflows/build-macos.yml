@@ -23,6 +23,12 @@ env:
 jobs:
   build-macos:
     runs-on: macos-latest
+    # Both logging configurations on every push: the "off" leg compiles the
+    # shipping shape (MT_DEBUG_LOGS=0), which used to be discovered at release.
+    strategy:
+      fail-fast: false
+      matrix:
+        logs: ["on", "off"]
 
     steps:
       - name: Checkout MTEngineSDLDummyApp
@@ -39,7 +45,7 @@ jobs:
       - name: Build
         run: |
           chmod +x ./build-macos.sh
-          ./build-macos.sh
+          ./build-macos.sh --logs ${{ matrix.logs }}
 
       - name: Stage binary
         run: |
@@ -68,6 +74,6 @@ jobs:
       - name: Upload binary
         uses: actions/upload-artifact@v4
         with:
-          name: MTEngineSDLDummyApp-macos
+          name: MTEngineSDLDummyApp-macos-logs-${{ matrix.logs }}
           path: MTEngineSDLDummyApp-macos
           if-no-files-found: error

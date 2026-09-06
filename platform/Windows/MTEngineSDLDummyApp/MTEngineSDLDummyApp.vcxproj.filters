@@ -96,6 +96,12 @@
     <ClCompile Include="..\..\..\src\Tests\CTestCodeEditorView.cpp">
       <Filter>Source Files\src\Tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestProjectPath.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Tests\CTestLoggingAlwaysOn.cpp">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\DummyInit.h">
@@ -165,6 +171,12 @@
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Tests\CTestCodeEditorView.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestProjectPath.h">
+      <Filter>Source Files\src\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Tests\CTestLoggingAlwaysOn.h">
       <Filter>Source Files\src\Tests</Filter>
     </ClInclude>
   </ItemGroup>

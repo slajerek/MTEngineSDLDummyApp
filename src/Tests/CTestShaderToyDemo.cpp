@@ -142,6 +142,52 @@ void CTestShaderToyDemo::Run(ITestCallback *callback)
     ASSERT_TRUE(strlen(view->GetLastCompileError()) == 0, "and clears the error");
 
     // ------------------------------------------------------------------
+    // 4b. ALL FOUR diagnostic formats, on every platform.
+    //
+    // Section 2 only proves the RUNNING driver's format is recognised. The
+    // other three are what other machines see, and the fxc one was wrong for
+    // a week without any macOS or Linux run noticing: d3dcompiler_47 prints
+    // "Shader@0x<address>(41,12-20): error ..." when it is given no source
+    // name, and a marker that insisted on "(" at column 0 missed it. These
+    // are the literal shapes each compiler emits, with a 10-line preamble.
+    // ------------------------------------------------------------------
+    {
+        struct { const char *name; const char *log; } kFormats[] = {
+            { "Apple GL", "ERROR: 0:15: 'foo' : undeclared identifier\n" },
+            { "Mesa",     "0:15(12): error: `foo' undeclared\n" },
+            { "Metal",    "program_source:15:12: error: use of undeclared identifier 'foo'\n" },
+            { "fxc (named)",   "mainImage(15,12-14): error X3004: undeclared identifier 'foo'\n" },
+            { "fxc (unnamed)", "Shader@0x000001C6A9F6E0A0(15,12-14): error X3004: undeclared identifier 'foo'\n" },
+            { "fxc (old)",     "(15,12): error X3004: undeclared identifier 'foo'\n" },
+            // What Windows actually printed on 2026-09-06: the CURRENT
+            // DIRECTORY in front of the placeholder. A directory may contain
+            // spaces, so the parser cannot lean on the prefix at all.
+            { "fxc (cwd with a space)",
+              "C:\\Users\\Jan Kowalski\\App\\Shader@0x00000145FCBDD040(15,1-4): error X3000: unrecognized identifier 'this'\n" },
+        };
+        for (const auto &f : kFormats)
+        {
+            std::vector<std::pair<int, std::string> > lines;
+            std::string rebased = view->RebaseLineNumbers(f.log, 10, &lines);
+            bool parsed = lines.size() == 1 && lines[0].first == 5
+                          && rebased.find("15") == std::string::npos;
+            if (!parsed)
+                LOGD("CTestShaderToyDemo: format '%s' gave %zu line(s): %s",
+                     f.name, lines.size(), rebased.c_str());
+            char msg[128];
+            snprintf(msg, sizeof(msg), "the %s diagnostic format rebases 15 -> 5", f.name);
+            ASSERT_TRUE(parsed, msg);
+        }
+        // Prose with a parenthesis is NOT a diagnostic. This is the line
+        // the relaxed fxc marker could have started rewriting.
+        std::vector<std::pair<int, std::string> > lines;
+        view->RebaseLineNumbers("compiled 3 shader(s), 12 warnings (12,3) in 15 ms\n", 10, &lines);
+        ASSERT_TRUE(lines.empty(), "a parenthesis inside prose is left alone");
+        // Leave no stale blocks behind from the synthetic logs.
+        view->RebaseLineNumbers("", 10, NULL);
+    }
+
+    // ------------------------------------------------------------------
     // 5. The channels round-trip.
     //
     // The panel owns the images and the demo view only reads bindings, so

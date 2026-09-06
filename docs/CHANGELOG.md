@@ -31,7 +31,28 @@ The convention starts at 3.21.
 
 ---
 
-## 3.21.14 — development
+## 3.21.15 — development
+
+**A development build no longer packages, and tests run from the git root.**
+`./build-<os>.sh` now produces the binary and nothing else; `--prod` is the
+final build, which makes `platform/<P>/prod/<arch>/` and is verified from it
+with `tests/run_test.sh --package`. The runner's habit of copying fixtures into
+the package is gone -- it would have been 17 GB for one sibling app -- and
+fixtures are found through the engine's new `CTest::ResolveProjectPath()`,
+which works from the root and from the package alike. The Xcode scheme and
+the Visual Studio project now start the app in the git root, where its assets
+are. The procedure, for every app on this engine, is
+`MTEngineSDL/docs/testing.md`.
+
+**The editor marks fxc's error lines.** d3dcompiler_47 prefixes each
+diagnostic with a source name — the current directory plus `Shader@0x…` when
+it was given none, as in `C:\app\Shader@0x…(41,12-20): error X3004: …` — and
+the line-number rebasing only accepted a parenthesis at the start of the
+line, so under D3D11 no line was ever marked and every number shown was the
+preamble-offset one. The parser now ignores the prefix, which may contain
+spaces, and keys on `(line,col` followed by `): error` or `): warning`;
+`CTestShaderToyDemo` feeds it every driver's format on every platform rather
+than only the running one.
 
 **Full screen on the shader output window no longer stops the app.** Not a
 shader bug and nothing in this repository was wrong: `CGuiView` pushed the
@@ -50,6 +71,8 @@ frame holding it, and the suite hung for its full 120-second timeout. And a
 window that is laid out for a desktop-sized main window can sit entirely
 outside the headless viewport, where a click at its centre is clamped away —
 so the test moves it into view first.
+
+## 3.21.14 — development
 
 **Shader Toy has four texture channels**, `iChannel0..3`, as a strip of four
 thumbnails under the editor. **The thumbnail is the button**: click it and the

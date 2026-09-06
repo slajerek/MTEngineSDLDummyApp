@@ -17,7 +17,8 @@
 //
 // THE FAILURE ASSERTIONS ARE THE POINT. One requires the compiler's
 // diagnostics to be RETURNED rather than logged, so a log-only implementation
-// fails on Linux, where GLOBAL_DEBUG_OFF turns LOGError into nothing. The
+// would have failed on Linux when GLOBAL_DEBUG_OFF turned LOGError into
+// nothing (it is always on since 2026-09-05; the return contract stays). The
 // other requires the previous working shader to survive a failed rebuild, so a
 // typo never blanks the preview.
 class CTestShaderToyDemo : public CTest

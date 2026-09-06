@@ -70,6 +70,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <!-- The debugger starts the app in the GIT ROOT, on every configuration. An
+       MTEngineSDL app resolves assets/ through the working directory and
+       nothing else, so F5 from the project directory finds no assets. Tracked
+       here rather than in the per-user .vcxproj.user, which MSBuild imports
+       AFTER this file - a stale .user with the old ..\_RUNTIME_ value
+       silently wins; delete it. See MTEngineSDL/docs/testing.md. -->
+  <PropertyGroup>
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)..\..\..\</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
     <OutDir Condition="'$(MTIdeBuild)' == 'true'">$(MTBuildRoot)bin\$(Platform)\$(Configuration)\</OutDir>
@@ -283,6 +293,8 @@
     <ClCompile Include="..\..\..\src\Tests\CTestFileDownloaderDemo.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CTestShaderToyDemo.cpp" />
     <ClCompile Include="..\..\..\src\Tests\CTestCodeEditorView.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\CTestProjectPath.cpp" />
+    <ClCompile Include="..\..\..\src\Tests\CTestLoggingAlwaysOn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\DummyInit.h" />
@@ -309,6 +321,8 @@
     <ClInclude Include="..\..\..\src\Tests\CTestFileDownloaderDemo.h" />
     <ClInclude Include="..\..\..\src\Tests\CTestShaderToyDemo.h" />
     <ClInclude Include="..\..\..\src\Tests\CTestCodeEditorView.h" />
+    <ClInclude Include="..\..\..\src\Tests\CTestProjectPath.h" />
+    <ClInclude Include="..\..\..\src\Tests\CTestLoggingAlwaysOn.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\MTEngineSDL\platform\Windows\MTEngineSDL\MTEngineSDL.vcxproj">

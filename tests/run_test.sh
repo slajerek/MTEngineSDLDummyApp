@@ -15,6 +15,9 @@
 #   --suite         Run only the CTestSuite integration tests
 #   --imgui         Run only the imgui_test_engine UI tests
 #   --skip-build    Skip the build step
+#   --package       Run from the newest release package under platform/*/prod/
+#                   (a FINAL build, ./build-<os>.sh --prod) instead of the git
+#                   root. An error when there is none -- never a fallback.
 #   --binary PATH   Use this binary instead of building/searching for one.
 #                   This is what makes the runner usable on Linux and Windows:
 #                   each platform's own build script produces the binary and
@@ -41,12 +44,14 @@ LOG_DIR="/tmp"
 APP_BINARY=""
 RUN_SUITE=true
 RUN_IMGUI=true
+RUN_PACKAGE=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --suite)      RUN_SUITE=true;  RUN_IMGUI=false; shift ;;
         --imgui)      RUN_SUITE=false; RUN_IMGUI=true;  shift ;;
         --skip-build) SKIP_BUILD=true; shift ;;
+        --package)    RUN_PACKAGE=true; shift ;;
         --binary)     APP_BINARY="$2"; SKIP_BUILD=true; shift 2 ;;
         --timeout)    TIMEOUT="$2"; shift 2 ;;
         --log-dir)    LOG_DIR="$2"; shift 2 ;;
@@ -138,82 +143,57 @@ fi
 
 echo "=== Using binary: $APP_BINARY ==="
 # ---------------------------------------------------------------------------
-# RUN FROM THE RELEASE PACKAGE, not from the repo root.
+# WHERE THE BINARY RUNS FROM -- the git root, unless --package.
 #
 # An MTEngineSDL app finds its assets through the CURRENT WORKING DIRECTORY and
-# nothing else: RES_ResolveResourceDir has two candidate roots, the relative
-# path itself and gPathToResources, and both are CWD-derived -- the executable's
-# own location is never consulted. The release package is the directory laid out
-# to satisfy that, with assets/ and LICENSES.txt beside the binary.
+# nothing else; the executable's own location is never consulted. A DEVELOPMENT
+# build therefore runs from the git root, which holds assets/ and every payload
+# directory as tracked. A FINAL build (./build-<os>.sh --prod) is verified from
+# its package with --package, and that is the ONLY time this runner goes near
+# platform/*/prod/. Nothing is ever copied into a package to make a test work:
+# fixtures are reached through CTest::ResolveProjectPath(), which walks up
+# from wherever the binary started, and MT_TEST_PROJECT_DIR below short-cuts
+# the walk. The procedure is MTEngineSDL/docs/testing.md.
 #
-# Running from the repo root only ever worked for the apps whose repo root
-# happens to contain assets/. An app that needs assets cannot start that way at
-# all, which is why apps are built to prod and tested from there (maintainer,
-# 2026-09-02).
-#
-# The BINARY is deliberately left alone. Each runner already has careful logic
-# for picking a non-stale one and for honouring an explicit override, and a
-# package can be older than the build that just happened; the working directory
-# is the whole of what has to change.
-#
-# The results file has to be made absolute for the same reason. It is a relative
-# path opened with fopen("w"), which does not create directories, so from inside
-# the package the app would write nothing, log a failure nobody reads, and leave
-# the runner parsing the PREVIOUS run's verdict. MT_TEST_RESULTS is the engine's
-# supported override: environment variables and flags are allowed for test
-# output paths, which is what this is, and not for skipping anything measured.
+# Until 2026-09-05 this preferred the package whenever one existed and staged
+# fixtures into it by copying -- 17 GB for one app -- and left kitchen
+# directories inside release packages. Both are gone.
 # ---------------------------------------------------------------------------
 RUN_DIR="$PROJECT_DIR"
 MTENGINE_DIR="${MTENGINE_DIR:-$PROJECT_DIR/../MTEngineSDL}"
-# MT_TEST_RUN_DIR pins the working directory and skips the package lookup
-# entirely. It exists for tests OF this runner, which fabricate binaries and
-# results files and need the repo-root behaviour they were written against
-# whether or not this machine happens to have a release package.
+# MT_TEST_RUN_DIR pins the working directory outright. It exists for tests OF
+# this runner, which fabricate binaries and results files.
 if [ -n "${MT_TEST_RUN_DIR:-}" ]; then
     RUN_DIR="$MT_TEST_RUN_DIR"
     echo "=== Run directory pinned by MT_TEST_RUN_DIR: $RUN_DIR ==="
-elif [ -f "$MTENGINE_DIR/tools/appbuild/appbuild-lib.sh" ]; then
+elif [ "$RUN_PACKAGE" = true ]; then
+    [ -f "$MTENGINE_DIR/tools/appbuild/appbuild-lib.sh" ] \
+        || { echo "ERROR: --package needs the engine at $MTENGINE_DIR (appbuild-lib.sh)"; exit 2; }
     . "$MTENGINE_DIR/tools/appbuild/appbuild-lib.sh"
     PROD_HIT="$(mt_appbuild_prod_binary "$PROJECT_DIR" "MTEngineSDLDummyApp" || true)"
-    if [ -n "$PROD_HIT" ]; then
-        RUN_DIR="${PROD_HIT%%|*}"
-        echo "=== Running from release package: $RUN_DIR ==="
-    else
-        echo "NOTE: no release package under platform/*/prod -- running from the repo root."
-        echo "      An app that needs assets/ beside its binary will fail; build without --no-prod."
+    if [ -z "$PROD_HIT" ]; then
+        # AN ERROR, NOT A FALLBACK. Silently running from the root instead
+        # would report a green that verified no package at all.
+        echo "ERROR: --package given but no release package under platform/*/prod/."
+        echo "       Build one first: ./build-<os>.sh --prod"
+        exit 2
     fi
+    RUN_DIR="${PROD_HIT%%|*}"
+    echo "=== Running from release package: $RUN_DIR ==="
+else
+    echo "=== Running from the git root: $RUN_DIR ==="
 fi
 # The binary must be ABSOLUTE before the cd, or a relative one (notably
 # --binary, which is documented as relative to where you stand) resolves
-# against the wrong directory the moment we move. Found by the first end-to-end
-# run of this change: "No such file or directory" for a binary that was plainly
-# there.
+# against the wrong directory the moment we move.
 case "$APP_BINARY" in
     /* | [A-Za-z]:[\/]*) ;;
     *) APP_BINARY="$(cd "$(dirname "$APP_BINARY")" && pwd)/$(basename "$APP_BINARY")" ;;
 esac
 
-# TEST FIXTURES have to reach the run directory too, for exactly the reason
-# the assets did: an app opens them by a relative path, which now resolves
-# against the package. An app whose suite loads a fixture from tests/testdata/
-# during init crashes without it.
-#
-# STAGED HERE rather than shipped by the deploy, because a RELEASE package must
-# not carry test data. That is safe: every real build wipes and recreates the
-# package before filling it, so nothing staged here can survive into something
-# shipped.
-# MT_TEST_STAGE_PATHS lists them, repo-relative, and each is copied preserving
-# its parent structure so the app finds it at the path it asks for. An app whose
-# tests reach outside tests/testdata sets this before the block; the default
-# covers the common case.
-if [ "$RUN_DIR" != "$PROJECT_DIR" ]; then
-    for _mt_stage in ${MT_TEST_STAGE_PATHS:-tests/testdata}; do
-        if [ -e "$PROJECT_DIR/$_mt_stage" ]; then
-            mkdir -p "$RUN_DIR/$(dirname "$_mt_stage")"
-            cp -R "$PROJECT_DIR/$_mt_stage" "$RUN_DIR/$(dirname "$_mt_stage")/" 2>/dev/null || true
-        fi
-    done
-fi
+# Where the repository is, for CTest::ResolveProjectPath() -- so a run from
+# the package finds tests/ without walking, and a run from the root is exact.
+export MT_TEST_PROJECT_DIR="$PROJECT_DIR"
 
 export MT_TEST_RESULTS="$RESULTS_FILE"
 mkdir -p "$RESULTS_DIR"
@@ -233,7 +213,7 @@ run_one() {
     echo ""
     echo "=== Running $label ==="
 
-    "$APP_BINARY" --headless --log-dir "$LOG_DIR" "$@" --exit-after-tests &
+    "$APP_BINARY" --headless --crash-reporter --log-dir "$LOG_DIR" "$@" --exit-after-tests &
     local pid=$!
     local elapsed=0
     while kill -0 "$pid" 2>/dev/null; do

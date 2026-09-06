@@ -22,6 +22,8 @@
 		AABBCCDD2799999900AD0021 /* CTestFileDownloaderDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AD0022 /* CTestFileDownloaderDemo.cpp */; };
 		AABBCCDD2799999900AE0011 /* CTestShaderToyDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0012 /* CTestShaderToyDemo.cpp */; };
 		AABBCCDD2799999900AE0034 /* CTestCodeEditorView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0035 /* CTestCodeEditorView.cpp */; };
+		AABBCCDD2799999900AE0061 /* CTestProjectPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0062 /* CTestProjectPath.cpp */; };
+		AABBCCDD2799999900AE0071 /* CTestLoggingAlwaysOn.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AABBCCDD2799999900AE0072 /* CTestLoggingAlwaysOn.cpp */; };
 		414C49F7293519680014DC9B /* CoreHaptics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F5293519680014DC9B /* CoreHaptics.framework */; };
 		414C49FA2935198A0014DC9B /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 414C49F92935198A0014DC9B /* GameController.framework */; };
 		419710E82975B54400A4C766 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419710E62975B54400A4C766 /* CoreMIDI.framework */; };
@@ -121,6 +123,10 @@
 		AABBCCDD2799999900AE0013 /* CTestShaderToyDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestShaderToyDemo.h; path = ../../src/Tests/CTestShaderToyDemo.h; sourceTree = "<group>"; };
 		AABBCCDD2799999900AE0035 /* CTestCodeEditorView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestCodeEditorView.cpp; path = ../../src/Tests/CTestCodeEditorView.cpp; sourceTree = "<group>"; };
 		AABBCCDD2799999900AE0036 /* CTestCodeEditorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestCodeEditorView.h; path = ../../src/Tests/CTestCodeEditorView.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0062 /* CTestProjectPath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestProjectPath.cpp; path = ../../src/Tests/CTestProjectPath.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0063 /* CTestProjectPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestProjectPath.h; path = ../../src/Tests/CTestProjectPath.h; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0072 /* CTestLoggingAlwaysOn.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTestLoggingAlwaysOn.cpp; path = ../../src/Tests/CTestLoggingAlwaysOn.cpp; sourceTree = "<group>"; };
+		AABBCCDD2799999900AE0073 /* CTestLoggingAlwaysOn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTestLoggingAlwaysOn.h; path = ../../src/Tests/CTestLoggingAlwaysOn.h; sourceTree = "<group>"; };
 		41344F4F2784633A00F608A2 /* CViewDummyAppMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CViewDummyAppMain.h; path = ../../src/Views/CViewDummyAppMain.h; sourceTree = "<group>"; };
 		4147CA8823992D74006B25A7 /* MTEngineSDLDummyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MTEngineSDLDummyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		414C49F5293519680014DC9B /* CoreHaptics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreHaptics.framework; path = System/Library/Frameworks/CoreHaptics.framework; sourceTree = SDKROOT; };
@@ -247,6 +253,10 @@
 				AABBCCDD2799999900AE0013 /* CTestShaderToyDemo.h */,
 				AABBCCDD2799999900AE0035 /* CTestCodeEditorView.cpp */,
 				AABBCCDD2799999900AE0036 /* CTestCodeEditorView.h */,
+				AABBCCDD2799999900AE0062 /* CTestProjectPath.cpp */,
+				AABBCCDD2799999900AE0063 /* CTestProjectPath.h */,
+				AABBCCDD2799999900AE0072 /* CTestLoggingAlwaysOn.cpp */,
+				AABBCCDD2799999900AE0073 /* CTestLoggingAlwaysOn.h */,
 			);
 			name = Tests;
 			sourceTree = "<group>";
@@ -470,6 +480,8 @@
 				AABBCCDD2799999900AD0021 /* CTestFileDownloaderDemo.cpp in Sources */,
 				AABBCCDD2799999900AE0011 /* CTestShaderToyDemo.cpp in Sources */,
 				AABBCCDD2799999900AE0034 /* CTestCodeEditorView.cpp in Sources */,
+				AABBCCDD2799999900AE0061 /* CTestProjectPath.cpp in Sources */,
+				AABBCCDD2799999900AE0071 /* CTestLoggingAlwaysOn.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

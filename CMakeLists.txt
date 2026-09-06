@@ -3,8 +3,11 @@ project(MTEngineSDLDummyApp)
 
 #set(CMAKE_VERBOSE_MAKEFILE on)
 
-#set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE RelWithDebInfo)
+# A default, not a mandate: the app-build driver passes -DCMAKE_BUILD_TYPE
+# from --config. See MTEngineSDL/docs/testing.md.
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif()
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -345,6 +348,8 @@ add_executable(MTEngineSDLDummyApp
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestFileDownloaderDemo.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestShaderToyDemo.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestCodeEditorView.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestProjectPath.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/Tests/CTestLoggingAlwaysOn.cpp"
 )
 
 # Apply the resolved capability set to this app's own translation units. Without
